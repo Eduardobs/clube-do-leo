@@ -18,7 +18,7 @@ export const produtos = {
       nome: "Bloco de papel",
       descricao: "Tamanho 7x10cm",
       valor: 4.0,
-      imagem: "./assets/img/lembrancinhas/lapis-preto-personalizavel.jpg",
+      imagem: "./assets/img/lembrancinhas/bloco-de-papel.jpg",
       tags: ["personalizado"],
     },
 	{

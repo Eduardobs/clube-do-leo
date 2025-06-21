@@ -10,7 +10,7 @@ const renderStore = (arr) => {
     const produto = `
       <article class="produto">
         <figure>
-            <img src="${p.imagem}" alt="${p.nome}" width="250" height="250" />
+            <img src="${p.imagem}" alt="${p.nome}" max-width="250" height="250" />
         </figure>
         <section>
             <p class="nome">${p.nome.toLocaleUpperCase()}</p>

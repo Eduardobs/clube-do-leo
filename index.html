@@ -1,65 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <title>Clube do Léo</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./assets/css/main.css" alt="Clube do Léo" />
-  </head>
-  <body>
-    <header>
-      <picture>
-        <source
-          srcset="./assets/img/logo-gray.jpeg"
-          alt="Clube do Léo"
-          width="400px"
-          height="262px"
-          media="(max-width: 1024px)"
-        />
 
-        <img
-          src="./assets/img/logo-gray.jpeg"
-          width="800px"
-          height="524px"
-          alt="photo"
-        />
-      </picture>
-    </header>
-    <nav>
-      <section>
-        <a href="#" data-tipo-produto="lembrancas">Lembrancinhas</a>
-      </section>
-      <section>
-        <a href="#" data-tipo-produto="presentes">Presentes</a>
-      </section>
-      <section>
-        <a href="#" data-tipo-produto="corporativos">Corporativo</a>
-      </section>
-      <section>
-        <a href="#" data-tipo-produto="decorativos">Decorativo</a>
-      </section>
-    </nav>
-    <main>
-      <section id="produtos"></section>
-    </main>
-    <footer>
-      <a href="https://www.instagram.com/clubedoleo_/" target="_blank"
-        ><img src="./assets/img/icons/instagram.png" alt="Instagram" width="32"
-      /></a>
-      <a href="https://api.whatsapp.com/send?phone=555198450386" target="_blank"
-        ><img src="./assets/img/icons/whatsapp.png" alt="Instagram" width="32"
-      /></a>
-    </footer>
-    <script type="module">
-      import { handleCategoriaClick } from "./assets/js/renderer.js";
+<head>
+  <title>Clube do Léo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./assets/css/main.css" alt="Clube do Léo" />
+</head>
 
-      const links = document.querySelectorAll("nav section a");
+<body>
+  <header>
+    <picture>
+      <source srcset="./assets/img/logo-gray.jpeg" alt="Clube do Léo" width="400px" height="262px"
+        media="(max-width: 1024px)" />
 
-      links.forEach((link) =>
-        link.addEventListener("click", handleCategoriaClick)
-      );
+      <img src="./assets/img/logo-gray.jpeg" width="400px" height="262px" alt="photo" />
+    </picture>
+  </header>
+  <nav>
+    <section>
+      <a href="#" data-tipo-produto="lembrancas">Lembrancinhas</a>
+    </section>
+    <section>
+      <a href="#" data-tipo-produto="presentes">Presentes</a>
+    </section>
+    <section>
+      <a href="#" data-tipo-produto="corporativos">Corporativo</a>
+    </section>
+    <section>
+      <a href="#" data-tipo-produto="decorativos">Decorativo</a>
+    </section>
+  </nav>
+  <main>
+    <section id="produtos"></section>
+  </main>
+  <footer>
+    <p>Rua Cléber Mércio Pereira, 265 - Colonia Vinte, Taquari - RS, 95860-000</p>
+    <a href="https://www.instagram.com/clubedoleo_/" target="_blank">
+      <img src="./assets/img/icons/instagram.png" alt="Instagram" width="32" />
+      @clubedoleo_
+    </a>
+    <a href="https://api.whatsapp.com/send?phone=555198450386" target="_blank">
+      <img src="./assets/img/icons/whatsapp.png" alt="Instagram" width="32" />
+      (51) 99845-0386
+    </a>
+  </footer>
+  <script type="module">
+    import { handleCategoriaClick } from "./assets/js/renderer.js";
 
-      links[0].click();
-    </script>
-  </body>
+    const links = document.querySelectorAll("nav section a");
+
+    links.forEach((link) =>
+      link.addEventListener("click", handleCategoriaClick)
+    );
+
+    links[0].click();
+  </script>
+</body>
+
 </html>
