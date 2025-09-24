@@ -1,64 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-  <title>Clube do Léo</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="./assets/css/main.css" alt="Clube do Léo" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Vendas</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
   <header>
-    <picture>
-      <source srcset="./assets/img/logo-gray.jpeg" alt="Clube do Léo" width="400px" height="262px"
-        media="(max-width: 1024px)" />
-
-      <img src="./assets/img/logo-gray.jpeg" width="400px" height="262px" alt="photo" />
-    </picture>
+    <div class="logo">
+      <img src="assets/logo.png" alt="Logo da Loja">
+      <h1 id="nome-loja">Nome da Loja</h1>
+    </div>
+    <nav>
+      <button id="toggle-cart" class="btn"><i class="fas fa-shopping-cart"></i> Carrinho (<span id="cart-count">0</span>)</button>
+    </nav>
   </header>
-  <nav>
-    <section>
-      <a href="#" data-tipo-produto="lembrancas">Lembrancinhas</a>
-    </section>
-    <section>
-      <a href="./presentes.html" data-tipo-produto="presentes">Presentes</a>
-    </section>
-    <section>
-      <a href="./festas.html" data-tipo-produto="festas">Festas personalizadas</a>
-    </section>
-    <section>
-      <a href="#" data-tipo-produto="corporativos">Corporativo</a>
-    </section>
-    <section>
-      <a href="#" data-tipo-produto="decorativos">Decorativo</a>
-    </section>
-  </nav>
+
   <main>
-    <section id="produtos"></section>
+    <section id="filters">
+      <form id="filter-form">
+        <div class="input-group">
+          <label for="search">Buscar por nome:</label>
+          <input type="text" id="search" placeholder="Digite o nome do produto...">
+          <i class="fas fa-search input-icon"></i>
+        </div>
+        <button type="submit" class="btn"><i class="fas fa-filter"></i> Filtrar</button>
+        <button type="button" id="clear-filters" class="btn secondary"><i class="fas fa-times"></i> Limpar</button>
+      </form>
+    </section>
+    <section id="product-list" class="product-grid">
+      <div id="loading-spinner" class="spinner"></div>
+    </section>
+    <div id="error-message" class="hidden error-message"></div>
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Modal para Detalhes do Produto -->
+    <div id="product-detail-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" onclick="productManager.closeProductDetail()">&times;</span>
+        <div id="product-detail"></div>
+      </div>
+    </div>
+
+    <!-- Modal para Carrinho -->
+    <div id="cart-modal" class="modal hidden">
+      <div class="modal-content cart-modal-content">
+        <span class="close-modal" onclick="cartManager.closeCart()">&times;</span>
+        <div class="modal-header">
+          <i class="fas fa-shopping-cart modal-icon"></i>
+          <h2>Carrinho de Compras</h2>
+        </div>
+        <div id="cart-items" class="cart-items-list"></div>
+        <div class="cart-footer">
+          <button id="clear-cart" class="btn secondary"><i class="fas fa-trash"></i> Limpar Carrinho</button>
+          <p class="cart-summary"><strong>Total: <span id="cart-total">R$ 0,00</span></strong></p>
+          <button id="finalize-purchase" class="btn"><i class="fas fa-check"></i> Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para Finalização -->
+    <div id="finalize-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('finalize-modal').classList.add('hidden'); document.getElementById('product-list').classList.remove('hidden');">&times;</span>
+        <h2>Finalizar Compra</h2>
+        <form id="finalize-form">
+          <div class="input-group">
+            <label for="whatsapp">Número de WhatsApp:</label>
+            <input type="tel" id="whatsapp" placeholder="(XX) XXXXX-XXXX" required>
+            <i class="fab fa-whatsapp input-icon"></i>
+          </div>
+          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Enviar Pedido</button>
+        </form>
+      </div>
+    </div>
   </main>
-  <footer>
-    <p>Rua Cléber Mércio Pereira, 265 - Colonia Vinte, Taquari - RS, 95860-000</p>
-    <a href="https://www.instagram.com/clubedoleo_/" target="_blank">
-      <img src="./assets/img/icons/instagram.png" alt="Instagram" width="32" />
-      @clubedoleo_
-    </a>
-    <a href="https://api.whatsapp.com/send?phone=555198450386" target="_blank">
-      <img src="./assets/img/icons/whatsapp.png" alt="Instagram" width="32" />
-      (51) 99845-0386
-    </a>
-  </footer>
-  <script type="module">
-    import { handleCategoriaClick } from "./assets/js/renderer.js";
 
-    const links = document.querySelectorAll("nav section a");
-
-    links.forEach((link) =>
-      link.addEventListener("click", handleCategoriaClick)
-    );
-
-    links[0].click();
-  </script>
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/main.js"></script>
 </body>
-
 </html>
