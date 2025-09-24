@@ -11,14 +11,8 @@
     padding: 1rem;
   }
 
-  nav {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  #toggle-cart {
-    width: 100%;
-    justify-content: center;
+  main {
+    padding-top: 120px;
   }
 
   .product-card {
@@ -101,6 +95,30 @@
     width: 90%;
     max-width: 300px;
   }
+
+  /* Garantir visibilidade do botão flutuante do carrinho em mobile */
+  #floating-cart-btn {
+    display: flex !important;
+    visibility: visible !important;
+    position: fixed !important;
+    width: 70px;
+    height: 50px;
+    padding: 0.8rem;
+    bottom: 25px;
+    right: 20px;
+    top: auto;
+    font-size: 0.9rem;
+    opacity: 1;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1500;
+    background: linear-gradient(to right, #BC9A6A, #A68A5C); /* Reforçar fundo definido em styles.css */
+  }
+
+  #floating-cart-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -129,10 +147,6 @@
   .btn, .btn-detail {
     max-width: 140px;
   }
-
-  nav {
-    margin-left: auto;
-  }
 }
 
 @media (min-width: 1025px) {
@@ -156,13 +170,5 @@
 
   .btn, .btn-detail {
     max-width: 140px;
-  }
-
-  nav {
-    margin-left: auto;
-  }
-
-  #toggle-cart {
-    margin-left: auto;
   }
 }

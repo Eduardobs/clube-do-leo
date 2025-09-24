@@ -5,23 +5,36 @@ class CartManager {
   }
 
   addToCart(productId, variation, quantity) {
+    console.log(`Adicionando ao carrinho: productId=${productId}, variation=${variation}, quantity=${quantity}`);
     quantity = parseInt(quantity);
-    if (quantity < 1) {
+    if (isNaN(quantity) || quantity < 1) {
+      console.warn('Quantidade inválida:', quantity);
       alert('Quantidade inválida');
       return;
     }
     const product = productManager.products.find(p => p.id === productId);
-    if (!product) return;
-
-    const existingItem = this.cart.find(item => item.id === productId && item.variation === variation);
+    if (!product) {
+      console.error('Produto não encontrado:', productId);
+      alert('Produto não encontrado');
+      return;
+    }
+    // Garantir que a variação seja válida
+    const validVariation = variation && product.variacoes.includes(variation) ? variation : product.variacoes[0] || '';
+    const existingItem = this.cart.find(item => item.id === productId && item.variation === validVariation);
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      this.cart.push({ id: productId, variation, quantity, valor: product.valor, imagem: product.imagem || 'assets/placeholder.jpg' });
+      this.cart.push({
+        id: productId,
+        variation: validVariation,
+        quantity,
+        valor: product.valor,
+        imagem: product.imagem || 'assets/placeholder.jpg'
+      });
     }
     this.saveCart();
     this.renderCart();
-    this.showToast(`${product.nome} (${variation || 'Sem variação'}) adicionado ao carrinho!`);
+    this.showToast(`${product.nome} (${validVariation || 'Sem variação'}) adicionado ao carrinho!`);
     productManager.closeProductDetail();
   }
 
@@ -33,7 +46,7 @@ class CartManager {
 
   updateQuantity(productId, variation, quantity) {
     quantity = parseInt(quantity);
-    if (quantity < 1) {
+    if (isNaN(quantity) || quantity < 1) {
       this.removeFromCart(productId, variation);
       return;
     }
@@ -72,7 +85,7 @@ class CartManager {
   renderCart() {
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
-    const cartCount = document.getElementById('cart-count');
+    const floatingCartCount = document.getElementById('floating-cart-count');
     cartItems.innerHTML = '';
     let total = 0;
     let itemCount = 0;
@@ -83,7 +96,10 @@ class CartManager {
 
     this.cart.forEach((item, index) => {
       const product = productManager.products.find(p => p.id === item.id);
-      if (!product) return;
+      if (!product) {
+        console.warn('Produto não encontrado no carrinho:', item.id);
+        return;
+      }
       const itemTotal = item.quantity * item.valor;
       total += itemTotal;
       itemCount += item.quantity;
@@ -93,9 +109,9 @@ class CartManager {
       cartItem.style.animationDelay = `${index * 0.1}s`;
       const imgSrc = item.imagem || 'assets/placeholder.jpg';
       cartItem.innerHTML = `
-        <img src="${imgSrc}" alt="${product.nome}" loading="lazy" onerror="this.src='assets/placeholder.jpg'; this.style.background='linear-gradient(45deg, #BC9A6A, #D2B48C)'; this.innerHTML='<i class=\"fas fa-image\"></i>';">
+        <img src="${imgSrc}" alt="${product.nome}" loading="lazy" onerror="this.src='assets/placeholder.jpg'; this.style.background='linear-gradient(45deg, #BC9A6A, #D2B48C)'; this.alt='Imagem não disponível';">
         <div class="cart-item-details">
-          <h4>${product.nome} (${item.variation})</h4>
+          <h4>${product.nome} (${item.variation || 'Sem variação'})</h4>
           <p>${CONFIG.sistema.moeda} ${item.valor.toFixed(2)} x ${item.quantity} = ${CONFIG.sistema.moeda} ${itemTotal.toFixed(2)}</p>
         </div>
         <div class="cart-item-actions">
@@ -107,11 +123,17 @@ class CartManager {
     });
 
     cartTotal.textContent = `${CONFIG.sistema.moeda} ${total.toFixed(2)}`;
-    cartCount.textContent = itemCount;
+    floatingCartCount.textContent = itemCount;
   }
 
   closeCart() {
-    document.getElementById('cart-modal').classList.add('hidden');
+    const cartModal = document.getElementById('cart-modal');
+    if (cartModal) {
+      cartModal.classList.add('hidden');
+      console.log('Carrinho fechado');
+    } else {
+      console.error('Modal do carrinho não encontrado');
+    }
   }
 }
 
