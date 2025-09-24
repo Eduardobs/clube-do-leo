@@ -6,7 +6,12 @@
             "valor": 2.5,
             "imagem": "images/products/chaveiro-de-acrilico.jpg",
             "id": "1",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Lápis preto personalizado",
@@ -14,7 +19,12 @@
             "valor": 2.0,
             "imagem": "images/products/lapis-preto-personalizavel.jpg",
             "id": "2",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Bloco de papel",
@@ -22,7 +32,12 @@
             "valor": 4.0,
             "imagem": "images/products/bloco-de-papel.jpg",
             "id": "3",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Rótulo para suculentas",
@@ -30,7 +45,12 @@
             "valor": 4.5,
             "imagem": "images/products/rotulo-para-suculentas.jpg",
             "id": "4",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Kit cores personalizado",
@@ -38,7 +58,12 @@
             "valor": 0.0,
             "imagem": "images/products/kit-cores-personalizado.jpg",
             "id": "5",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Tubo lata personalizado",
@@ -46,7 +71,12 @@
             "valor": 10.0,
             "imagem": "images/products/tubo-lata-personalizado.jpg",
             "id": "6",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Jogo da memória",
@@ -54,7 +84,12 @@
             "valor": 8.0,
             "imagem": "images/products/jogo-da-memoria.jpg",
             "id": "7",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Livro de orações",
@@ -62,7 +97,12 @@
             "valor": 0.0,
             "imagem": "images/products/livro-de-oracoes.jpg",
             "id": "8",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Tubo lata mini",
@@ -70,7 +110,12 @@
             "valor": 6.0,
             "imagem": "images/products/tubo-lata-mini.jpg",
             "id": "9",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Chaveiro de acrílico com tag",
@@ -78,7 +123,12 @@
             "valor": 4.5,
             "imagem": "images/products/chaveiro-de-acrílico-com-tag.jpg",
             "id": "10",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Bolhas de sabão personalizadas",
@@ -86,7 +136,12 @@
             "valor": 4.5,
             "imagem": "images/products/bolhas-de-sabao-personalizadas.jpg",
             "id": "11",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Caixa bala",
@@ -94,7 +149,12 @@
             "valor": 6.0,
             "imagem": "images/products/caixa-bala.jpg",
             "id": "12",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Tubetes",
@@ -102,7 +162,12 @@
             "valor": 2.5,
             "imagem": "images/products/tubetes.jpg",
             "id": "13",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Cofrinho personalizado",
@@ -110,7 +175,12 @@
             "valor": 3.5,
             "imagem": "images/products/cofrinho-personalizado.jpg",
             "id": "14",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Kit massinha de modelar",
@@ -118,7 +188,12 @@
             "valor": 3.9,
             "imagem": "images/products/kit-massinha-de-modelar.jpg",
             "id": "15",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Balde de pipoca",
@@ -126,7 +201,12 @@
             "valor": 5.0,
             "imagem": "images/products/balde-de-pipoca.jpg",
             "id": "16",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Caixa pirâmide",
@@ -134,7 +214,12 @@
             "valor": 5.0,
             "imagem": "images/products/caixa-piramide.jpg",
             "id": "17",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Caixa modelo Milk",
@@ -142,7 +227,12 @@
             "valor": 5.0,
             "imagem": "images/products/caixa-modelo-milk.jpg",
             "id": "18",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Copo Twister",
@@ -150,7 +240,12 @@
             "valor": 6.0,
             "imagem": "images/products/copo-twister.jpg",
             "id": "19",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Copo long drink",
@@ -158,7 +253,12 @@
             "valor": 3.0,
             "imagem": "images/products/copo-long-drink.jpg",
             "id": "20",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Taça de gin transparente",
@@ -166,7 +266,12 @@
             "valor": 10.0,
             "imagem": "images/products/taca-de-gin-transparente.jpg",
             "id": "21",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Taça de gin colorida",
@@ -174,7 +279,12 @@
             "valor": 15.0,
             "imagem": "images/products/taca-de-gin-colorida.jpg",
             "id": "22",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Taça de espumante",
@@ -182,7 +292,12 @@
             "valor": 5.0,
             "imagem": "images/products/taca-de-espumante.jpg",
             "id": "23",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Caneca de chopp",
@@ -190,7 +305,12 @@
             "valor": 6.0,
             "imagem": "images/products/caneca-de-chopp.jpg",
             "id": "24",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Caneta personalizada",
@@ -198,7 +318,12 @@
             "valor": 3.0,
             "imagem": "images/products/caneta-personalizada.jpg",
             "id": "25",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Calendário com imã",
@@ -206,7 +331,12 @@
             "valor": 2.5,
             "imagem": "images/products/calendario-com-ima.jpg",
             "id": "26",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         },
         {
             "nome": "Imã de geladeira",
@@ -214,7 +344,12 @@
             "valor": 4.5,
             "imagem": "images/products/ima-de-geladeira.jpg",
             "id": "27",
-            "variacoes": []
+            "variacoes": [
+                "Personalizar"
+            ],
+            "categoria": [
+                "Lembrancinha"
+            ]
         }
     ]
 }

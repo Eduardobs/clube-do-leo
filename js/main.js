@@ -1,17 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Garantir estado inicial correto
   document.getElementById('product-list').classList.remove('hidden');
   document.getElementById('error-message').classList.add('hidden');
   document.getElementById('nome-loja').textContent = CONFIG.loja.nome;
 
-  productManager.loadProducts();
+  // Carregar produtos antes de qualquer interação
+  await productManager.loadProducts();
 
-  document.getElementById('toggle-cart').addEventListener('click', () => {
+  document.getElementById('floating-cart-btn').addEventListener('click', () => {
     const cartModal = document.getElementById('cart-modal');
     cartModal.classList.remove('hidden');
   });
 
-  // Event listener para botão Limpar Carrinho
   document.getElementById('clear-cart').addEventListener('click', () => {
     cartManager.clearCart();
   });
@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('finalize-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const whatsapp = document.getElementById('whatsapp').value;
+    const customerName = document.getElementById('customer-name').value;
     try {
-      whatsappManager.sendMessages(whatsapp);
+      whatsappManager.sendMessages(customerName);
       document.getElementById('finalize-modal').classList.add('hidden');
       document.getElementById('product-list').classList.remove('hidden');
     } catch (error) {
@@ -39,23 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Máscara para o campo de WhatsApp
-  document.getElementById('whatsapp').addEventListener('input', (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 11) value = value.slice(0, 11);
-    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-    e.target.value = value;
-  });
-
   // Eventos para filtros
   document.getElementById('filter-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = document.getElementById('search').value;
-    productManager.filterProducts(searchTerm);
+    const category = document.getElementById('category-filter').value;
+    productManager.filterProducts(searchTerm, category);
   });
 
   document.getElementById('clear-filters').addEventListener('click', () => {
     document.getElementById('search').value = '';
-    productManager.filterProducts('');
+    document.getElementById('category-filter').value = '';
+    productManager.filterProducts('', '');
   });
 });
