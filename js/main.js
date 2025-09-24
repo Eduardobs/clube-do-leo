@@ -29,9 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('finalize-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const whatsapp = document.getElementById('whatsapp').value;
-    whatsappManager.sendMessages(whatsapp);
-    document.getElementById('finalize-modal').classList.add('hidden');
-    document.getElementById('product-list').classList.remove('hidden');
+    try {
+      whatsappManager.sendMessages(whatsapp);
+      document.getElementById('finalize-modal').classList.add('hidden');
+      document.getElementById('product-list').classList.remove('hidden');
+    } catch (error) {
+      console.error('Erro ao enviar mensagem pelo WhatsApp:', error);
+      cartManager.showToast('Erro ao enviar o pedido. Tente novamente.');
+    }
   });
 
   // Máscara para o campo de WhatsApp

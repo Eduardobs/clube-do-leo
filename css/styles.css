@@ -14,7 +14,7 @@ body {
 }
 
 header {
-  background: linear-gradient(to bottom, #ffffff, #f3e6d3);
+  background: linear-gradient(to bottom, #D2B48C, #BC9A6A);
   padding: 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -33,17 +33,12 @@ header {
 }
 
 nav {
-  margin-left: auto; /* Alinhar à direita */
+  margin-left: auto;
   display: flex;
   align-items: center;
 }
 
-h1 {
-  font-weight: 700;
-  color: #f2d28f;
-}
-
-h2, h3 {
+h1, h2, h3 {
   font-weight: 700;
   color: #BC9A6A;
 }
@@ -81,10 +76,10 @@ p {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 300px;
-  display: flex; /* Para fixar botões na base */
+  display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Botões no final */
-  min-height: 350px; /* Altura mínima para consistência */
+  justify-content: space-between;
+  min-height: 350px;
 }
 
 .product-card:hover {
@@ -106,7 +101,7 @@ p {
   gap: 0.75rem;
   flex-wrap: wrap;
   max-width: 100%;
-  margin-top: auto; /* Garantir que fique na base */
+  margin-top: auto;
 }
 
 .btn {

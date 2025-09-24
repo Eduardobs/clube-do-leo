@@ -9,6 +9,7 @@ const CONFIG = {
     formatoData: "DD/MM/YYYY HH:mm"
   },
   whatsapp: {
+    number: '5551998582591',
     apiUrl: "https://api.whatsapp.com/send",
     templates: {
       pedidoLoja: `🛍️ *NOVO PEDIDO*

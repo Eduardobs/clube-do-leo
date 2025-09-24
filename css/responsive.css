@@ -12,7 +12,7 @@
   }
 
   nav {
-    margin-left: 0; /* Resetar em mobile */
+    margin-left: 0;
     width: 100%;
   }
 
@@ -23,7 +23,7 @@
 
   .product-card {
     max-width: 100%;
-    min-height: 300px; /* Ajuste para mobile */
+    min-height: 300px;
   }
 
   .product-card img {
@@ -163,6 +163,6 @@
   }
 
   #toggle-cart {
-    margin-left: auto; /* Garantir alinhamento à direita */
+    margin-left: auto;
   }
 }
