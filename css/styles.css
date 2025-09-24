@@ -14,7 +14,7 @@ body {
 }
 
 header {
-  background: linear-gradient(to bottom, #D2B48C, #BC9A6A);
+  background: linear-gradient(to bottom, #ffffff, #f3e6d3);
   padding: 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -38,7 +38,12 @@ nav {
   align-items: center;
 }
 
-h1, h2, h3 {
+h1 {
+  font-weight: 700;
+  color: #f2d28f;
+}
+
+h2, h3 {
   font-weight: 700;
   color: #BC9A6A;
 }
