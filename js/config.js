@@ -6,6 +6,10 @@ const CONFIG = {
     moeda: 'R$',
   },
   whatsapp: {
-    number: '5551998450386'
-  }
+    number: '5551998450386',
+  },
+  social: {
+    instagram: 'https://www.instagram.com/clubedoleo_/',
+  },
+  categorias: ['Lembrancinhas', 'Festas', 'Presentes'],
 };

@@ -1,57 +1,44 @@
 class WhatsAppManager {
   constructor() {
-    this.whatsappNumber = CONFIG.whatsapp?.number || '';
+    this.whatsappNumber = CONFIG.whatsapp.number;
   }
 
-  sendMessages(customerName) {
-    if (!customerName || customerName.trim().length < 2) {
-      cartManager.showToast('Por favor, insira um nome válido.');
-      return;
-    }
+  openMessage(message) {
+    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
 
-    // Obter itens do carrinho
+  consultarProduto(codigo) {
+    const product = productManager.getProduct(codigo);
+    if (!product) return;
+    const message = `Olá! Gostaria de saber o valor do produto *${product.nome}* (código ${product.codigo}).`;
+    this.openMessage(message);
+  }
+
+  sendOrder(customerName) {
     const cart = cartManager.cart;
     if (cart.length === 0) {
       cartManager.showToast('Carrinho vazio! Adicione itens antes de finalizar.');
-      return;
+      return false;
     }
 
-    // Montar mensagem do pedido
     let message = `*Novo Pedido - ${CONFIG.loja.nome}*\n\n`;
     message += '*Itens do Pedido:*\n';
-    let total = 0;
 
-    cart.forEach(item => {
-      const product = productManager.products.find(p => p.id === item.id);
-      if (product) {
-        const itemTotal = item.quantity * item.valor;
-        total += itemTotal;
-        message += `- ${product.nome} (${item.variation || 'Sem variação'}): ${item.quantity} x ${CONFIG.sistema.moeda} ${item.valor.toFixed(2)} = ${CONFIG.sistema.moeda} ${itemTotal.toFixed(2)}\n`;
-      }
+    cart.forEach((item) => {
+      const product = productManager.getProduct(item.codigo);
+      if (!product) return;
+      const itemTotal = product.valor * item.quantity;
+      message += `- ${product.nome} (${product.codigo}): ${item.quantity} x ${Utils.formatPrice(product.valor)} = ${Utils.formatPrice(itemTotal)}\n`;
     });
 
-    message += `\n*Total: ${CONFIG.sistema.moeda} ${total.toFixed(2)}*\n`;
-    message += `\n*Enviado por:* ${customerName.trim()}\n`;
+    message += `\n*Total: ${Utils.formatPrice(cartManager.getTotal())}*\n`;
+    message += `\n*Cliente:* ${customerName.trim()}\n`;
     message += `Obrigado por comprar na ${CONFIG.loja.nome}!`;
 
-    // Codificar mensagem para URL
-    const encodedMessage = encodeURIComponent(message);
-
-    // Gerar link do WhatsApp
-    if (!this.whatsappNumber) {
-      cartManager.showToast('Número de WhatsApp da loja não configurado. Contate o administrador.');
-      return;
-    }
-    const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${encodedMessage}`;
-
-    try {
-      window.open(whatsappUrl, '_blank');
-      cartManager.showToast('Pedido enviado com sucesso! Você será redirecionado ao WhatsApp.');
-      cartManager.clearCart();
-    } catch (error) {
-      console.error('Erro ao abrir WhatsApp:', error);
-      cartManager.showToast('Erro ao enviar o pedido. Tente novamente.');
-    }
+    this.openMessage(message);
+    cartManager.clearCart();
+    return true;
   }
 }
 

@@ -3,88 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clube do Léo</title>
+  <title>Clube do Léo - Lembrancinhas, festas e presentes personalizados</title>
+  <meta name="description" content="Lembrancinhas, itens de festa e presentes personalizados. Faça seu pedido e finalize direto pelo WhatsApp.">
+  <link rel="icon" href="assets/logo_sem_descricao.png">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="assets/logo.png" alt="Logo da Loja">
-      <h1 id="nome-loja">Nome da Loja</h1>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#top" class="brand">
+        <img src="assets/logo.png" alt="Clube do Léo" class="brand__logo">
+      </a>
+      <nav class="site-nav">
+        <a href="#produtos" class="site-nav__catalog"><span>Produtos</span></a>
+        <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </nav>
+      <button type="button" id="cart-btn" class="cart-btn" aria-label="Abrir carrinho">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count" class="cart-btn__badge">0</span>
+      </button>
     </div>
   </header>
-  <button id="floating-cart-btn" class="btn floating-cart"><i class="fas fa-shopping-cart"></i> (<span id="floating-cart-count">0</span>)</button>
+
+  <section class="hero" id="top">
+    <div class="container">
+      <img src="assets/logo-gray.png" alt="Clube do Léo" class="hero__badge">
+      <h1>Clube do Léo</h1>
+      <p>Lembrancinhas, itens de festa e presentes personalizados para tornar cada momento mais especial.</p>
+      <a href="#produtos" class="btn btn--primary"><i class="fa-solid fa-gift"></i> Ver produtos</a>
+    </div>
+  </section>
 
   <main>
-    <section id="filters">
-      <form id="filter-form">
-        <div class="input-group">
-          <label for="search">Buscar por nome:</label>
-          <input type="text" id="search" placeholder="Digite o nome do produto...">
-          <i class="fas fa-search input-icon"></i>
+    <section id="produtos" class="catalog container">
+      <div class="catalog__controls">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" id="search-input" placeholder="Buscar produto...">
         </div>
-        <div class="input-group">
-          <label for="category-filter">Categoria:</label>
-          <select id="category-filter">
-            <option value="">Todas as Categorias</option>
-          </select>
-        </div>
-        <button type="submit" class="btn"><i class="fas fa-filter"></i> Filtrar</button>
-        <button type="button" id="clear-filters" class="btn secondary"><i class="fas fa-times"></i> Limpar</button>
-      </form>
-    </section>
-    <section id="product-list" class="product-grid">
+        <div id="category-filters" class="filter-pills"></div>
+      </div>
+
       <div id="loading-spinner" class="spinner"></div>
+      <p id="error-message" class="error-message hidden"></p>
+      <div id="product-list" class="product-grid"></div>
     </section>
-    <div id="error-message" class="hidden error-message"></div>
-    <div id="toast" class="toast hidden"></div>
-
-    <!-- Modal para Detalhes do Produto -->
-    <div id="product-detail-modal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close-modal" onclick="productManager.closeProductDetail()">&times;</span>
-        <div id="product-detail"></div>
-      </div>
-    </div>
-
-    <!-- Modal para Carrinho -->
-    <div id="cart-modal" class="modal hidden">
-      <div class="modal-content cart-modal-content">
-        <span class="close-modal" onclick="cartManager.closeCart()">&times;</span>
-        <div class="modal-header">
-          <i class="fas fa-shopping-cart modal-icon"></i>
-          <h2>Carrinho de Compras</h2>
-        </div>
-        <div id="cart-items" class="cart-items-list"></div>
-        <div class="cart-footer">
-          <button id="clear-cart" class="btn secondary"><i class="fas fa-trash"></i> Limpar Carrinho</button>
-          <p class="cart-summary"><strong>Total: <span id="cart-total">R$ 0,00</span></strong></p>
-          <button id="finalize-purchase" class="btn"><i class="fas fa-check"></i> Finalizar Compra</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal para Finalização -->
-    <div id="finalize-modal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close-modal" onclick="document.getElementById('finalize-modal').classList.add('hidden'); document.getElementById('product-list').classList.remove('hidden');">&times;</span>
-        <h2>Finalizar Compra</h2>
-        <form id="finalize-form">
-          <div class="input-group">
-            <label for="customer-name">Seu Nome:</label>
-            <input type="text" id="customer-name" placeholder="Digite seu nome..." required>
-            <i class="fas fa-user input-icon"></i>
-          </div>
-          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Enviar Pedido</button>
-        </form>
-      </div>
-    </div>
   </main>
 
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <img src="assets/logo-gray.png" alt="Clube do Léo" class="footer__logo">
+      <div class="footer__social">
+        <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+      <p class="footer__copy">&copy; <span id="year"></span> Clube do Léo. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <div id="product-detail-modal" class="modal hidden">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__content">
+      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
+      <div id="product-detail"></div>
+    </div>
+  </div>
+
+  <div id="cart-modal" class="modal hidden">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__content modal__content--cart">
+      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
+      <h2><i class="fa-solid fa-cart-shopping"></i> Carrinho de compras</h2>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <button type="button" id="clear-cart-btn" class="btn btn--ghost"><i class="fa-solid fa-trash"></i> Limpar</button>
+        <p class="cart-total">Total: <strong id="cart-total">R$ 0,00</strong></p>
+        <button type="button" id="finalize-btn" class="btn btn--primary"><i class="fa-solid fa-check"></i> Finalizar compra</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="checkout-modal" class="modal hidden">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__content">
+      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
+      <h2>Finalizar compra</h2>
+      <form id="checkout-form">
+        <label for="customer-name">Seu nome</label>
+        <input type="text" id="customer-name" placeholder="Digite seu nome" required minlength="2">
+        <button type="submit" class="btn btn--primary btn--block"><i class="fa-brands fa-whatsapp"></i> Enviar pedido pelo WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
   <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/whatsapp.js"></script>

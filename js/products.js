@@ -2,6 +2,8 @@ class ProductManager {
   constructor() {
     this.products = [];
     this.filteredProducts = [];
+    this.currentSearch = '';
+    this.currentCategory = '';
   }
 
   async loadProducts() {
@@ -10,126 +12,146 @@ class ProductManager {
     const loadingSpinner = document.getElementById('loading-spinner');
 
     errorMessage.classList.add('hidden');
-    productList.classList.remove('hidden');
-    loadingSpinner.style.display = 'block';
+    loadingSpinner.classList.remove('hidden');
 
     try {
       const response = await fetch('data/products.json');
       if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Arquivo products.json não encontrado. Verifique o caminho do arquivo.');
-        } else {
-          throw new Error(`Erro HTTP ${response.status}: ${response.statusText}`);
-        }
+        throw new Error(`Erro HTTP ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
-      if (!data.produtos || !Array.isArray(data.produtos)) {
-        throw new Error('Formato inválido no products.json: chave "produtos" ausente ou não é um array.');
+      if (!Array.isArray(data.produtos)) {
+        throw new Error('Formato inválido em products.json: chave "produtos" ausente.');
       }
 
       this.products = data.produtos;
       this.filteredProducts = [...this.products];
 
-      // Validar estrutura de cada produto
-      this.products.forEach(product => {
-        if (!product.id || !product.nome || !product.valor || !Array.isArray(product.variacoes) || !Array.isArray(product.categoria)) {
-          console.warn(`Produto inválido detectado: ${JSON.stringify(product)}`);
-        }
-      });
-
-      this.populateCategoryFilter();
+      this.renderCategoryFilters();
       this.renderProducts();
-      errorMessage.classList.add('hidden');
-      console.log('Produtos carregados com sucesso:', this.products);
     } catch (error) {
-      console.error('Erro ao carregar produtos:', error.message);
-      errorMessage.textContent = error.message;
+      console.error('Erro ao carregar produtos:', error);
+      errorMessage.textContent = 'Não foi possível carregar os produtos. Tente novamente mais tarde.';
       errorMessage.classList.remove('hidden');
       productList.innerHTML = '';
     } finally {
-      loadingSpinner.style.display = 'none';
+      loadingSpinner.classList.add('hidden');
     }
   }
 
-  populateCategoryFilter() {
-    const categoryFilter = document.getElementById('category-filter');
-    // Extrair todas as categorias únicas de todos os produtos
-    const categories = [...new Set(this.products.flatMap(product => product.categoria || []))];
-    categoryFilter.innerHTML = '<option value="">Todas as Categorias</option>';
-    categories.forEach(category => {
-      const option = document.createElement('option');
-      option.value = category;
-      option.textContent = category;
-      categoryFilter.appendChild(option);
+  renderCategoryFilters() {
+    const container = document.getElementById('category-filters');
+    const categories = CONFIG.categorias.filter((categoria) =>
+      this.products.some((product) => product.categorias.includes(categoria))
+    );
+
+    const pills = ['<button type="button" class="filter-pill is-active" data-category="">Todos</button>'];
+    categories.forEach((categoria) => {
+      pills.push(
+        `<button type="button" class="filter-pill" data-category="${Utils.escapeHtml(categoria)}">${Utils.escapeHtml(categoria)}</button>`
+      );
     });
+    container.innerHTML = pills.join('');
   }
 
-  filterProducts(searchTerm, category) {
-    this.filteredProducts = this.products.filter(product => {
-      const matchesSearch = product.nome.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = !category || (Array.isArray(product.categoria) && product.categoria.includes(category));
+  applyFilters() {
+    const term = this.currentSearch.trim().toLowerCase();
+    this.filteredProducts = this.products.filter((product) => {
+      const matchesSearch = !term || product.nome.toLowerCase().includes(term);
+      const matchesCategory = !this.currentCategory || product.categorias.includes(this.currentCategory);
       return matchesSearch && matchesCategory;
     });
     this.renderProducts();
   }
 
-  renderProducts() {
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = '';
-    if (this.filteredProducts.length === 0) {
-      productList.innerHTML = '<p class="no-products">Nenhum produto encontrado.</p>';
-      return;
-    }
-    this.filteredProducts.forEach(product => {
-      const productCard = document.createElement('div');
-      productCard.className = 'product-card';
-      productCard.innerHTML = `
-        <img src="${product.imagem}" alt="${product.nome}" loading="lazy">
-        <h3>${product.nome}</h3>
-        <p>${(product.categoria || []).join(', ')}</p>
-        <p>${CONFIG.sistema.moeda} ${product.valor.toFixed(2)}</p>
-        <div class="product-card-actions">
-          <button class="btn-detail" onclick="productManager.showProductDetail('${product.id}')"><i class="fas fa-eye"></i> Ver Detalhes</button>
-          <button class="btn" onclick="cartManager.addToCart('${product.id}', '${product.variacoes[0] || ''}', 1)"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
-        </div>
-      `;
-      productList.appendChild(productCard);
-    });
+  setSearch(term) {
+    this.currentSearch = term;
+    this.applyFilters();
   }
 
-  showProductDetail(productId) {
-    console.log('Exibindo detalhes do produto:', productId);
-    const product = this.products.find(p => p.id === productId);
-    if (!product) {
-      console.error('Produto não encontrado:', productId);
+  setCategory(category) {
+    this.currentCategory = category;
+    document.querySelectorAll('#category-filters .filter-pill').forEach((pill) => {
+      pill.classList.toggle('is-active', pill.dataset.category === category);
+    });
+    this.applyFilters();
+  }
+
+  renderProducts() {
+    const productList = document.getElementById('product-list');
+
+    if (this.filteredProducts.length === 0) {
+      productList.innerHTML = '<p class="empty-state">Nenhum produto encontrado para essa busca.</p>';
       return;
     }
+
+    productList.innerHTML = this.filteredProducts
+      .map((product) => {
+        const priceLabel = Utils.formatPrice(product.valor);
+        return `
+        <article class="product-card">
+          <div class="product-card__media">
+            <img src="${product.imagem}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <span class="product-card__badge">${Utils.escapeHtml(product.categorias[0] || '')}</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title">${Utils.escapeHtml(product.nome)}</h3>
+            <p class="product-card__price">${priceLabel}</p>
+          </div>
+          <div class="product-card__actions">
+            <button type="button" class="btn btn--ghost" data-action="detail" data-codigo="${product.codigo}" title="Ver detalhes">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" class="btn btn--primary" data-action="${product.valor > 0 ? 'add' : 'consult'}" data-codigo="${product.codigo}">
+              <i class="fa-solid ${product.valor > 0 ? 'fa-cart-plus' : 'fa-comment-dots'}"></i>
+              ${product.valor > 0 ? 'Adicionar' : 'Consultar'}
+            </button>
+          </div>
+        </article>
+      `;
+      })
+      .join('');
+  }
+
+  getProduct(codigo) {
+    return this.products.find((product) => product.codigo === codigo);
+  }
+
+  showProductDetail(codigo) {
+    const product = this.getProduct(codigo);
+    if (!product) return;
+
+    const priceLabel = Utils.formatPrice(product.valor);
     const detailSection = document.getElementById('product-detail');
-    const modal = document.getElementById('product-detail-modal');
     detailSection.innerHTML = `
-      <h2>${product.nome}</h2>
-      <img src="${product.imagem}" alt="${product.nome}" loading="lazy">
-      <p>${product.descricao}</p>
-      <p>Categoria: ${(product.categoria || []).join(', ')}</p>
-      <p>${CONFIG.sistema.moeda} ${product.valor.toFixed(2)}</p>
-      <select id="variation-${product.id}">
-        ${(Array.isArray(product.variacoes) ? product.variacoes : []).map(v => `<option value="${v}">${v}</option>`).join('')}
-      </select>
-      <input type="number" id="quantity-${product.id}" value="1" min="1">
-      <button class="btn" onclick="cartManager.addToCart('${product.id}', document.getElementById('variation-${product.id}').value, document.getElementById('quantity-${product.id}').value)">Adicionar ao Carrinho</button>
+      <img src="${product.imagem}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+      <span class="tag">${Utils.escapeHtml(product.categorias.join(', '))}</span>
+      <h2>${Utils.escapeHtml(product.nome)}</h2>
+      <p class="product-detail__descricao">${Utils.escapeHtml(product.descricao || '')}</p>
+      <p class="product-detail__price">${priceLabel}</p>
+      ${
+        product.valor > 0
+          ? `
+        <div class="quantity-stepper">
+          <button type="button" data-step="-1" aria-label="Diminuir quantidade">−</button>
+          <input type="number" id="detail-quantity" value="1" min="1">
+          <button type="button" data-step="1" aria-label="Aumentar quantidade">+</button>
+        </div>
+        <button type="button" class="btn btn--primary btn--block" data-action="add" data-codigo="${product.codigo}">
+          <i class="fa-solid fa-cart-plus"></i> Adicionar ao carrinho
+        </button>`
+          : `
+        <button type="button" class="btn btn--primary btn--block" data-action="consult" data-codigo="${product.codigo}">
+          <i class="fa-brands fa-whatsapp"></i> Consultar no WhatsApp
+        </button>`
+      }
     `;
-    modal.classList.remove('hidden');
+    document.getElementById('product-detail-modal').classList.remove('hidden');
   }
 
   closeProductDetail() {
-    const modal = document.getElementById('product-detail-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-      console.log('Modal de detalhes fechado');
-    } else {
-      console.error('Modal de detalhes não encontrado');
-    }
+    document.getElementById('product-detail-modal').classList.add('hidden');
   }
 }
 

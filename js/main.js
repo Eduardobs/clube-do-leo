@@ -1,55 +1,88 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  // Garantir estado inicial correto
-  document.getElementById('product-list').classList.remove('hidden');
-  document.getElementById('error-message').classList.add('hidden');
-  document.getElementById('nome-loja').textContent = CONFIG.loja.nome;
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Carregar produtos antes de qualquer interação
   await productManager.loadProducts();
+  cartManager.renderCart();
 
-  document.getElementById('floating-cart-btn').addEventListener('click', () => {
-    const cartModal = document.getElementById('cart-modal');
-    cartModal.classList.remove('hidden');
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    productManager.setSearch(e.target.value);
   });
 
-  document.getElementById('clear-cart').addEventListener('click', () => {
-    cartManager.clearCart();
+  document.getElementById('category-filters').addEventListener('click', (e) => {
+    const pill = e.target.closest('.filter-pill');
+    if (!pill) return;
+    productManager.setCategory(pill.dataset.category);
   });
 
-  document.getElementById('finalize-purchase').addEventListener('click', () => {
-    if (cartManager.cart.length === 0) {
-      alert('Carrinho vazio!');
+  document.getElementById('product-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const { action, codigo } = btn.dataset;
+    if (action === 'detail') productManager.showProductDetail(codigo);
+    if (action === 'add') cartManager.addToCart(codigo, 1);
+    if (action === 'consult') whatsappManager.consultarProduto(codigo);
+  });
+
+  document.getElementById('product-detail').addEventListener('click', (e) => {
+    const stepBtn = e.target.closest('button[data-step]');
+    if (stepBtn) {
+      const input = document.getElementById('detail-quantity');
+      input.value = Math.max(1, parseInt(input.value || '1', 10) + parseInt(stepBtn.dataset.step, 10));
       return;
     }
-    document.getElementById('cart-modal').classList.add('hidden');
-    document.getElementById('product-list').classList.add('hidden');
-    document.getElementById('finalize-modal').classList.remove('hidden');
-  });
 
-  document.getElementById('finalize-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const customerName = document.getElementById('customer-name').value;
-    try {
-      whatsappManager.sendMessages(customerName);
-      document.getElementById('finalize-modal').classList.add('hidden');
-      document.getElementById('product-list').classList.remove('hidden');
-    } catch (error) {
-      console.error('Erro ao enviar mensagem pelo WhatsApp:', error);
-      cartManager.showToast('Erro ao enviar o pedido. Tente novamente.');
+    const actionBtn = e.target.closest('button[data-action]');
+    if (!actionBtn) return;
+    const { action, codigo } = actionBtn.dataset;
+    if (action === 'add') {
+      const quantity = document.getElementById('detail-quantity')?.value || 1;
+      cartManager.addToCart(codigo, quantity);
+      productManager.closeProductDetail();
+    }
+    if (action === 'consult') {
+      whatsappManager.consultarProduto(codigo);
     }
   });
 
-  // Eventos para filtros
-  document.getElementById('filter-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const searchTerm = document.getElementById('search').value;
-    const category = document.getElementById('category-filter').value;
-    productManager.filterProducts(searchTerm, category);
+  document.getElementById('cart-btn').addEventListener('click', () => cartManager.openCart());
+
+  document.getElementById('cart-items').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action="remove"]');
+    if (btn) cartManager.removeFromCart(btn.dataset.codigo);
   });
 
-  document.getElementById('clear-filters').addEventListener('click', () => {
-    document.getElementById('search').value = '';
-    document.getElementById('category-filter').value = '';
-    productManager.filterProducts('', '');
+  document.getElementById('cart-items').addEventListener('change', (e) => {
+    const input = e.target.closest('input[data-action="update-quantity"]');
+    if (input) cartManager.updateQuantity(input.dataset.codigo, input.value);
+  });
+
+  document.getElementById('clear-cart-btn').addEventListener('click', () => cartManager.clearCart());
+
+  document.getElementById('finalize-btn').addEventListener('click', () => {
+    if (cartManager.cart.length === 0) {
+      cartManager.showToast('Carrinho vazio!');
+      return;
+    }
+    cartManager.closeCart();
+    document.getElementById('checkout-modal').classList.remove('hidden');
+  });
+
+  document.getElementById('checkout-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nameInput = document.getElementById('customer-name');
+    if (whatsappManager.sendOrder(nameInput.value)) {
+      document.getElementById('checkout-modal').classList.add('hidden');
+      nameInput.value = '';
+    }
+  });
+
+  document.querySelectorAll('[data-close]').forEach((el) => {
+    el.addEventListener('click', (e) => e.target.closest('.modal').classList.add('hidden'));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal:not(.hidden)').forEach((modal) => modal.classList.add('hidden'));
+    }
   });
 });
