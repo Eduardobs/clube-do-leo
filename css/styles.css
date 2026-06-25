@@ -350,6 +350,10 @@ img {
   flex: 1;
 }
 
+#load-more-sentinel {
+  height: 1px;
+}
+
 .empty-state {
   text-align: center;
   color: var(--color-text-muted);

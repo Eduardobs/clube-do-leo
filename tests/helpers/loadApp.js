@@ -18,7 +18,7 @@ function loadApp() {
   const Utils = require(path.join(JS_DIR, 'utils.js'));
   globalThis.Utils = Utils;
 
-  const { ProductManager, productManager } = require(path.join(JS_DIR, 'products.js'));
+  const { ProductManager, productManager, PRODUCTS_PAGE_SIZE } = require(path.join(JS_DIR, 'products.js'));
   globalThis.ProductManager = ProductManager;
   globalThis.productManager = productManager;
 
@@ -30,7 +30,17 @@ function loadApp() {
   globalThis.WhatsAppManager = WhatsAppManager;
   globalThis.whatsappManager = whatsappManager;
 
-  return { CONFIG, Utils, ProductManager, productManager, CartManager, cartManager, WhatsAppManager, whatsappManager };
+  return {
+    CONFIG,
+    Utils,
+    ProductManager,
+    productManager,
+    PRODUCTS_PAGE_SIZE,
+    CartManager,
+    cartManager,
+    WhatsAppManager,
+    whatsappManager,
+  };
 }
 
 module.exports = { loadApp, JS_DIR };

@@ -1,9 +1,12 @@
+const PRODUCTS_PAGE_SIZE = 12;
+
 class ProductManager {
   constructor() {
     this.products = [];
     this.filteredProducts = [];
     this.currentSearch = '';
     this.currentCategory = '';
+    this.renderedCount = 0;
   }
 
   async loadProducts() {
@@ -78,19 +81,10 @@ class ProductManager {
     this.applyFilters();
   }
 
-  renderProducts() {
-    const productList = document.getElementById('product-list');
-
-    if (this.filteredProducts.length === 0) {
-      productList.innerHTML = '<p class="empty-state">Nenhum produto encontrado para essa busca.</p>';
-      return;
-    }
-
-    productList.innerHTML = this.filteredProducts
-      .map((product) => {
-        const priceLabel = Utils.formatPrice(product.valor);
-        const mainImage = product.imagens?.[0] || '';
-        return `
+  buildProductCardHtml(product) {
+    const priceLabel = Utils.formatPrice(product.valor);
+    const mainImage = product.imagens?.[0] || '';
+    return `
         <article class="product-card">
           <div class="product-card__media">
             <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
@@ -111,8 +105,33 @@ class ProductManager {
           </div>
         </article>
       `;
-      })
-      .join('');
+  }
+
+  renderProducts() {
+    const productList = document.getElementById('product-list');
+    this.renderedCount = 0;
+
+    if (this.filteredProducts.length === 0) {
+      productList.innerHTML = '<p class="empty-state">Nenhum produto encontrado para essa busca.</p>';
+      return;
+    }
+
+    const firstPage = this.filteredProducts.slice(0, PRODUCTS_PAGE_SIZE);
+    productList.innerHTML = firstPage.map((product) => this.buildProductCardHtml(product)).join('');
+    this.renderedCount = firstPage.length;
+  }
+
+  hasMoreProducts() {
+    return this.renderedCount < this.filteredProducts.length;
+  }
+
+  loadMoreProducts() {
+    if (!this.hasMoreProducts()) return;
+
+    const productList = document.getElementById('product-list');
+    const nextPage = this.filteredProducts.slice(this.renderedCount, this.renderedCount + PRODUCTS_PAGE_SIZE);
+    productList.insertAdjacentHTML('beforeend', nextPage.map((product) => this.buildProductCardHtml(product)).join(''));
+    this.renderedCount += nextPage.length;
   }
 
   getProduct(codigo) {
@@ -180,4 +199,4 @@ class ProductManager {
 
 const productManager = new ProductManager();
 
-if (typeof module !== 'undefined') module.exports = { ProductManager, productManager };
+if (typeof module !== 'undefined') module.exports = { ProductManager, productManager, PRODUCTS_PAGE_SIZE };

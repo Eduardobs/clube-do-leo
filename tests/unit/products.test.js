@@ -18,12 +18,22 @@ function setProductsDom() {
   `;
 }
 
+function buildProducts(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    codigo: `PRD-${String(i + 1).padStart(3, '0')}`,
+    nome: `Produto ${i + 1}`,
+    valor: 10,
+    categorias: ['Lembrancinhas'],
+    imagens: [],
+  }));
+}
+
 describe('ProductManager', () => {
-  let ProductManager, productManager;
+  let ProductManager, productManager, PRODUCTS_PAGE_SIZE;
 
   beforeEach(() => {
     setProductsDom();
-    ({ ProductManager } = loadApp());
+    ({ ProductManager, PRODUCTS_PAGE_SIZE } = loadApp());
     productManager = new ProductManager();
     globalThis.productManager = productManager;
   });
@@ -120,6 +130,67 @@ describe('ProductManager', () => {
       expect(document.querySelector('button[data-action="consult"][data-codigo="LEM-004"]')).not.toBeNull();
       expect(document.querySelector('button[data-action="consult"][data-codigo="LEM-001"]')).toBeNull();
       expect(document.querySelector('button[data-action="add"][data-codigo="LEM-004"]')).toBeNull();
+    });
+  });
+
+  describe('infinite scroll pagination', () => {
+    it('renders only the first page when there are more products than the page size', () => {
+      productManager.products = buildProducts(PRODUCTS_PAGE_SIZE + 5);
+      productManager.filteredProducts = [...productManager.products];
+
+      productManager.renderProducts();
+
+      expect(document.getElementById('product-list').children.length).toBe(PRODUCTS_PAGE_SIZE);
+      expect(productManager.renderedCount).toBe(PRODUCTS_PAGE_SIZE);
+      expect(productManager.hasMoreProducts()).toBe(true);
+    });
+
+    it('reports no more products when everything already fits on the first page', () => {
+      productManager.products = SAMPLE_PRODUCTS;
+      productManager.filteredProducts = [...SAMPLE_PRODUCTS];
+
+      productManager.renderProducts();
+
+      expect(productManager.hasMoreProducts()).toBe(false);
+    });
+
+    it('loadMoreProducts appends the next page and advances renderedCount', () => {
+      productManager.products = buildProducts(PRODUCTS_PAGE_SIZE + 5);
+      productManager.filteredProducts = [...productManager.products];
+      productManager.renderProducts();
+
+      productManager.loadMoreProducts();
+
+      const list = document.getElementById('product-list');
+      expect(list.children.length).toBe(PRODUCTS_PAGE_SIZE + 5);
+      expect(productManager.renderedCount).toBe(PRODUCTS_PAGE_SIZE + 5);
+      expect(productManager.hasMoreProducts()).toBe(false);
+      const lastCodigo = `PRD-${String(PRODUCTS_PAGE_SIZE + 5).padStart(3, '0')}`;
+      expect(list.querySelector(`button[data-codigo="${lastCodigo}"]`)).not.toBeNull();
+    });
+
+    it('loadMoreProducts does nothing once every product has been rendered', () => {
+      productManager.products = SAMPLE_PRODUCTS;
+      productManager.filteredProducts = [...SAMPLE_PRODUCTS];
+      productManager.renderProducts();
+
+      productManager.loadMoreProducts();
+
+      expect(document.getElementById('product-list').children.length).toBe(SAMPLE_PRODUCTS.length);
+      expect(productManager.renderedCount).toBe(SAMPLE_PRODUCTS.length);
+    });
+
+    it('resets pagination back to the first page when filters change', () => {
+      productManager.products = buildProducts(PRODUCTS_PAGE_SIZE + 5);
+      productManager.filteredProducts = [...productManager.products];
+      productManager.renderProducts();
+      productManager.loadMoreProducts();
+      expect(productManager.renderedCount).toBe(PRODUCTS_PAGE_SIZE + 5);
+
+      productManager.setSearch('Produto 1');
+
+      expect(document.getElementById('product-list').children.length).toBeLessThanOrEqual(PRODUCTS_PAGE_SIZE);
+      expect(productManager.renderedCount).toBe(productManager.filteredProducts.length);
     });
   });
 

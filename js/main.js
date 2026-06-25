@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   await productManager.loadProducts();
   cartManager.renderCart();
 
+  const loadMoreSentinel = document.getElementById('load-more-sentinel');
+  if (typeof IntersectionObserver === 'undefined') {
+    while (productManager.hasMoreProducts()) productManager.loadMoreProducts();
+  } else {
+    const infiniteScrollObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) productManager.loadMoreProducts();
+      },
+      { rootMargin: '300px' }
+    );
+    infiniteScrollObserver.observe(loadMoreSentinel);
+  }
+
   document.getElementById('search-input').addEventListener('input', (e) => {
     productManager.setSearch(e.target.value);
   });

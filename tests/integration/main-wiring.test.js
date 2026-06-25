@@ -6,6 +6,23 @@ const { readBodyFixture } = require('../helpers/htmlFixture');
 
 let app;
 
+// jsdom doesn't implement IntersectionObserver; stub it so main.js's
+// infinite-scroll wiring can be exercised and the triggering callback
+// inspected, instead of erroring out or silently falling back.
+class MockIntersectionObserver {
+  constructor(callback) {
+    this.callback = callback;
+    this.observedTargets = [];
+    MockIntersectionObserver.lastInstance = this;
+  }
+  observe(target) {
+    this.observedTargets.push(target);
+  }
+  unobserve() {}
+  disconnect() {}
+}
+global.IntersectionObserver = MockIntersectionObserver;
+
 // Exercises the real index.html markup + main.js wiring together, so a typo
 // in either an element id or an event handler shows up as a failing test
 // instead of a silently broken page in production.
@@ -18,6 +35,7 @@ beforeEach(async () => {
   vi.spyOn(app.productManager, 'showProductDetail').mockImplementation(() => {});
   vi.spyOn(app.productManager, 'closeProductDetail').mockImplementation(() => {});
   vi.spyOn(app.productManager, 'loadProducts').mockResolvedValue();
+  vi.spyOn(app.productManager, 'loadMoreProducts').mockImplementation(() => {});
   vi.spyOn(app.cartManager, 'addToCart').mockImplementation(() => {});
   vi.spyOn(app.cartManager, 'removeFromCart').mockImplementation(() => {});
   vi.spyOn(app.cartManager, 'updateQuantity').mockImplementation(() => {});
@@ -48,6 +66,21 @@ describe('main.js DOM wiring (index.html)', () => {
   it('sets the footer year and loads products on boot', () => {
     expect(document.getElementById('year').textContent).toBe(String(new Date().getFullYear()));
     expect(app.productManager.loadProducts).toHaveBeenCalledTimes(1);
+  });
+
+  it('observes the load-more sentinel for infinite scroll', () => {
+    const sentinel = document.getElementById('load-more-sentinel');
+    expect(MockIntersectionObserver.lastInstance.observedTargets).toContain(sentinel);
+  });
+
+  it('loads more products when the sentinel becomes visible', () => {
+    MockIntersectionObserver.lastInstance.callback([{ isIntersecting: true }]);
+    expect(app.productManager.loadMoreProducts).toHaveBeenCalled();
+  });
+
+  it('does not load more products when the sentinel is not intersecting', () => {
+    MockIntersectionObserver.lastInstance.callback([{ isIntersecting: false }]);
+    expect(app.productManager.loadMoreProducts).not.toHaveBeenCalled();
   });
 
   it('wires the search input to productManager.setSearch', () => {
