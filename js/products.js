@@ -89,10 +89,11 @@ class ProductManager {
     productList.innerHTML = this.filteredProducts
       .map((product) => {
         const priceLabel = Utils.formatPrice(product.valor);
+        const mainImage = product.imagens?.[0] || '';
         return `
         <article class="product-card">
           <div class="product-card__media">
-            <img src="${product.imagem}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
             <span class="product-card__badge">${Utils.escapeHtml(product.categorias[0] || '')}</span>
           </div>
           <div class="product-card__body">
@@ -124,8 +125,26 @@ class ProductManager {
 
     const priceLabel = Utils.formatPrice(product.valor);
     const detailSection = document.getElementById('product-detail');
+    const images = product.imagens?.length ? product.imagens : [''];
+    const thumbsHtml =
+      images.length > 1
+        ? `
+      <div class="product-detail__thumbs">
+        ${images
+          .map(
+            (image, index) => `
+          <button type="button" class="product-detail__thumb${index === 0 ? ' is-active' : ''}" data-image="${Utils.escapeHtml(image)}">
+            <img src="${image}" alt="${Utils.escapeHtml(product.nome)} - imagem ${index + 1}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+          </button>`
+          )
+          .join('')}
+      </div>`
+        : '';
     detailSection.innerHTML = `
-      <img src="${product.imagem}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+      <div class="product-detail__gallery">
+        <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+        ${thumbsHtml}
+      </div>
       <span class="tag">${Utils.escapeHtml(product.categorias.join(', '))}</span>
       <h2>${Utils.escapeHtml(product.nome)}</h2>
       <p class="product-detail__descricao">${Utils.escapeHtml(product.descricao || '')}</p>

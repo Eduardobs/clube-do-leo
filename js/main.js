@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   document.getElementById('product-detail').addEventListener('click', (e) => {
+    const thumbBtn = e.target.closest('button[data-image]');
+    if (thumbBtn) {
+      document.getElementById('detail-main-image').src = thumbBtn.dataset.image;
+      thumbBtn.parentElement.querySelectorAll('.product-detail__thumb').forEach((thumb) => {
+        thumb.classList.toggle('is-active', thumb === thumbBtn);
+      });
+      return;
+    }
+
     const stepBtn = e.target.closest('button[data-step]');
     if (stepBtn) {
       const input = document.getElementById('detail-quantity');

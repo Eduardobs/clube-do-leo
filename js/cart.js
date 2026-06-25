@@ -86,7 +86,7 @@ class CartManager {
           const itemTotal = product.valor * item.quantity;
           return `
           <div class="cart-item">
-            <img src="${product.imagem}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <img src="${product.imagens?.[0] || ''}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
             <div class="cart-item__details">
               <h4>${Utils.escapeHtml(product.nome)}</h4>
               <p>${Utils.formatPrice(product.valor)} x ${item.quantity} = ${Utils.formatPrice(itemTotal)}</p>
