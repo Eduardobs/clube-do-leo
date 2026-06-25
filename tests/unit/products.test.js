@@ -144,5 +144,18 @@ describe('ProductManager', () => {
       productManager.closeProductDetail();
       expect(document.getElementById('product-detail-modal').classList.contains('hidden')).toBe(true);
     });
+
+    it('shows a subcategoria tag when the product has subcategorias', () => {
+      productManager.products = [
+        { ...SAMPLE_PRODUCTS[0], categorias: ['CANECAS'], subcategorias: ['CERÂMICA', 'JARRO'] },
+      ];
+      productManager.showProductDetail('LEM-001');
+      expect(document.querySelector('#product-detail .tag--sub').textContent).toBe('CERÂMICA, JARRO');
+    });
+
+    it('renders no subcategoria tag when the product has none', () => {
+      productManager.showProductDetail('LEM-001');
+      expect(document.querySelector('#product-detail .tag--sub')).toBeNull();
+    });
   });
 });

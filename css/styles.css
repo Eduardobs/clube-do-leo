@@ -490,6 +490,13 @@ img {
   margin-bottom: 0.6rem;
 }
 
+#product-detail .tag--sub {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  margin-left: 0.4rem;
+}
+
 #product-detail h2 {
   margin-bottom: 0.5rem;
 }

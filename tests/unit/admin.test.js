@@ -23,12 +23,16 @@ function loadAdminManager() {
   return { admin, DRAFT_KEY };
 }
 
-function fillForm(admin, { codigo = '', nome = '', descricao = '', valor = '', categorias = [], imagens = [''] } = {}) {
+function fillForm(
+  admin,
+  { codigo = '', nome = '', descricao = '', valor = '', categorias = [], subcategorias = [], imagens = [''] } = {}
+) {
   admin.el.codigo.value = codigo;
   admin.el.nome.value = nome;
   admin.el.descricao.value = descricao;
   admin.el.valor.value = valor;
   admin.renderCategoryCheckboxes(categorias);
+  admin.renderSubcategoryCheckboxes(categorias, subcategorias);
   admin.el.imageList.innerHTML = '';
   imagens.forEach((img) => admin.addImageRow(img));
 }
@@ -99,6 +103,35 @@ describe('AdminManager', () => {
     });
   });
 
+  describe('subcategorias', () => {
+    it('getSubcategoryOptions returns the options for the selected categorias, deduped', () => {
+      expect(admin.getSubcategoryOptions(['CANECAS'])).toEqual(globalThis.CONFIG.subcategorias.CANECAS);
+      expect(admin.getSubcategoryOptions(['GARRAFAS', 'CAMISETAS'])).toEqual([
+        ...globalThis.CONFIG.subcategorias.GARRAFAS,
+        ...globalThis.CONFIG.subcategorias.CAMISETAS,
+      ]);
+    });
+
+    it('getSubcategoryOptions returns nothing for categorias without configured subcategorias', () => {
+      expect(admin.getSubcategoryOptions(['BALÕES'])).toEqual([]);
+      expect(admin.getSubcategoryOptions([])).toEqual([]);
+    });
+
+    it('renderSubcategoryCheckboxes checks the previously selected subcategorias', () => {
+      admin.renderSubcategoryCheckboxes(['CANECAS'], ['CERÂMICA']);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="CERÂMICA"]').checked).toBe(true);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="JARRO"]').checked).toBe(false);
+    });
+
+    it('re-renders the subcategoria checkboxes when the categoria selection changes (bindEvents wiring)', () => {
+      admin.renderCategoryCheckboxes([]);
+      admin.el.categoriaCheckboxes.querySelector('input[value="CANECAS"]').click();
+      expect(admin.el.subcategoriaCheckboxes.querySelectorAll('input').length).toBe(
+        globalThis.CONFIG.subcategorias.CANECAS.length
+      );
+    });
+  });
+
   describe('openModal', () => {
     it('resets the form for a new product', () => {
       admin.openModal();
@@ -119,6 +152,14 @@ describe('AdminManager', () => {
       expect(admin.el.nome.value).toBe('Chaveiro de acrílico');
       expect(admin.el.valor.value).toBe('2.5');
       expect(admin.el.categoriaCheckboxes.querySelector('input[value="Lembrancinhas"]').checked).toBe(true);
+    });
+
+    it('populates the subcategoria checkboxes when editing an existing product', () => {
+      admin.products = [{ ...SAMPLE_PRODUCT, categorias: ['CANECAS'], subcategorias: ['CERÂMICA'] }];
+      admin.openModal('LEM-001');
+
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="CERÂMICA"]').checked).toBe(true);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="JARRO"]').checked).toBe(false);
     });
 
     it('closeModal hides the modal again', () => {
@@ -212,6 +253,35 @@ describe('AdminManager', () => {
       expect(admin.el.modal.classList.contains('hidden')).toBe(true);
       expect(admin.el.toast.classList.contains('hidden')).toBe(false);
       expect(admin.el.toast.textContent).toContain('adicionado');
+    });
+
+    it('includes subcategorias in the saved product when any are selected', () => {
+      admin.openModal();
+      fillForm(admin, {
+        codigo: 'NEW-2',
+        nome: 'Caneca personalizada',
+        valor: '12.5',
+        categorias: ['CANECAS'],
+        subcategorias: ['CERÂMICA'],
+        imagens: ['images/products/caneca.jpg'],
+      });
+      admin.handleSubmit(fakeEvent);
+
+      expect(admin.products[0].subcategorias).toEqual(['CERÂMICA']);
+    });
+
+    it('omits the subcategorias key when none are selected', () => {
+      admin.openModal();
+      fillForm(admin, {
+        codigo: 'NEW-3',
+        nome: 'Produto sem subcategoria',
+        valor: '9.9',
+        categorias: ['Festas'],
+        imagens: ['images/products/novo.jpg'],
+      });
+      admin.handleSubmit(fakeEvent);
+
+      expect(admin.products[0]).not.toHaveProperty('subcategorias');
     });
   });
 

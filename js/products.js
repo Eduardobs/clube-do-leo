@@ -140,12 +140,16 @@ class ProductManager {
           .join('')}
       </div>`
         : '';
+    const subcategoriasHtml = product.subcategorias?.length
+      ? `<span class="tag tag--sub">${Utils.escapeHtml(product.subcategorias.join(', '))}</span>`
+      : '';
     detailSection.innerHTML = `
       <div class="product-detail__gallery">
         <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
         ${thumbsHtml}
       </div>
       <span class="tag">${Utils.escapeHtml(product.categorias.join(', '))}</span>
+      ${subcategoriasHtml}
       <h2>${Utils.escapeHtml(product.nome)}</h2>
       <p class="product-detail__descricao">${Utils.escapeHtml(product.descricao || '')}</p>
       <p class="product-detail__price">${priceLabel}</p>
