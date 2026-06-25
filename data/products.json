@@ -6,7 +6,7 @@
       "descricao": "Personalizável frente e verso",
       "valor": 2.5,
       "imagens": ["images/products/chaveiro-de-acrilico.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-002",
@@ -14,7 +14,7 @@
       "descricao": "Lápis preto personalizado",
       "valor": 2.0,
       "imagens": ["images/products/lapis-preto-personalizavel.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-003",
@@ -22,7 +22,7 @@
       "descricao": "Tamanho 7x10cm",
       "valor": 4.0,
       "imagens": ["images/products/bloco-de-papel.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-001",
@@ -30,7 +30,7 @@
       "descricao": "Pote 6",
       "valor": 4.5,
       "imagens": ["images/products/rotulo-para-suculentas.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-004",
@@ -38,7 +38,7 @@
       "descricao": "Contém: 1 livro de colorir (8 páginas) e 1 caixa de giz de cera (6 cores)",
       "valor": 0,
       "imagens": ["images/products/kit-cores-personalizado.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-001",
@@ -46,7 +46,7 @@
       "descricao": "Tamanho: 10cm de diâmetro",
       "valor": 10.0,
       "imagens": ["images/products/tubo-lata-personalizado.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-005",
@@ -54,7 +54,7 @@
       "descricao": "Contém: 16 peças / 8 pares",
       "valor": 8.0,
       "imagens": ["images/products/jogo-da-memoria.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-002",
@@ -62,7 +62,7 @@
       "descricao": "20 páginas. Contém 15 orações e informações da criança. Tamanho: 7x10cm",
       "valor": 0,
       "imagens": ["images/products/livro-de-oracoes.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-002",
@@ -70,7 +70,7 @@
       "descricao": "Tamanho: 5cm de diâmetro",
       "valor": 6.0,
       "imagens": ["images/products/tubo-lata-mini.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-006",
@@ -78,7 +78,7 @@
       "descricao": "Personalizável frente e verso",
       "valor": 4.5,
       "imagens": ["images/products/chaveiro-de-acrílico-com-tag.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-007",
@@ -86,7 +86,7 @@
       "descricao": "Cores sortidas",
       "valor": 4.5,
       "imagens": ["images/products/bolhas-de-sabao-personalizadas.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-008",
@@ -94,7 +94,7 @@
       "descricao": "Personalizável",
       "valor": 6.0,
       "imagens": ["images/products/caixa-bala.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-009",
@@ -102,7 +102,7 @@
       "descricao": "Personalizado com aplique",
       "valor": 2.5,
       "imagens": ["images/products/tubetes.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-003",
@@ -110,7 +110,7 @@
       "descricao": "Personalizável",
       "valor": 3.5,
       "imagens": ["images/products/cofrinho-personalizado.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-010",
@@ -118,7 +118,7 @@
       "descricao": "Contém: 3 bastões de massinha de modelar e 2 cortadores",
       "valor": 3.9,
       "imagens": ["images/products/kit-massinha-de-modelar.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-011",
@@ -126,7 +126,7 @@
       "descricao": "Tamanho: 1 litro",
       "valor": 5.0,
       "imagens": ["images/products/balde-de-pipoca.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-012",
@@ -134,7 +134,7 @@
       "descricao": "Personalizável",
       "valor": 5.0,
       "imagens": ["images/products/caixa-piramide.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "LEM-013",
@@ -142,7 +142,7 @@
       "descricao": "Personalizável",
       "valor": 5.0,
       "imagens": ["images/products/caixa-modelo-milk.jpg"],
-      "categorias": ["Lembrancinhas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-003",
@@ -150,7 +150,7 @@
       "descricao": "500ml",
       "valor": 6.0,
       "imagens": ["images/products/copo-twister.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-004",
@@ -158,7 +158,7 @@
       "descricao": "325ml",
       "valor": 3.0,
       "imagens": ["images/products/copo-long-drink.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-005",
@@ -166,7 +166,7 @@
       "descricao": "Personalizável",
       "valor": 10.0,
       "imagens": ["images/products/taca-de-gin-transparente.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-006",
@@ -174,7 +174,7 @@
       "descricao": "450ml",
       "valor": 15.0,
       "imagens": ["images/products/taca-de-gin-colorida.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-007",
@@ -182,7 +182,7 @@
       "descricao": "200ml",
       "valor": 5.0,
       "imagens": ["images/products/taca-de-espumante.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "FES-008",
@@ -190,7 +190,7 @@
       "descricao": "500ml",
       "valor": 6.0,
       "imagens": ["images/products/caneca-de-chopp.jpg"],
-      "categorias": ["Festas"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-004",
@@ -198,7 +198,7 @@
       "descricao": "Pedido mínimo 20un",
       "valor": 3.0,
       "imagens": ["images/products/caneta-personalizada.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-005",
@@ -206,7 +206,7 @@
       "descricao": "Tamanho: 5x10cm. Pedido mínimo 20un",
       "valor": 2.5,
       "imagens": ["images/products/calendario-com-ima.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     },
     {
       "codigo": "PRE-006",
@@ -214,7 +214,7 @@
       "descricao": "Tamanho: 7x10cm. Pedido mínimo: 10un",
       "valor": 4.5,
       "imagens": ["images/products/ima-de-geladeira.jpg"],
-      "categorias": ["Presentes"]
+      "categorias": ["Balões"]
     }
   ]
 }

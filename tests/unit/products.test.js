@@ -147,10 +147,10 @@ describe('ProductManager', () => {
 
     it('shows a subcategoria tag when the product has subcategorias', () => {
       productManager.products = [
-        { ...SAMPLE_PRODUCTS[0], categorias: ['CANECAS'], subcategorias: ['CERÂMICA', 'JARRO'] },
+        { ...SAMPLE_PRODUCTS[0], categorias: ['Canecas'], subcategorias: ['Cerâmica', 'Jarro'] },
       ];
       productManager.showProductDetail('LEM-001');
-      expect(document.querySelector('#product-detail .tag--sub').textContent).toBe('CERÂMICA, JARRO');
+      expect(document.querySelector('#product-detail .tag--sub').textContent).toBe('Cerâmica, Jarro');
     });
 
     it('renders no subcategoria tag when the product has none', () => {

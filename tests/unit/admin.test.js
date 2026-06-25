@@ -10,7 +10,7 @@ const SAMPLE_PRODUCT = {
   descricao: 'Personalizável frente e verso',
   valor: 2.5,
   imagens: ['images/products/a.jpg'],
-  categorias: ['Lembrancinhas'],
+  categorias: ['Balões'],
 };
 
 function loadAdminManager() {
@@ -55,7 +55,7 @@ describe('AdminManager', () => {
     beforeEach(() => {
       admin.products = [
         SAMPLE_PRODUCT,
-        { ...SAMPLE_PRODUCT, codigo: 'FES-001', nome: 'Tubo lata personalizado', categorias: ['Festas'] },
+        { ...SAMPLE_PRODUCT, codigo: 'FES-001', nome: 'Tubo lata personalizado', categorias: ['Balões'] },
       ];
     });
 
@@ -98,36 +98,36 @@ describe('AdminManager', () => {
     });
 
     it('appends categories found in the data that are not in CONFIG, without duplicates', () => {
-      admin.products = [{ ...SAMPLE_PRODUCT, categorias: ['Lembrancinhas', 'Promoção'] }];
+      admin.products = [{ ...SAMPLE_PRODUCT, categorias: ['Canecas', 'Promoção'] }];
       expect(admin.getCategoryOptions()).toEqual([...globalThis.CONFIG.categorias, 'Promoção']);
     });
   });
 
   describe('subcategorias', () => {
     it('getSubcategoryOptions returns the options for the selected categorias, deduped', () => {
-      expect(admin.getSubcategoryOptions(['CANECAS'])).toEqual(globalThis.CONFIG.subcategorias.CANECAS);
-      expect(admin.getSubcategoryOptions(['GARRAFAS', 'CAMISETAS'])).toEqual([
-        ...globalThis.CONFIG.subcategorias.GARRAFAS,
-        ...globalThis.CONFIG.subcategorias.CAMISETAS,
+      expect(admin.getSubcategoryOptions(['Canecas'])).toEqual(globalThis.CONFIG.subcategorias.Canecas);
+      expect(admin.getSubcategoryOptions(['Garrafas', 'Camisetas'])).toEqual([
+        ...globalThis.CONFIG.subcategorias.Garrafas,
+        ...globalThis.CONFIG.subcategorias.Camisetas,
       ]);
     });
 
     it('getSubcategoryOptions returns nothing for categorias without configured subcategorias', () => {
-      expect(admin.getSubcategoryOptions(['BALÕES'])).toEqual([]);
+      expect(admin.getSubcategoryOptions(['Balões'])).toEqual([]);
       expect(admin.getSubcategoryOptions([])).toEqual([]);
     });
 
     it('renderSubcategoryCheckboxes checks the previously selected subcategorias', () => {
-      admin.renderSubcategoryCheckboxes(['CANECAS'], ['CERÂMICA']);
-      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="CERÂMICA"]').checked).toBe(true);
-      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="JARRO"]').checked).toBe(false);
+      admin.renderSubcategoryCheckboxes(['Canecas'], ['Cerâmica']);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="Cerâmica"]').checked).toBe(true);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="Jarro"]').checked).toBe(false);
     });
 
     it('re-renders the subcategoria checkboxes when the categoria selection changes (bindEvents wiring)', () => {
       admin.renderCategoryCheckboxes([]);
-      admin.el.categoriaCheckboxes.querySelector('input[value="CANECAS"]').click();
+      admin.el.categoriaCheckboxes.querySelector('input[value="Canecas"]').click();
       expect(admin.el.subcategoriaCheckboxes.querySelectorAll('input').length).toBe(
-        globalThis.CONFIG.subcategorias.CANECAS.length
+        globalThis.CONFIG.subcategorias.Canecas.length
       );
     });
   });
@@ -151,15 +151,15 @@ describe('AdminManager', () => {
       expect(admin.el.codigo.value).toBe('LEM-001');
       expect(admin.el.nome.value).toBe('Chaveiro de acrílico');
       expect(admin.el.valor.value).toBe('2.5');
-      expect(admin.el.categoriaCheckboxes.querySelector('input[value="Lembrancinhas"]').checked).toBe(true);
+      expect(admin.el.categoriaCheckboxes.querySelector('input[value="Balões"]').checked).toBe(true);
     });
 
     it('populates the subcategoria checkboxes when editing an existing product', () => {
-      admin.products = [{ ...SAMPLE_PRODUCT, categorias: ['CANECAS'], subcategorias: ['CERÂMICA'] }];
+      admin.products = [{ ...SAMPLE_PRODUCT, categorias: ['Canecas'], subcategorias: ['Cerâmica'] }];
       admin.openModal('LEM-001');
 
-      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="CERÂMICA"]').checked).toBe(true);
-      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="JARRO"]').checked).toBe(false);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="Cerâmica"]').checked).toBe(true);
+      expect(admin.el.subcategoriaCheckboxes.querySelector('input[value="Jarro"]').checked).toBe(false);
     });
 
     it('closeModal hides the modal again', () => {
@@ -171,7 +171,7 @@ describe('AdminManager', () => {
 
   describe('handleSubmit validation', () => {
     it('requires codigo and nome', () => {
-      fillForm(admin, { codigo: '', nome: '', valor: '1', categorias: ['Lembrancinhas'] });
+      fillForm(admin, { codigo: '', nome: '', valor: '1', categorias: ['Balões'] });
       admin.handleSubmit(fakeEvent);
 
       expect(admin.products).toHaveLength(0);
@@ -180,14 +180,14 @@ describe('AdminManager', () => {
     });
 
     it('rejects a negative valor', () => {
-      fillForm(admin, { codigo: 'X-1', nome: 'Produto', valor: '-3', categorias: ['Lembrancinhas'] });
+      fillForm(admin, { codigo: 'X-1', nome: 'Produto', valor: '-3', categorias: ['Balões'] });
       admin.handleSubmit(fakeEvent);
       expect(admin.products).toHaveLength(0);
       expect(admin.el.formError.textContent).toContain('valor numérico válido');
     });
 
     it('treats an empty valor as 0 ("Sob consulta"), which is valid', () => {
-      fillForm(admin, { codigo: 'X-1', nome: 'Produto', valor: '', categorias: ['Lembrancinhas'] });
+      fillForm(admin, { codigo: 'X-1', nome: 'Produto', valor: '', categorias: ['Balões'] });
       admin.handleSubmit(fakeEvent);
       expect(admin.products).toHaveLength(1);
       expect(admin.products[0].valor).toBe(0);
@@ -203,7 +203,7 @@ describe('AdminManager', () => {
     it('rejects a codigo that is already used by another product', () => {
       admin.products = [SAMPLE_PRODUCT];
       admin.openModal(); // new product, editingCodigo stays null
-      fillForm(admin, { codigo: 'LEM-001', nome: 'Outro produto', valor: '1', categorias: ['Lembrancinhas'] });
+      fillForm(admin, { codigo: 'LEM-001', nome: 'Outro produto', valor: '1', categorias: ['Balões'] });
       admin.handleSubmit(fakeEvent);
 
       expect(admin.products).toHaveLength(1);
@@ -217,7 +217,7 @@ describe('AdminManager', () => {
         codigo: 'LEM-001',
         nome: 'Chaveiro de acrílico (atualizado)',
         valor: '3',
-        categorias: ['Lembrancinhas'],
+        categorias: ['Balões'],
       });
       admin.handleSubmit(fakeEvent);
 
@@ -234,7 +234,7 @@ describe('AdminManager', () => {
         codigo: 'NEW-1',
         nome: 'Produto novo',
         valor: '9.9',
-        categorias: ['Festas'],
+        categorias: ['Balões'],
         imagens: ['images/products/novo.jpg'],
       });
       admin.handleSubmit(fakeEvent);
@@ -246,7 +246,7 @@ describe('AdminManager', () => {
           descricao: '',
           valor: 9.9,
           imagens: ['images/products/novo.jpg'],
-          categorias: ['Festas'],
+          categorias: ['Balões'],
         },
       ]);
       expect(JSON.parse(localStorage.getItem(DRAFT_KEY))).toEqual(admin.products);
@@ -261,13 +261,13 @@ describe('AdminManager', () => {
         codigo: 'NEW-2',
         nome: 'Caneca personalizada',
         valor: '12.5',
-        categorias: ['CANECAS'],
-        subcategorias: ['CERÂMICA'],
+        categorias: ['Canecas'],
+        subcategorias: ['Cerâmica'],
         imagens: ['images/products/caneca.jpg'],
       });
       admin.handleSubmit(fakeEvent);
 
-      expect(admin.products[0].subcategorias).toEqual(['CERÂMICA']);
+      expect(admin.products[0].subcategorias).toEqual(['Cerâmica']);
     });
 
     it('omits the subcategorias key when none are selected', () => {
@@ -276,7 +276,7 @@ describe('AdminManager', () => {
         codigo: 'NEW-3',
         nome: 'Produto sem subcategoria',
         valor: '9.9',
-        categorias: ['Festas'],
+        categorias: ['Balões'],
         imagens: ['images/products/novo.jpg'],
       });
       admin.handleSubmit(fakeEvent);
