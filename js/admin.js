@@ -346,3 +346,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminManager = new AdminManager();
   adminManager.init();
 });
+
+if (typeof module !== 'undefined') module.exports = { AdminManager, DRAFT_KEY };

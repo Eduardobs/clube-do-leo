@@ -117,3 +117,5 @@ class CartManager {
 }
 
 const cartManager = new CartManager();
+
+if (typeof module !== 'undefined') module.exports = { CartManager, cartManager };

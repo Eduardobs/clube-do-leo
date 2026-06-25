@@ -13,3 +13,5 @@ const CONFIG = {
   },
   categorias: ['Lembrancinhas', 'Festas', 'Presentes'],
 };
+
+if (typeof module !== 'undefined') module.exports = CONFIG;

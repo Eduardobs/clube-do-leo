@@ -43,3 +43,5 @@ class WhatsAppManager {
 }
 
 const whatsappManager = new WhatsAppManager();
+
+if (typeof module !== 'undefined') module.exports = { WhatsAppManager, whatsappManager };

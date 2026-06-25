@@ -10,3 +10,5 @@ const Utils = {
     return div.innerHTML;
   },
 };
+
+if (typeof module !== 'undefined') module.exports = Utils;

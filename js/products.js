@@ -175,3 +175,5 @@ class ProductManager {
 }
 
 const productManager = new ProductManager();
+
+if (typeof module !== 'undefined') module.exports = { ProductManager, productManager };
