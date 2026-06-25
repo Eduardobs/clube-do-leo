@@ -69,11 +69,19 @@ class AdminManager {
     this.el.imageList.addEventListener('click', (e) => {
       const removeBtn = e.target.closest('button[data-action="remove-image"]');
       if (removeBtn) removeBtn.closest('.image-row').remove();
+
+      const uploadBtn = e.target.closest('button[data-action="upload-image"]');
+      if (uploadBtn) uploadBtn.closest('.image-row').querySelector('input[data-role="image-file"]').click();
     });
 
     this.el.imageList.addEventListener('input', (e) => {
       const input = e.target.closest('input[data-role="image-path"]');
       if (input) input.nextElementSibling.src = input.value || 'assets/logo_sem_descricao.png';
+    });
+
+    this.el.imageList.addEventListener('change', (e) => {
+      const fileInput = e.target.closest('input[data-role="image-file"]');
+      if (fileInput) this.handleImageFile(fileInput);
     });
 
     this.el.form.addEventListener('submit', (e) => this.handleSubmit(e));
@@ -232,10 +240,27 @@ class AdminManager {
     row.innerHTML = `
       <input type="text" data-role="image-path" placeholder="images/products/arquivo.jpg" value="${Utils.escapeHtml(value)}">
       <img src="${Utils.escapeHtml(value) || 'assets/logo_sem_descricao.png'}" alt="" onerror="this.src='assets/logo_sem_descricao.png'">
+      <input type="file" accept="image/*" data-role="image-file" class="hidden">
+      <button type="button" class="icon-btn" data-action="upload-image" title="Selecionar imagem do computador">
+        <i class="fa-solid fa-upload"></i>
+      </button>
       <button type="button" class="icon-btn icon-btn--danger" data-action="remove-image" title="Remover imagem">
         <i class="fa-solid fa-xmark"></i>
       </button>`;
     this.el.imageList.appendChild(row);
+  }
+
+  handleImageFile(fileInput) {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const row = fileInput.closest('.image-row');
+    const reader = new FileReader();
+    reader.onload = () => {
+      row.querySelector('input[data-role="image-path"]').value = reader.result;
+      row.querySelector('img').src = reader.result;
+    };
+    reader.readAsDataURL(file);
+    fileInput.value = '';
   }
 
   openModal(codigo) {
