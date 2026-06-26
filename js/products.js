@@ -85,7 +85,7 @@ class ProductManager {
     const priceLabel = Utils.formatPrice(product.valor);
     const mainImage = product.imagens?.[0] || '';
     return `
-        <article class="product-card">
+        <article class="product-card" data-codigo="${product.codigo}">
           <div class="product-card__media">
             <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
             <span class="product-card__badge">${Utils.escapeHtml(product.categorias[0] || '')}</span>
@@ -95,9 +95,6 @@ class ProductManager {
             <p class="product-card__price">${priceLabel}</p>
           </div>
           <div class="product-card__actions">
-            <button type="button" class="btn btn--ghost" data-action="detail" data-codigo="${product.codigo}" title="Ver detalhes">
-              <i class="fa-regular fa-eye"></i>
-            </button>
             <button type="button" class="btn btn--primary" data-action="${product.valor > 0 ? 'add' : 'consult'}" data-codigo="${product.codigo}">
               <i class="fa-solid ${product.valor > 0 ? 'fa-cart-plus' : 'fa-comment-dots'}"></i>
               ${product.valor > 0 ? 'Adicionar' : 'Consultar'}

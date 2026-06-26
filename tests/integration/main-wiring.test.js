@@ -99,20 +99,33 @@ describe('main.js DOM wiring (index.html)', () => {
 
   it('delegates product-list button clicks by data-action', () => {
     document.getElementById('product-list').innerHTML = `
-      <button type="button" data-action="detail" data-codigo="LEM-001">Ver</button>
-      <button type="button" data-action="add" data-codigo="LEM-001">Add</button>
-      <button type="button" data-action="consult" data-codigo="LEM-002">Consultar</button>
+      <article class="product-card" data-codigo="LEM-001">
+        <button type="button" data-action="add" data-codigo="LEM-001">Add</button>
+      </article>
+      <article class="product-card" data-codigo="LEM-002">
+        <button type="button" data-action="consult" data-codigo="LEM-002">Consultar</button>
+      </article>
     `;
-    const [detailBtn, addBtn, consultBtn] = document.querySelectorAll('#product-list button');
-
-    detailBtn.click();
-    expect(app.productManager.showProductDetail).toHaveBeenCalledWith('LEM-001');
+    const [addBtn, consultBtn] = document.querySelectorAll('#product-list button');
 
     addBtn.click();
     expect(app.cartManager.addToCart).toHaveBeenCalledWith('LEM-001', 1);
+    expect(app.productManager.showProductDetail).not.toHaveBeenCalled();
 
     consultBtn.click();
     expect(app.whatsappManager.consultarProduto).toHaveBeenCalledWith('LEM-002');
+    expect(app.productManager.showProductDetail).not.toHaveBeenCalled();
+  });
+
+  it('opens the product detail when clicking the card outside the action button', () => {
+    document.getElementById('product-list').innerHTML = `
+      <article class="product-card" data-codigo="LEM-001">
+        <h3 class="product-card__title">Produto</h3>
+        <button type="button" data-action="add" data-codigo="LEM-001">Add</button>
+      </article>
+    `;
+    document.querySelector('.product-card__title').click();
+    expect(app.productManager.showProductDetail).toHaveBeenCalledWith('LEM-001');
   });
 
   it('opens the cart modal from the cart button', () => {

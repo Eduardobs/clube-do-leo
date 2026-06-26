@@ -29,11 +29,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('product-list').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-action]');
-    if (!btn) return;
-    const { action, codigo } = btn.dataset;
-    if (action === 'detail') productManager.showProductDetail(codigo);
-    if (action === 'add') cartManager.addToCart(codigo, 1);
-    if (action === 'consult') whatsappManager.consultarProduto(codigo);
+    if (btn) {
+      const { action, codigo } = btn.dataset;
+      if (action === 'add') cartManager.addToCart(codigo, 1);
+      if (action === 'consult') whatsappManager.consultarProduto(codigo);
+      return;
+    }
+
+    const card = e.target.closest('.product-card');
+    if (card) productManager.showProductDetail(card.dataset.codigo);
   });
 
   document.getElementById('product-detail').addEventListener('click', (e) => {
