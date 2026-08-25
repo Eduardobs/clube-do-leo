@@ -5,7 +5,7 @@
       "nome": "Chaveiro de acrílico",
       "descricao": "Personalizável frente e verso",
       "valor": 2.5,
-      "imagens": ["images/products/chaveiro-de-acrilico.jpg"],
+      "imagens": ["assets/products/chaveiro-de-acrilico.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -13,7 +13,7 @@
       "nome": "Lápis preto personalizado",
       "descricao": "Lápis preto personalizado",
       "valor": 2.0,
-      "imagens": ["images/products/lapis-preto-personalizavel.jpg"],
+      "imagens": ["assets/products/lapis-preto-personalizavel.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -21,7 +21,7 @@
       "nome": "Bloco de papel",
       "descricao": "Tamanho 7x10cm",
       "valor": 4.0,
-      "imagens": ["images/products/bloco-de-papel.jpg"],
+      "imagens": ["assets/products/bloco-de-papel.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -29,7 +29,7 @@
       "nome": "Rótulo para suculentas",
       "descricao": "Pote 6",
       "valor": 4.5,
-      "imagens": ["images/products/rotulo-para-suculentas.jpg"],
+      "imagens": ["assets/products/rotulo-para-suculentas.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -37,7 +37,7 @@
       "nome": "Kit cores personalizado",
       "descricao": "Contém: 1 livro de colorir (8 páginas) e 1 caixa de giz de cera (6 cores)",
       "valor": 0,
-      "imagens": ["images/products/kit-cores-personalizado.jpg"],
+      "imagens": ["assets/products/kit-cores-personalizado.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -45,7 +45,7 @@
       "nome": "Tubo lata personalizado",
       "descricao": "Tamanho: 10cm de diâmetro",
       "valor": 10.0,
-      "imagens": ["images/products/tubo-lata-personalizado.jpg"],
+      "imagens": ["assets/products/tubo-lata-personalizado.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -53,7 +53,7 @@
       "nome": "Jogo da memória",
       "descricao": "Contém: 16 peças / 8 pares",
       "valor": 8.0,
-      "imagens": ["images/products/jogo-da-memoria.jpg"],
+      "imagens": ["assets/products/jogo-da-memoria.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -61,7 +61,7 @@
       "nome": "Livro de orações",
       "descricao": "20 páginas. Contém 15 orações e informações da criança. Tamanho: 7x10cm",
       "valor": 0,
-      "imagens": ["images/products/livro-de-oracoes.jpg"],
+      "imagens": ["assets/products/livro-de-oracoes.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -69,7 +69,7 @@
       "nome": "Tubo lata mini",
       "descricao": "Tamanho: 5cm de diâmetro",
       "valor": 6.0,
-      "imagens": ["images/products/tubo-lata-mini.jpg"],
+      "imagens": ["assets/products/tubo-lata-mini.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -77,7 +77,7 @@
       "nome": "Chaveiro de acrílico com tag",
       "descricao": "Personalizável frente e verso",
       "valor": 4.5,
-      "imagens": ["images/products/chaveiro-de-acrílico-com-tag.jpg"],
+      "imagens": ["assets/products/chaveiro-de-acrílico-com-tag.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -85,7 +85,7 @@
       "nome": "Bolhas de sabão personalizadas",
       "descricao": "Cores sortidas",
       "valor": 4.5,
-      "imagens": ["images/products/bolhas-de-sabao-personalizadas.jpg"],
+      "imagens": ["assets/products/bolhas-de-sabao-personalizadas.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -93,7 +93,7 @@
       "nome": "Caixa bala",
       "descricao": "Personalizável",
       "valor": 6.0,
-      "imagens": ["images/products/caixa-bala.jpg"],
+      "imagens": ["assets/products/caixa-bala.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -101,7 +101,7 @@
       "nome": "Tubetes",
       "descricao": "Personalizado com aplique",
       "valor": 2.5,
-      "imagens": ["images/products/tubetes.jpg"],
+      "imagens": ["assets/products/tubetes.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -109,7 +109,7 @@
       "nome": "Cofrinho personalizado",
       "descricao": "Personalizável",
       "valor": 3.5,
-      "imagens": ["images/products/cofrinho-personalizado.jpg"],
+      "imagens": ["assets/products/cofrinho-personalizado.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -117,7 +117,7 @@
       "nome": "Kit massinha de modelar",
       "descricao": "Contém: 3 bastões de massinha de modelar e 2 cortadores",
       "valor": 3.9,
-      "imagens": ["images/products/kit-massinha-de-modelar.jpg"],
+      "imagens": ["assets/products/kit-massinha-de-modelar.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -125,7 +125,7 @@
       "nome": "Balde de pipoca",
       "descricao": "Tamanho: 1 litro",
       "valor": 5.0,
-      "imagens": ["images/products/balde-de-pipoca.jpg"],
+      "imagens": ["assets/products/balde-de-pipoca.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -133,7 +133,7 @@
       "nome": "Caixa pirâmide",
       "descricao": "Personalizável",
       "valor": 5.0,
-      "imagens": ["images/products/caixa-piramide.jpg"],
+      "imagens": ["assets/products/caixa-piramide.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -141,7 +141,7 @@
       "nome": "Caixa modelo Milk",
       "descricao": "Personalizável",
       "valor": 5.0,
-      "imagens": ["images/products/caixa-modelo-milk.jpg"],
+      "imagens": ["assets/products/caixa-modelo-milk.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -149,7 +149,7 @@
       "nome": "Copo Twister",
       "descricao": "500ml",
       "valor": 6.0,
-      "imagens": ["images/products/copo-twister.jpg"],
+      "imagens": ["assets/products/copo-twister.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -157,7 +157,7 @@
       "nome": "Copo long drink",
       "descricao": "325ml",
       "valor": 3.0,
-      "imagens": ["images/products/copo-long-drink.jpg"],
+      "imagens": ["assets/products/copo-long-drink.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -165,7 +165,7 @@
       "nome": "Taça de gin transparente",
       "descricao": "Personalizável",
       "valor": 10.0,
-      "imagens": ["images/products/taca-de-gin-transparente.jpg"],
+      "imagens": ["assets/products/taca-de-gin-transparente.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -173,7 +173,7 @@
       "nome": "Taça de gin colorida",
       "descricao": "450ml",
       "valor": 15.0,
-      "imagens": ["images/products/taca-de-gin-colorida.jpg"],
+      "imagens": ["assets/products/taca-de-gin-colorida.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -181,7 +181,7 @@
       "nome": "Taça de espumante",
       "descricao": "200ml",
       "valor": 5.0,
-      "imagens": ["images/products/taca-de-espumante.jpg"],
+      "imagens": ["assets/products/taca-de-espumante.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -189,7 +189,7 @@
       "nome": "Caneca de chopp",
       "descricao": "500ml",
       "valor": 6.0,
-      "imagens": ["images/products/caneca-de-chopp.jpg"],
+      "imagens": ["assets/products/caneca-de-chopp.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -197,7 +197,7 @@
       "nome": "Caneta personalizada",
       "descricao": "Pedido mínimo 20un",
       "valor": 3.0,
-      "imagens": ["images/products/caneta-personalizada.jpg"],
+      "imagens": ["assets/products/caneta-personalizada.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -205,7 +205,7 @@
       "nome": "Calendário com imã",
       "descricao": "Tamanho: 5x10cm. Pedido mínimo 20un",
       "valor": 2.5,
-      "imagens": ["images/products/calendario-com-ima.jpg"],
+      "imagens": ["assets/products/calendario-com-ima.jpg"],
       "categorias": ["Balões"]
     },
     {
@@ -213,7 +213,7 @@
       "nome": "Imã de geladeira",
       "descricao": "Tamanho: 7x10cm. Pedido mínimo: 10un",
       "valor": 4.5,
-      "imagens": ["images/products/ima-de-geladeira.jpg"],
+      "imagens": ["assets/products/ima-de-geladeira.jpg"],
       "categorias": ["Balões"]
     }
   ]

@@ -49,10 +49,10 @@ class ProductManager {
       this.products.some((product) => product.categorias.includes(categoria))
     );
 
-    const pills = ['<button type="button" class="filter-pill is-active" data-category="">Todos</button>'];
+    const pills = ['<button type="button" class="filter-pill is-active" data-category="" aria-pressed="true">Todos</button>'];
     categories.forEach((categoria) => {
       pills.push(
-        `<button type="button" class="filter-pill" data-category="${Utils.escapeHtml(categoria)}">${Utils.escapeHtml(categoria)}</button>`
+        `<button type="button" class="filter-pill" data-category="${Utils.escapeHtml(categoria)}" aria-pressed="false">${Utils.escapeHtml(categoria)}</button>`
       );
     });
     container.innerHTML = pills.join('');
@@ -76,7 +76,9 @@ class ProductManager {
   setCategory(category) {
     this.currentCategory = category;
     document.querySelectorAll('#category-filters .filter-pill').forEach((pill) => {
-      pill.classList.toggle('is-active', pill.dataset.category === category);
+      const isActive = pill.dataset.category === category;
+      pill.classList.toggle('is-active', isActive);
+      pill.setAttribute('aria-pressed', String(isActive));
     });
     this.applyFilters();
   }
@@ -86,14 +88,16 @@ class ProductManager {
     const mainImage = product.imagens?.[0] || '';
     return `
         <article class="product-card" data-codigo="${product.codigo}">
+          <button type="button" class="product-card__details-trigger" data-action="detail" data-codigo="${product.codigo}" aria-label="Ver detalhes de ${Utils.escapeHtml(product.nome)}">
           <div class="product-card__media">
-            <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
             <span class="product-card__badge">${Utils.escapeHtml(product.categorias[0] || '')}</span>
           </div>
           <div class="product-card__body">
             <h3 class="product-card__title">${Utils.escapeHtml(product.nome)}</h3>
             <p class="product-card__price">${priceLabel}</p>
           </div>
+          </button>
           <div class="product-card__actions">
             <button type="button" class="btn btn--primary" data-action="${product.valor > 0 ? 'add' : 'consult'}" data-codigo="${product.codigo}">
               <i class="fa-solid ${product.valor > 0 ? 'fa-cart-plus' : 'fa-comment-dots'}"></i>
@@ -150,7 +154,7 @@ class ProductManager {
           .map(
             (image, index) => `
           <button type="button" class="product-detail__thumb${index === 0 ? ' is-active' : ''}" data-image="${Utils.escapeHtml(image)}">
-            <img src="${image}" alt="${Utils.escapeHtml(product.nome)} - imagem ${index + 1}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <img src="${image}" alt="${Utils.escapeHtml(product.nome)} - imagem ${index + 1}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
           </button>`
           )
           .join('')}
@@ -161,7 +165,7 @@ class ProductManager {
       : '';
     detailSection.innerHTML = `
       <div class="product-detail__gallery">
-        <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+        <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
         ${thumbsHtml}
       </div>
       <span class="tag">${Utils.escapeHtml(product.categorias.join(', '))}</span>
@@ -187,6 +191,7 @@ class ProductManager {
       }
     `;
     document.getElementById('product-detail-modal').classList.remove('hidden');
+    document.querySelector('#product-detail-modal .modal__close')?.focus();
   }
 
   closeProductDetail() {

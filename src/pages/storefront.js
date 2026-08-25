@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const { action, codigo } = btn.dataset;
       if (action === 'add') cartManager.addToCart(codigo, 1);
       if (action === 'consult') whatsappManager.consultarProduto(codigo);
+      if (action === 'detail') productManager.showProductDetail(codigo);
       return;
     }
 
@@ -72,6 +73,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('cart-btn').addEventListener('click', () => cartManager.openCart());
 
+  document.querySelector('.mobile-nav').addEventListener('click', (e) => {
+    const action = e.target.closest('[data-mobile-action]')?.dataset.mobileAction;
+    if (action === 'cart') cartManager.openCart();
+    if (action === 'categories') {
+      document.getElementById('category-filters').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.querySelector('#category-filters .filter-pill')?.focus();
+    }
+  });
+
+  document.getElementById('toast-cart-action').addEventListener('click', () => cartManager.openCart());
+
   document.getElementById('cart-items').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-action="remove"]');
     if (btn) cartManager.removeFromCart(btn.dataset.codigo);
@@ -91,11 +103,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     cartManager.closeCart();
     document.getElementById('checkout-modal').classList.remove('hidden');
+    document.querySelector('#checkout-modal .modal__close')?.focus();
   });
 
-  document.getElementById('checkout-form').addEventListener('submit', (e) => {
+  const checkoutForm = document.getElementById('checkout-form');
+  const nameInput = document.getElementById('customer-name');
+
+  nameInput.addEventListener('invalid', () => {
+    if (nameInput.validity.valueMissing) {
+      nameInput.setCustomValidity('Por favor, informe seu nome.');
+    } else if (nameInput.validity.tooShort) {
+      nameInput.setCustomValidity('O nome deve ter pelo menos 2 caracteres.');
+    }
+  });
+
+  nameInput.addEventListener('input', () => nameInput.setCustomValidity(''));
+
+  checkoutForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const nameInput = document.getElementById('customer-name');
     if (whatsappManager.sendOrder(nameInput.value)) {
       document.getElementById('checkout-modal').classList.add('hidden');
       nameInput.value = '';
@@ -109,6 +134,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal:not(.hidden)').forEach((modal) => modal.classList.add('hidden'));
+    }
+
+    if (e.key === 'Tab') {
+      const modal = document.querySelector('.modal:not(.hidden)');
+      if (!modal) return;
+      const focusable = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]), a[href]')]
+        .filter((element) => element.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   });
 });

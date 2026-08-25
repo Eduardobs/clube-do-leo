@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 const path = require('node:path');
-const { loadApp, JS_DIR } = require('../helpers/loadApp');
+const { loadApp, SRC_DIR } = require('../helpers/loadApp');
 const { readBodyFixture } = require('../helpers/htmlFixture');
 
 const SAMPLE_PRODUCT = {
@@ -9,14 +9,14 @@ const SAMPLE_PRODUCT = {
   nome: 'Chaveiro de acrílico',
   descricao: 'Personalizável frente e verso',
   valor: 2.5,
-  imagens: ['images/products/a.jpg'],
+  imagens: ['assets/products/a.jpg'],
   categorias: ['Balões'],
 };
 
 function loadAdminManager() {
   loadApp();
   document.body.innerHTML = readBodyFixture('admin.html');
-  const { AdminManager, DRAFT_KEY } = require(path.join(JS_DIR, 'admin.js'));
+  const { AdminManager, DRAFT_KEY } = require(path.join(SRC_DIR, 'features', 'admin', 'admin.js'));
   const admin = new AdminManager();
   admin.cacheElements();
   admin.bindEvents();
@@ -235,7 +235,7 @@ describe('AdminManager', () => {
         nome: 'Produto novo',
         valor: '9.9',
         categorias: ['Balões'],
-        imagens: ['images/products/novo.jpg'],
+        imagens: ['assets/products/novo.jpg'],
       });
       admin.handleSubmit(fakeEvent);
 
@@ -245,7 +245,7 @@ describe('AdminManager', () => {
           nome: 'Produto novo',
           descricao: '',
           valor: 9.9,
-          imagens: ['images/products/novo.jpg'],
+          imagens: ['assets/products/novo.jpg'],
           categorias: ['Balões'],
         },
       ]);
@@ -263,7 +263,7 @@ describe('AdminManager', () => {
         valor: '12.5',
         categorias: ['Canecas'],
         subcategorias: ['Cerâmica'],
-        imagens: ['images/products/caneca.jpg'],
+        imagens: ['assets/products/caneca.jpg'],
       });
       admin.handleSubmit(fakeEvent);
 
@@ -277,7 +277,7 @@ describe('AdminManager', () => {
         nome: 'Produto sem subcategoria',
         valor: '9.9',
         categorias: ['Balões'],
-        imagens: ['images/products/novo.jpg'],
+        imagens: ['assets/products/novo.jpg'],
       });
       admin.handleSubmit(fakeEvent);
 

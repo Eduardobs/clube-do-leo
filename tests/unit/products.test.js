@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 const { loadApp } = require('../helpers/loadApp');
 
 const SAMPLE_PRODUCTS = [
-  { codigo: 'LEM-001', nome: 'Chaveiro de acrílico', valor: 2.5, categorias: ['Lembrancinhas'], imagens: ['images/products/a.jpg'] },
+  { codigo: 'LEM-001', nome: 'Chaveiro de acrílico', valor: 2.5, categorias: ['Lembrancinhas'], imagens: ['assets/products/a.jpg'] },
   { codigo: 'FES-001', nome: 'Tubo lata personalizado', valor: 10, categorias: ['Festas'], imagens: [] },
   { codigo: 'LEM-004', nome: 'Kit cores personalizado', valor: 0, categorias: ['Lembrancinhas'], imagens: [] },
 ];

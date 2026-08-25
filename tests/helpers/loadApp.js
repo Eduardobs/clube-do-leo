@@ -1,6 +1,6 @@
 const path = require('node:path');
 
-const JS_DIR = path.join(__dirname, '..', '..', 'js');
+const SRC_DIR = path.join(__dirname, '..', '..', 'src');
 
 /**
  * The site's scripts are plain global scripts (no ES modules / bundler),
@@ -12,21 +12,21 @@ function loadApp() {
   // Globals must be assigned right after each require (not batched at the
   // end): whatsapp.js's top-level `new WhatsAppManager()` reads the bare
   // `CONFIG` global as soon as it is required, same as a real <script> load.
-  const CONFIG = require(path.join(JS_DIR, 'config.js'));
+  const CONFIG = require(path.join(SRC_DIR, 'config', 'store.js'));
   globalThis.CONFIG = CONFIG;
 
-  const Utils = require(path.join(JS_DIR, 'utils.js'));
+  const Utils = require(path.join(SRC_DIR, 'shared', 'utils.js'));
   globalThis.Utils = Utils;
 
-  const { ProductManager, productManager, PRODUCTS_PAGE_SIZE } = require(path.join(JS_DIR, 'products.js'));
+  const { ProductManager, productManager, PRODUCTS_PAGE_SIZE } = require(path.join(SRC_DIR, 'features', 'catalog', 'products.js'));
   globalThis.ProductManager = ProductManager;
   globalThis.productManager = productManager;
 
-  const { CartManager, cartManager } = require(path.join(JS_DIR, 'cart.js'));
+  const { CartManager, cartManager } = require(path.join(SRC_DIR, 'features', 'cart', 'cart.js'));
   globalThis.CartManager = CartManager;
   globalThis.cartManager = cartManager;
 
-  const { WhatsAppManager, whatsappManager } = require(path.join(JS_DIR, 'whatsapp.js'));
+  const { WhatsAppManager, whatsappManager } = require(path.join(SRC_DIR, 'features', 'checkout', 'whatsapp.js'));
   globalThis.WhatsAppManager = WhatsAppManager;
   globalThis.whatsappManager = whatsappManager;
 
@@ -43,4 +43,4 @@ function loadApp() {
   };
 }
 
-module.exports = { loadApp, JS_DIR };
+module.exports = { loadApp, SRC_DIR };

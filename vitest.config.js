@@ -15,7 +15,7 @@ export default defineConfig({
     include: ['tests/**/*.test.js'],
     coverage: {
       provider: 'v8',
-      include: ['js/**/*.js'],
+      include: ['src/**/*.js'],
       reportsDirectory: './tests/coverage',
     },
   },

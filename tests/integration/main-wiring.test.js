@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 const path = require('node:path');
-const { loadApp, JS_DIR } = require('../helpers/loadApp');
+const { loadApp, SRC_DIR } = require('../helpers/loadApp');
 const { readBodyFixture } = require('../helpers/htmlFixture');
 
 let app;
@@ -50,7 +50,7 @@ beforeEach(async () => {
 
   // require() caches main.js after the first call in this file, so the
   // DOMContentLoaded listener is registered exactly once on this document.
-  require(path.join(JS_DIR, 'main.js'));
+  require(path.join(SRC_DIR, 'pages', 'storefront.js'));
   document.dispatchEvent(new Event('DOMContentLoaded'));
 
   // The handler is async and does its DOM wiring after `await loadProducts()`;
@@ -164,6 +164,13 @@ describe('main.js DOM wiring (index.html)', () => {
     document.getElementById('finalize-btn').click();
     expect(app.cartManager.closeCart).toHaveBeenCalled();
     expect(document.getElementById('checkout-modal').classList.contains('hidden')).toBe(false);
+  });
+
+  it('shows Portuguese validation messages for the customer name', () => {
+    const nameInput = document.getElementById('customer-name');
+
+    expect(nameInput.checkValidity()).toBe(false);
+    expect(nameInput.validationMessage).toBe('Por favor, informe seu nome.');
   });
 
   it('sends the order and resets the form on a successful checkout submit', () => {

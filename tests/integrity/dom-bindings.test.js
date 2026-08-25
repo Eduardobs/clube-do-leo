@@ -9,7 +9,7 @@ const ROOT_DIR = path.join(__dirname, '..', '..');
 function getElementIdsReferencedIn(...jsFileNames) {
   const ids = new Set();
   jsFileNames.forEach((fileName) => {
-    const source = fs.readFileSync(path.join(ROOT_DIR, 'js', fileName), 'utf-8');
+    const source = fs.readFileSync(path.join(ROOT_DIR, 'src', fileName), 'utf-8');
     for (const match of source.matchAll(/getElementById\(\s*['"]([^'"]+)['"]\s*\)/g)) {
       ids.add(match[1]);
     }
@@ -23,7 +23,7 @@ function getElementIdsReferencedIn(...jsFileNames) {
 function getElementIdsRenderedBy(...jsFileNames) {
   const ids = new Set();
   jsFileNames.forEach((fileName) => {
-    const source = fs.readFileSync(path.join(ROOT_DIR, 'js', fileName), 'utf-8');
+    const source = fs.readFileSync(path.join(ROOT_DIR, 'src', fileName), 'utf-8');
     for (const match of source.matchAll(/\bid=["'`]([^"'`$]+)["'`]/g)) {
       ids.add(match[1]);
     }
@@ -38,8 +38,8 @@ function readHtml(fileName) {
 describe('every getElementById referenced by JS exists in its HTML page', () => {
   it('index.html provides every id used by main.js, products.js and cart.js', () => {
     const dom = new JSDOM(readHtml('index.html'));
-    const ids = getElementIdsReferencedIn('main.js', 'products.js', 'cart.js');
-    const renderedAtRuntime = getElementIdsRenderedBy('products.js', 'cart.js');
+    const ids = getElementIdsReferencedIn('pages/storefront.js', 'features/catalog/products.js', 'features/cart/cart.js');
+    const renderedAtRuntime = getElementIdsRenderedBy('features/catalog/products.js', 'features/cart/cart.js');
 
     const missing = ids.filter((id) => !dom.window.document.getElementById(id) && !renderedAtRuntime.has(id));
     expect(missing).toEqual([]);
@@ -47,8 +47,8 @@ describe('every getElementById referenced by JS exists in its HTML page', () => 
 
   it('admin.html provides every id used by admin.js', () => {
     const dom = new JSDOM(readHtml('admin.html'));
-    const ids = getElementIdsReferencedIn('admin.js');
-    const renderedAtRuntime = getElementIdsRenderedBy('admin.js');
+    const ids = getElementIdsReferencedIn('features/admin/admin.js');
+    const renderedAtRuntime = getElementIdsRenderedBy('features/admin/admin.js');
 
     const missing = ids.filter((id) => !dom.window.document.getElementById(id) && !renderedAtRuntime.has(id));
     expect(missing).toEqual([]);

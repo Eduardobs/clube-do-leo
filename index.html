@@ -5,27 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clube do Léo - Lembrancinhas, festas e presentes personalizados</title>
   <meta name="description" content="Lembrancinhas, itens de festa e presentes personalizados. Faça seu pedido e finalize direto pelo WhatsApp.">
-  <link rel="icon" href="assets/logo_sem_descricao.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="icon" href="assets/brand/logo_sem_descricao.png">
+  <link rel="stylesheet" href="styles/global.css">
+  <link rel="stylesheet" href="styles/responsive.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container site-header__inner">
-      <a href="#top" class="brand">
-        <img src="assets/logo.png" alt="Clube do Léo" class="brand__logo">
+  <header id="top" class="site-header site-header--storefront">
+    <div class="container header-showcase">
+      <a href="#top" class="brand brand--seal" aria-label="Clube do Léo, início">
+        <img src="assets/brand/header-logo-medallion.png" alt="Clube do Léo" class="brand__medallion">
       </a>
-      <nav class="site-nav">
-        <a href="#produtos" class="site-nav__catalog"><span>Produtos</span></a>
-        <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-      </nav>
-      <button type="button" id="cart-btn" class="cart-btn" aria-label="Abrir carrinho">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span id="cart-count" class="cart-btn__badge">0</span>
-      </button>
+
+      <div class="header-showcase__center">
+        <div class="site-nav site-nav--header" aria-label="Navegação principal">
+          <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <button type="button" id="cart-btn" class="cart-btn" aria-label="Abrir carrinho">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="cart-btn__badge">0</span>
+          </button>
+        </div>
+        <p class="header-showcase__eyebrow">um mundo de descobertas</p>
+        <h1>Brinquedos</h1>
+        <div class="header-showcase__line" aria-hidden="true"></div>
+        <div class="header-pills" aria-label="Características dos brinquedos">
+          <a href="#produtos" class="header-pill header-pill--sage"><i class="fa-solid fa-puzzle-piece"></i> divertidos</a>
+          <a href="#produtos" class="header-pill header-pill--coral"><i class="fa-solid fa-heart"></i> coloridos</a>
+          <a href="#produtos" class="header-pill header-pill--blue"><i class="fa-solid fa-hand"></i> terapêuticos</a>
+        </div>
+        <p class="header-showcase__tagline">Brincar é desenvolver, aprender e ser feliz!</p>
+      </div>
+
+      <img src="assets/brand/header-toys.png" class="header-showcase__toys" alt="Brinquedos coloridos de madeira e ursinho">
     </div>
   </header>
 
@@ -48,7 +61,7 @@
 
   <footer class="site-footer">
     <div class="container footer__inner">
-      <img src="assets/logo-gray.png" alt="Clube do Léo" class="footer__logo">
+      <img src="assets/brand/logo-gray.png" alt="Clube do Léo" class="footer__logo">
       <div class="footer__social">
         <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
@@ -58,7 +71,23 @@
     </div>
   </footer>
 
-  <div id="product-detail-modal" class="modal hidden">
+  <nav class="mobile-nav" aria-label="Ações rápidas">
+    <a href="#produtos" class="mobile-nav__item" data-mobile-action="products">
+      <i class="fa-solid fa-store"></i><span>Produtos</span>
+    </a>
+    <button type="button" class="mobile-nav__item" data-mobile-action="categories">
+      <i class="fa-solid fa-sliders"></i><span>Categorias</span>
+    </button>
+    <button type="button" class="mobile-nav__item mobile-nav__cart" data-mobile-action="cart" aria-label="Abrir carrinho">
+      <i class="fa-solid fa-cart-shopping"></i><span>Carrinho</span>
+      <small id="mobile-cart-summary">0 itens</small>
+    </button>
+    <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" class="mobile-nav__item mobile-nav__whatsapp">
+      <i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span>
+    </a>
+  </nav>
+
+  <div id="product-detail-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Detalhes do produto">
     <div class="modal__overlay" data-close></div>
     <div class="modal__content">
       <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
@@ -66,7 +95,7 @@
     </div>
   </div>
 
-  <div id="cart-modal" class="modal hidden">
+  <div id="cart-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Carrinho de compras">
     <div class="modal__overlay" data-close></div>
     <div class="modal__content modal__content--cart">
       <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
@@ -80,11 +109,12 @@
     </div>
   </div>
 
-  <div id="checkout-modal" class="modal hidden">
+  <div id="checkout-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Enviar pedido">
     <div class="modal__overlay" data-close></div>
     <div class="modal__content">
       <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
-      <h2>Finalizar compra</h2>
+      <h2>Enviar pedido</h2>
+      <p class="checkout__intro">Informe seu nome para identificarmos seu pedido no WhatsApp.</p>
       <form id="checkout-form">
         <label for="customer-name">Seu nome</label>
         <input type="text" id="customer-name" placeholder="Digite seu nome" required minlength="2">
@@ -94,12 +124,13 @@
   </div>
 
   <div id="toast" class="toast hidden"></div>
+  <button type="button" id="toast-cart-action" class="toast-cart-action hidden">Ver carrinho</button>
 
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/whatsapp.js"></script>
-  <script src="js/main.js"></script>
+  <script src="src/config/store.js"></script>
+  <script src="src/shared/utils.js"></script>
+  <script src="src/features/catalog/products.js"></script>
+  <script src="src/features/cart/cart.js"></script>
+  <script src="src/features/checkout/whatsapp.js"></script>
+  <script src="src/pages/storefront.js"></script>
 </body>
 </html>

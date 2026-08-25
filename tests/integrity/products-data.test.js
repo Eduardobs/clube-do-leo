@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
-const CONFIG = require(path.join(ROOT_DIR, 'js', 'config.js'));
+const CONFIG = require(path.join(ROOT_DIR, 'src', 'config', 'store.js'));
 const data = require(path.join(ROOT_DIR, 'data', 'products.json'));
 
 describe('data/products.json integrity', () => {

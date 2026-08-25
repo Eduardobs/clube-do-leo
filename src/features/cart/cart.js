@@ -65,16 +65,22 @@ class CartManager {
 
   showToast(message) {
     const toast = document.getElementById('toast');
+    const toastCartAction = document.getElementById('toast-cart-action');
     toast.textContent = message;
     toast.classList.remove('hidden');
+    toastCartAction?.classList.remove('hidden');
     clearTimeout(this._toastTimer);
-    this._toastTimer = setTimeout(() => toast.classList.add('hidden'), 3000);
+    this._toastTimer = setTimeout(() => {
+      toast.classList.add('hidden');
+      toastCartAction?.classList.add('hidden');
+    }, 3000);
   }
 
   renderCart() {
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     const cartCount = document.getElementById('cart-count');
+    const mobileCartSummary = document.getElementById('mobile-cart-summary');
 
     if (this.cart.length === 0) {
       cartItems.innerHTML = '<p class="empty-state">Seu carrinho está vazio. Adicione produtos para continuar!</p>';
@@ -86,7 +92,7 @@ class CartManager {
           const itemTotal = product.valor * item.quantity;
           return `
           <div class="cart-item">
-            <img src="${product.imagens?.[0] || ''}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/logo_sem_descricao.png'">
+            <img src="${product.imagens?.[0] || ''}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
             <div class="cart-item__details">
               <h4>${Utils.escapeHtml(product.nome)}</h4>
               <p>${Utils.formatPrice(product.valor)} x ${item.quantity} = ${Utils.formatPrice(itemTotal)}</p>
@@ -105,10 +111,15 @@ class CartManager {
 
     cartTotal.textContent = Utils.formatPrice(this.getTotal());
     cartCount.textContent = this.getItemCount();
+    if (mobileCartSummary) {
+      const count = this.getItemCount();
+      mobileCartSummary.textContent = count ? `${count} ${count === 1 ? 'item' : 'itens'} · ${Utils.formatPrice(this.getTotal())}` : 'Carrinho vazio';
+    }
   }
 
   openCart() {
     document.getElementById('cart-modal').classList.remove('hidden');
+    document.querySelector('#cart-modal .modal__close')?.focus();
   }
 
   closeCart() {
