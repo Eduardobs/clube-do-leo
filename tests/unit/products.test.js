@@ -96,6 +96,21 @@ describe('ProductManager', () => {
       productManager.setSearch('does-not-exist');
       expect(document.getElementById('product-list').textContent).toContain('Nenhum produto encontrado');
     });
+
+    it('updates category button state and aria attributes', () => {
+      document.body.insertAdjacentHTML(
+        'afterbegin',
+        '<button class="header-pill" data-category="Jogos"></button><button class="header-pill" data-category="Brinquedos"></button>'
+      );
+
+      productManager.setCategory('Jogos');
+
+      const [jogos, brinquedos] = document.querySelectorAll('.header-pill[data-category]');
+      expect(jogos.classList.contains('is-active')).toBe(true);
+      expect(jogos.getAttribute('aria-pressed')).toBe('true');
+      expect(brinquedos.classList.contains('is-active')).toBe(false);
+      expect(brinquedos.getAttribute('aria-pressed')).toBe('false');
+    });
   });
 
   it('getProduct finds a product by codigo or returns undefined', () => {
@@ -207,6 +222,19 @@ describe('ProductManager', () => {
       productManager.showProductDetail('LEM-001');
       expect(document.getElementById('product-detail').innerHTML).toContain('Chaveiro de acrílico');
       expect(document.getElementById('product-detail-modal').classList.contains('hidden')).toBe(false);
+    });
+
+    it('renders selectable thumbnails for every image in the gallery', () => {
+      productManager.products = [
+        { ...SAMPLE_PRODUCTS[0], imagens: ['assets/products/a.jpg', 'assets/products/b.jpg'] },
+      ];
+
+      productManager.showProductDetail('LEM-001');
+
+      const thumbs = document.querySelectorAll('.product-detail__thumb');
+      expect(thumbs).toHaveLength(2);
+      expect(thumbs[0].classList.contains('is-active')).toBe(true);
+      expect(thumbs[1].dataset.image).toBe('assets/products/b.jpg');
     });
 
     it('closes the detail modal', () => {

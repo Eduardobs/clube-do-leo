@@ -17,6 +17,12 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.js'],
       reportsDirectory: './tests/coverage',
+      thresholds: {
+        statements: 90,
+        branches: 75,
+        functions: 90,
+        lines: 90,
+      },
     },
   },
 });

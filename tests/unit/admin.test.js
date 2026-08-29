@@ -129,9 +129,40 @@ describe('AdminManager', () => {
       admin.closeModal();
       expect(admin.el.modal.classList.contains('hidden')).toBe(true);
     });
+
+    it('closes the modal when Escape is pressed', () => {
+      admin.openModal();
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      expect(admin.el.modal.classList.contains('hidden')).toBe(true);
+    });
   });
 
   describe('product images', () => {
+    it('updates the preview, opens the file picker and removes image rows through the DOM', () => {
+      admin.openModal();
+      const row = admin.el.imageList.querySelector('.image-row');
+      const pathInput = row.querySelector('input[data-role="image-path"]');
+      const fileInput = row.querySelector('input[data-role="image-file"]');
+      const clickSpy = vi.spyOn(fileInput, 'click');
+
+      pathInput.value = 'assets/products/preview.jpg';
+      pathInput.dispatchEvent(new Event('input', { bubbles: true }));
+      expect(row.querySelector('img').src).toContain('assets/products/preview.jpg');
+
+      row.querySelector('button[data-action="upload-image"]').click();
+      expect(clickSpy).toHaveBeenCalledOnce();
+
+      row.querySelector('button[data-action="remove-image"]').click();
+      expect(admin.el.imageList.children).toHaveLength(0);
+    });
+
+    it('ignores an empty file selection', () => {
+      admin.openModal();
+      const fileInput = admin.el.imageList.querySelector('input[data-role="image-file"]');
+      expect(() => admin.handleImageFile(fileInput)).not.toThrow();
+      expect(admin.el.imageList.children).toHaveLength(1);
+    });
+
     it('allows selecting multiple image files from every image row', () => {
       admin.openModal();
 
@@ -364,6 +395,79 @@ describe('AdminManager', () => {
     it('ignores a corrupted draft instead of throwing', () => {
       localStorage.setItem(DRAFT_KEY, 'not-json');
       expect(admin.readDraft()).toBeNull();
+    });
+  });
+
+  describe('initial loading', () => {
+    it('loads, normalizes and renders fetched products', async () => {
+      vi.spyOn(admin, 'fetchProducts').mockResolvedValue([
+        { ...SAMPLE_PRODUCT, subcategorias: ['Legado'], categorias: ['Inválida'] },
+      ]);
+
+      await admin.loadInitial();
+
+      expect(admin.products[0]).not.toHaveProperty('subcategorias');
+      expect(admin.products[0].categorias).toEqual(['Jogos']);
+      expect(admin.filtered).toHaveLength(1);
+      expect(admin.el.tableBody.textContent).toContain(SAMPLE_PRODUCT.nome);
+      expect(admin.el.loadingSpinner.classList.contains('hidden')).toBe(true);
+    });
+
+    it('keeps a saved draft when the user confirms', async () => {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify([{ ...SAMPLE_PRODUCT, nome: 'Rascunho' }]));
+      vi.spyOn(admin, 'fetchProducts').mockResolvedValue([SAMPLE_PRODUCT]);
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+      await admin.loadInitial();
+
+      expect(admin.products[0].nome).toBe('Rascunho');
+      expect(localStorage.getItem(DRAFT_KEY)).not.toBeNull();
+    });
+
+    it('discards a saved draft when the user cancels', async () => {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify([{ ...SAMPLE_PRODUCT, nome: 'Rascunho' }]));
+      vi.spyOn(admin, 'fetchProducts').mockResolvedValue([SAMPLE_PRODUCT]);
+      vi.spyOn(window, 'confirm').mockReturnValue(false);
+
+      await admin.loadInitial();
+
+      expect(admin.products[0].nome).toBe(SAMPLE_PRODUCT.nome);
+      expect(localStorage.getItem(DRAFT_KEY)).toBeNull();
+    });
+
+    it('shows a recoverable error when the products request fails', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {});
+      vi.spyOn(admin, 'fetchProducts').mockRejectedValue(new Error('offline'));
+
+      await admin.loadInitial();
+
+      expect(admin.products).toEqual([]);
+      expect(admin.el.errorMessage.classList.contains('hidden')).toBe(false);
+      expect(admin.el.errorMessage.textContent).toContain('Importar JSON');
+    });
+
+    it('validates HTTP status and JSON shape when fetching products', async () => {
+      globalThis.fetch = vi
+        .fn()
+        .mockResolvedValueOnce({ ok: false, status: 503, statusText: 'Unavailable' })
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ invalid: [] }) })
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ produtos: [SAMPLE_PRODUCT] }) });
+
+      await expect(admin.fetchProducts()).rejects.toThrow('Erro HTTP 503');
+      await expect(admin.fetchProducts()).rejects.toThrow('Formato inválido');
+      await expect(admin.fetchProducts()).resolves.toEqual([SAMPLE_PRODUCT]);
+    });
+
+    it('init performs the complete boot sequence', async () => {
+      const fresh = new admin.constructor();
+      const loadSpy = vi.spyOn(fresh, 'loadInitial').mockResolvedValue();
+      const bindSpy = vi.spyOn(fresh, 'bindEvents');
+
+      await fresh.init();
+
+      expect(fresh.el.tableBody).toBe(document.getElementById('product-table-body'));
+      expect(bindSpy).toHaveBeenCalledOnce();
+      expect(loadSpy).toHaveBeenCalledOnce();
     });
   });
 

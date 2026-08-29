@@ -95,6 +95,17 @@ describe('main.js DOM wiring (index.html)', () => {
     expect(app.productManager.setCategory).toHaveBeenCalledWith('Jogos');
   });
 
+  it('clears the active category when its header button is clicked again', () => {
+    app.productManager.currentCategory = 'Jogos';
+    document.querySelector('.header-pill[data-category="Jogos"]').click();
+    expect(app.productManager.setCategory).toHaveBeenCalledWith('');
+  });
+
+  it('ignores clicks outside category buttons', () => {
+    document.querySelector('.header-pills').click();
+    expect(app.productManager.setCategory).not.toHaveBeenCalled();
+  });
+
   it('delegates product-list button clicks by data-action', () => {
     document.getElementById('product-list').innerHTML = `
       <article class="product-card" data-codigo="LEM-001">
@@ -129,6 +140,12 @@ describe('main.js DOM wiring (index.html)', () => {
   it('opens the cart modal from the cart button', () => {
     document.getElementById('cart-btn').click();
     expect(app.cartManager.openCart).toHaveBeenCalled();
+  });
+
+  it('opens the cart from mobile navigation and the toast action', () => {
+    document.querySelector('[data-mobile-action="cart"]').click();
+    document.getElementById('toast-cart-action').click();
+    expect(app.cartManager.openCart).toHaveBeenCalledTimes(2);
   });
 
   it('wires cart item remove/update controls', () => {
@@ -169,6 +186,14 @@ describe('main.js DOM wiring (index.html)', () => {
 
     expect(nameInput.checkValidity()).toBe(false);
     expect(nameInput.validationMessage).toBe('Por favor, informe seu nome.');
+  });
+
+  it('clears a custom customer-name validation message while typing', () => {
+    const nameInput = document.getElementById('customer-name');
+    nameInput.setCustomValidity('Erro anterior');
+    nameInput.value = 'Maria';
+    nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+    expect(nameInput.validationMessage).toBe('');
   });
 
   it('sends the order and resets the form on a successful checkout submit', () => {
@@ -214,6 +239,31 @@ describe('main.js DOM wiring (index.html)', () => {
     modal.classList.remove('hidden');
     modal.querySelector('[data-close]').click();
     expect(modal.classList.contains('hidden')).toBe(true);
+  });
+
+  it('keeps keyboard focus inside an open modal in both directions', () => {
+    const modal = document.getElementById('cart-modal');
+    modal.classList.remove('hidden');
+    const focusable = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]), a[href]')];
+    focusable.forEach((element) => {
+      Object.defineProperty(element, 'offsetParent', { configurable: true, get: () => modal });
+    });
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    last.focus();
+    const forward = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    document.dispatchEvent(forward);
+    expect(forward.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(first);
+
+    first.focus();
+    const backward = new KeyboardEvent('keydown', {
+      key: 'Tab', shiftKey: true, bubbles: true, cancelable: true,
+    });
+    document.dispatchEvent(backward);
+    expect(backward.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(last);
   });
 
   describe('product detail interactions', () => {

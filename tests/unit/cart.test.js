@@ -121,6 +121,9 @@ describe('CartManager', () => {
   });
 
   it('renders item rows with escaped names and the correct total/count', () => {
+    const mobileSummary = document.createElement('span');
+    mobileSummary.id = 'mobile-cart-summary';
+    document.body.appendChild(mobileSummary);
     cartManager.addToCart('LEM-001', 2);
     cartManager.renderCart();
 
@@ -128,6 +131,19 @@ describe('CartManager', () => {
     expect(itemsHtml).toContain('Chaveiro de acrílico');
     expect(document.getElementById('cart-total').textContent).toBe('R$ 5,00');
     expect(document.getElementById('cart-count').textContent).toBe('2');
+    expect(mobileSummary.textContent).toBe('2 itens · R$ 5,00');
+  });
+
+  it('renders singular and empty mobile cart summaries', () => {
+    const mobileSummary = document.createElement('span');
+    mobileSummary.id = 'mobile-cart-summary';
+    document.body.appendChild(mobileSummary);
+
+    cartManager.renderCart();
+    expect(mobileSummary.textContent).toBe('Carrinho vazio');
+
+    cartManager.addToCart('LEM-001');
+    expect(mobileSummary.textContent).toBe('1 item · R$ 2,50');
   });
 
   it('opens and closes the cart modal', () => {
