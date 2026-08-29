@@ -176,7 +176,7 @@ img {
 .header-showcase__toys {
   position: absolute;
   z-index: -1;
-  right: max(-4.5rem, calc((100% - 1260px) / 2 - 1rem));
+  right: 1rem;
   top: 50%;
   width: min(400px, 31vw);
   mix-blend-mode: multiply;

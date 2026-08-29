@@ -83,7 +83,7 @@
   .header-pill { min-width: 88px; padding-right: 0.35rem; padding-left: 0.35rem; font-size: 0.7rem; }
   .header-pill span { width: 54px; height: 54px; }
   .header-pill i { font-size: 1.5rem; }
-  .header-showcase__toys { right: -3rem; width: 285px; opacity: 0.72; }
+  .header-showcase__toys { right: 0.5rem; width: 285px; opacity: 0.72; }
   .header-showcase__tagline { width: 68vw; font-size: 0.78rem; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }

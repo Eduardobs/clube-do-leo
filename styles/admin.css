@@ -10,7 +10,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  height: var(--header-height);
+  min-height: 68px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .admin-header__title {
@@ -92,10 +94,16 @@
 }
 
 .admin-table__name span {
-  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 360px;
   color: var(--color-text-muted);
   font-size: 0.8rem;
   margin-top: 0.15rem;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .badge-list {
