@@ -62,15 +62,9 @@ describe('data/products.json integrity', () => {
     });
   });
 
-  it('every subcategoria, when present, belongs to one of the product categorias in CONFIG.subcategorias', () => {
+  it('does not contain subcategorias', () => {
     data.produtos.forEach((product) => {
-      if (product.subcategorias === undefined) return;
-      expect(Array.isArray(product.subcategorias)).toBe(true);
-      expect(product.subcategorias.length).toBeGreaterThan(0);
-      const allowed = product.categorias.flatMap((categoria) => CONFIG.subcategorias[categoria] || []);
-      product.subcategorias.forEach((subcategoria) => {
-        expect(allowed).toContain(subcategoria);
-      });
+      expect(product).not.toHaveProperty('subcategorias');
     });
   });
 });

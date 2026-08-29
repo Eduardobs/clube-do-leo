@@ -34,7 +34,6 @@ class AdminManager {
       descricao: document.getElementById('field-descricao'),
       valor: document.getElementById('field-valor'),
       categoriaCheckboxes: document.getElementById('categoria-checkboxes'),
-      subcategoriaCheckboxes: document.getElementById('subcategoria-checkboxes'),
       imageList: document.getElementById('image-list'),
       addImageBtn: document.getElementById('add-image-btn'),
       toast: document.getElementById('toast'),
@@ -52,12 +51,6 @@ class AdminManager {
     this.el.importBtn.addEventListener('click', () => this.el.importFileInput.click());
     this.el.importFileInput.addEventListener('change', (e) => this.importJson(e.target.files[0]));
     this.el.addImageBtn.addEventListener('click', () => this.addImageRow(''));
-
-    this.el.categoriaCheckboxes.addEventListener('change', () => {
-      const selectedCategorias = [...this.el.categoriaCheckboxes.querySelectorAll('input:checked')].map((i) => i.value);
-      const keptSubcategorias = [...this.el.subcategoriaCheckboxes.querySelectorAll('input:checked')].map((i) => i.value);
-      this.renderSubcategoryCheckboxes(selectedCategorias, keptSubcategorias);
-    });
 
     this.el.tableBody.addEventListener('click', (e) => {
       const editBtn = e.target.closest('button[data-action="edit"]');
@@ -113,10 +106,10 @@ class AdminManager {
       const keepDraft = confirm(
         'Encontramos um rascunho de alterações não exportadas desta sessão.\n\nOK = continuar editando o rascunho\nCancelar = descartar e carregar o arquivo original'
       );
-      this.products = keepDraft ? draft : fetched || [];
+      this.products = this.normalizeProducts(keepDraft ? draft : fetched || []);
       if (!keepDraft) this.clearDraft();
     } else {
-      this.products = fetched || [];
+      this.products = this.normalizeProducts(fetched || []);
     }
 
     this.applyFilter();
@@ -153,6 +146,13 @@ class AdminManager {
     localStorage.removeItem(DRAFT_KEY);
   }
 
+  normalizeProducts(products) {
+    return products.map(({ subcategorias, ...product }) => {
+      const categorias = (product.categorias || []).filter((categoria) => CONFIG.categorias.includes(categoria));
+      return { ...product, categorias: categorias.length ? categorias : ['Jogos'] };
+    });
+  }
+
   applyFilter() {
     const term = this.search.trim().toLowerCase();
     this.filtered = !term
@@ -172,9 +172,6 @@ class AdminManager {
         const categorias = (product.categorias || [])
           .map((c) => `<span class="badge">${Utils.escapeHtml(c)}</span>`)
           .join('');
-        const subcategorias = (product.subcategorias || [])
-          .map((s) => `<span class="badge badge--sub">${Utils.escapeHtml(s)}</span>`)
-          .join('');
         return `
         <tr>
           <td><img class="admin-table__thumb" src="${Utils.escapeHtml(thumb)}" alt="${Utils.escapeHtml(product.nome)}" onerror="this.src='assets/brand/logo_sem_descricao.png'"></td>
@@ -183,7 +180,7 @@ class AdminManager {
             <strong>${Utils.escapeHtml(product.nome)}</strong>
             <span>${Utils.escapeHtml(product.descricao || '')}</span>
           </td>
-          <td><div class="badge-list">${categorias}${subcategorias}</div></td>
+          <td><div class="badge-list">${categorias}</div></td>
           <td>${Utils.formatPrice(product.valor)}</td>
           <td>
             <div class="admin-table__actions">
@@ -201,8 +198,7 @@ class AdminManager {
   }
 
   getCategoryOptions() {
-    const fromData = this.products.flatMap((p) => p.categorias || []);
-    return [...new Set([...CONFIG.categorias, ...fromData])];
+    return CONFIG.categorias;
   }
 
   renderCategoryCheckboxes(selected = []) {
@@ -212,23 +208,6 @@ class AdminManager {
         <label>
           <input type="checkbox" value="${Utils.escapeHtml(categoria)}" ${selected.includes(categoria) ? 'checked' : ''}>
           ${Utils.escapeHtml(categoria)}
-        </label>`
-      )
-      .join('');
-  }
-
-  getSubcategoryOptions(selectedCategorias = []) {
-    return [...new Set(selectedCategorias.flatMap((categoria) => CONFIG.subcategorias?.[categoria] || []))];
-  }
-
-  renderSubcategoryCheckboxes(selectedCategorias = [], selectedSubcategorias = []) {
-    const options = this.getSubcategoryOptions(selectedCategorias);
-    this.el.subcategoriaCheckboxes.innerHTML = options
-      .map(
-        (subcategoria) => `
-        <label>
-          <input type="checkbox" value="${Utils.escapeHtml(subcategoria)}" ${selectedSubcategorias.includes(subcategoria) ? 'checked' : ''}>
-          ${Utils.escapeHtml(subcategoria)}
         </label>`
       )
       .join('');
@@ -275,7 +254,6 @@ class AdminManager {
     this.el.valor.value = product?.valor ?? '';
 
     this.renderCategoryCheckboxes(product?.categorias || []);
-    this.renderSubcategoryCheckboxes(product?.categorias || [], product?.subcategorias || []);
 
     this.el.imageList.innerHTML = '';
     (product?.imagens?.length ? product.imagens : ['']).forEach((img) => this.addImageRow(img));
@@ -302,7 +280,6 @@ class AdminManager {
     const valorRaw = this.el.valor.value.trim();
     const valor = valorRaw === '' ? 0 : Number(valorRaw);
     const categorias = [...this.el.categoriaCheckboxes.querySelectorAll('input:checked')].map((i) => i.value);
-    const subcategorias = [...this.el.subcategoriaCheckboxes.querySelectorAll('input:checked')].map((i) => i.value);
     const imagens = [...this.el.imageList.querySelectorAll('input[data-role="image-path"]')]
       .map((i) => i.value.trim())
       .filter(Boolean);
@@ -327,7 +304,6 @@ class AdminManager {
     }
 
     const productData = { codigo, nome, descricao, valor, imagens, categorias };
-    if (subcategorias.length > 0) productData.subcategorias = subcategorias;
 
     if (this.editingCodigo) {
       const index = this.products.findIndex((p) => p.codigo === this.editingCodigo);
@@ -376,7 +352,7 @@ class AdminManager {
         if (!Array.isArray(data.produtos)) {
           throw new Error('Chave "produtos" ausente ou inválida.');
         }
-        this.products = data.produtos;
+        this.products = this.normalizeProducts(data.produtos);
         this.saveDraft();
         this.applyFilter();
         this.showToast('JSON importado com sucesso.');

@@ -1,220 +1,124 @@
 {
   "produtos": [
     {
-      "codigo": "LEM-001",
-      "nome": "Chaveiro de acrílico",
-      "descricao": "Personalizável frente e verso",
-      "valor": 2.5,
-      "imagens": ["assets/products/chaveiro-de-acrilico.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "1",
+      "nome": "Estrela Sensorial",
+      "descricao": "Estrela Sensorial 3D\n\nUma estrela diferente de tudo que você já viu! 💖\n\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n\n✨ Estimula a percepção visual e espacial\n👐 Incentiva a exploração sensorial e tátil\n🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta\n\nUm brinquedo que une diversão, criatividade e estímulos sensoriais em uma peça encantadora! 🌟\n\nDiversão que estimula. Aprendizado que acontece brincando! 💕",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/estrela-sensorial-1.jpg",
+        "assets/products/estrela-sensorial-2.jpg",
+        "assets/products/estrela-sensorial-3.jpg",
+        "assets/products/estrela-sensorial-4.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "LEM-002",
-      "nome": "Lápis preto personalizado",
-      "descricao": "Lápis preto personalizado",
-      "valor": 2.0,
-      "imagens": ["assets/products/lapis-preto-personalizavel.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "2",
+      "nome": "Cubo infinito",
+      "descricao": "🧩 Cubo Infinito 3D\n\nUm brinquedo que parece simples, mas proporciona diversão sem fim! 💛\n\nO Cubo Infinito é formado por peças articuladas que podem ser movimentadas e transformadas continuamente, criando diferentes formas e possibilidades de exploração.\n\n✨ Estimula a coordenação motora fina\n🧠 Incentiva a concentração e o raciocínio\n👐 Proporciona estímulos táteis e sensoriais\n🎯 Pode auxiliar em momentos de relaxamento e foco\n🎨 Impressão 3D com design divertido, resistente e cheio de possibilidades\n\nPerfeito para crianças e adultos que gostam de mexer, explorar e descobrir novas formas de brincar.\n\nGire, dobre, transforme e recomece! 🔄💛\n\nUm brinquedo educativo e sensorial que transforma movimento em diversão.",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/cubo-infinito.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "LEM-003",
-      "nome": "Bloco de papel",
-      "descricao": "Tamanho 7x10cm",
-      "valor": 4.0,
-      "imagens": ["assets/products/bloco-de-papel.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "3",
+      "nome": "Cone infinito",
+      "descricao": "🌀 Cone Infinito 3D\n\nUm brinquedo que gira, transforma e surpreende! 💛\n\nO Cone Infinito é um brinquedo sensorial produzido em impressão 3D, desenvolvido para proporcionar uma experiência divertida e envolvente por meio do movimento e da exploração tátil.\n\n✨ Estimula a coordenação motora fina\n🧠 Favorece a concentração e o raciocínio\n👐 Proporciona estímulos sensoriais através do toque e movimento\n🎯 Pode ser utilizado como recurso para momentos de foco e relaxamento\n🌈 Disponível em diferentes combinações de cores\n\nSeu movimento contínuo e seu formato diferenciado tornam cada interação uma nova descoberta!\n\nGire, encaixe, explore e divirta-se! 🌀💛\n\nUm brinquedo educativo e terapêutico que transforma movimentos simples em uma experiência sensorial divertida.",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/cone-infinito-1.jpg",
+        "assets/products/cone-infinito-2.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "PRE-001",
-      "nome": "Rótulo para suculentas",
-      "descricao": "Pote 6",
-      "valor": 4.5,
-      "imagens": ["assets/products/rotulo-para-suculentas.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "4",
+      "nome": "Kit Sensorial",
+      "descricao": "🌈 Kit Sensorial 3D — Diversão que estimula!\n\nUm trio pensado para brincar, explorar e estimular os sentidos! 💛\n\nO Kit Sensorial 3D reúne três brinquedos educativos e terapêuticos, cada um com movimentos e formas diferentes para proporcionar experiências únicas:\n\n⭐ Estrela Sensorial — com seu formato cheio de caminhos e relevos, proporciona estímulos táteis e exploração através do toque.\n\n🧩 Cubo Infinito — peças articuladas que se movimentam e se transformam continuamente, estimulando a coordenação motora, concentração e criatividade.\n\n🌀 Cone Infinito — um brinquedo envolvente que permite explorar movimentos contínuos, proporcionando uma experiência sensorial divertida e relaxante.\n\n💛 O kit estimula:\n\n✨ Coordenação motora fina\n🧠 Concentração e raciocínio\n👐 Percepção tátil e sensorial\n🎯 Foco e exploração\n🌈 Criatividade e descobertas\n\nProduzidos em impressão 3D, com possibilidades de diferentes cores e combinações.\n\n3 brinquedos, muitas possibilidades de brincar!\nUm kit para transformar pequenos movimentos em grandes descobertas. 🥰",
+      "valor": 59.9,
+      "imagens": [
+        "assets/products/kit-sensorial-1.jpg",
+        "assets/products/kit-sensorial-2.jpg",
+        "assets/products/kit-sensorial-3.jpg",
+        "assets/products/kit-sensorial-4.jpg",
+        "assets/products/kit-sensorial-5.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "LEM-004",
-      "nome": "Kit cores personalizado",
-      "descricao": "Contém: 1 livro de colorir (8 páginas) e 1 caixa de giz de cera (6 cores)",
-      "valor": 0,
-      "imagens": ["assets/products/kit-cores-personalizado.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "5",
+      "nome": "Jogo Equilibra Dino",
+      "descricao": "🦖⚖️ Jogo de Equilíbrio dos Dinossauros 3D\n\nPrepare-se para uma aventura jurássica cheia de desafios! 🌋🦕\n\nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os dinossauros na gangorra e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais dinossauros, maior o desafio! 😄\n\n🧠 Estimula o raciocínio e a percepção espacial\n⚖️ Trabalha equilíbrio e coordenação motora fina\n🎯 Incentiva a concentração e o planejamento\n👐 Desenvolve a habilidade de posicionar e organizar as peças\n🎨 Dinossauros coloridos que deixam a brincadeira ainda mais divertida\n\nUma brincadeira que transforma equilíbrio, estratégia e criatividade em uma divertida missão jurássica! 🦖💚\n\nSerá que você consegue colocar todos os dinossauros sem derrubar a gangorra? 😍\n\nProduzido em impressão 3D.",
+      "valor": 39.9,
+      "imagens": [
+        "assets/products/jogo-equilibra-dino-1.jpg",
+        "assets/products/jogo-equilibra-dino-2.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "FES-001",
-      "nome": "Tubo lata personalizado",
-      "descricao": "Tamanho: 10cm de diâmetro",
-      "valor": 10.0,
-      "imagens": ["assets/products/tubo-lata-personalizado.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "6",
+      "nome": "Destaque e monte: T-REX",
+      "descricao": "🦖🧩 Desafio Jurássico 3D — Monte seu T-Rex!\n\nPrepare-se para uma aventura jurássica! 🌋🦖\n\nNeste divertido quebra-cabeça 3D, a criança precisa destacar as peças da base e montar seu próprio T-Rex. Cada peça possui um número de identificação, que ajuda a encontrar o encaixe correto e torna a montagem mais fácil e divertida.\n\n🧠 Estimula o raciocínio lógico e a percepção espacial\n👐 Desenvolve a coordenação motora fina\n🔢 Trabalha a identificação e sequência de números\n🎯 Incentiva a atenção, concentração e resolução de problemas\n🦖 Proporciona uma experiência de construção divertida e interativa\n\nA criança aprende brincando enquanto acompanha os números, procura cada peça e vê o T-Rex ganhar vida!\n\nDestaque as peças. Siga os números. Monte o T-Rex. 🦖💚\n\n✨ Um desafio jurássico que transforma a montagem em uma grande aventura!",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/destaque-e-monte-t-rex-1.jpg",
+        "assets/products/destaque-e-monte-t-rex-2.jpg",
+        "assets/products/destaque-e-monte-t-rex-3.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "LEM-005",
-      "nome": "Jogo da memória",
-      "descricao": "Contém: 16 peças / 8 pares",
-      "valor": 8.0,
-      "imagens": ["assets/products/jogo-da-memoria.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "7",
+      "nome": "Pote de recompensas",
+      "descricao": "⭐ Pote de Recompensas — Estrelinhas da Conquista\n\nTransforme pequenas conquistas em grandes incentivos para a criança! 💛\n\nO Pote de Recompensas é uma ferramenta lúdica que ajuda a criança a visualizar seu progresso de forma divertida. A cada objetivo alcançado, tarefa concluída ou bom comportamento, ela ganha uma estrelinha para colocar no pote.  O conjunto vem todo com imã para que possa ser fixado a geladeira. ⭐\n\n🧠 Incentiva a autonomia e a responsabilidade\n🎯 Ajuda a criar hábitos e estabelecer objetivos\n⭐ Torna o progresso visual e motivador\n💛 Estimula a sensação de conquista e valorização\n👐 Trabalha organização e acompanhamento de metas\n\nA proposta é simples: cumpriu a tarefa? Ganhou uma estrela! ✨\n\nAo completar o pote, a criança pode receber uma recompensa combinada previamente — que pode ser um passeio, uma brincadeira especial, escolher um filme ou qualquer outra experiência significativa.\n\n🌈 Porque cada pequena conquista merece ser comemorada!",
+      "valor": 39.9,
+      "imagens": [
+        "assets/products/pote-de-recompensas.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "PRE-002",
-      "nome": "Livro de orações",
-      "descricao": "20 páginas. Contém 15 orações e informações da criança. Tamanho: 7x10cm",
-      "valor": 0,
-      "imagens": ["assets/products/livro-de-oracoes.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "8",
+      "nome": "Porta objetos: Maçã com clips de papel e chaveiro",
+      "descricao": "🍎 Porta-Objetos Maçã — Presente para Professor\n\nUm presente criativo, útil e cheio de significado! ❤️🍎\n\nNosso Porta-Objetos em formato de maçã, produzido em impressão 3D, foi pensado especialmente para deixar a mesa do professor mais organizada e charmosa.\n\nO kit acompanha:\n🍎 Porta-objetos em formato de maçã\n📎 Clips de papel para facilitar a organização\n🔑 Chaveiro personalizado com nome, tornando o presente ainda mais especial\n\nAlém de funcional, é uma lembrança que combina com o universo escolar e demonstra todo o carinho por quem dedica seus dias a ensinar, inspirar e transformar vidas. ✨\n\n🎁 Uma opção diferente e personalizada para presentear professores em qualquer ocasião!",
+      "valor": 25,
+      "imagens": [
+        "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-1.jpg",
+        "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-2.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     },
     {
-      "codigo": "FES-002",
-      "nome": "Tubo lata mini",
-      "descricao": "Tamanho: 5cm de diâmetro",
-      "valor": 6.0,
-      "imagens": ["assets/products/tubo-lata-mini.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-006",
-      "nome": "Chaveiro de acrílico com tag",
-      "descricao": "Personalizável frente e verso",
-      "valor": 4.5,
-      "imagens": ["assets/products/chaveiro-de-acrílico-com-tag.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-007",
-      "nome": "Bolhas de sabão personalizadas",
-      "descricao": "Cores sortidas",
-      "valor": 4.5,
-      "imagens": ["assets/products/bolhas-de-sabao-personalizadas.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-008",
-      "nome": "Caixa bala",
-      "descricao": "Personalizável",
-      "valor": 6.0,
-      "imagens": ["assets/products/caixa-bala.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-009",
-      "nome": "Tubetes",
-      "descricao": "Personalizado com aplique",
-      "valor": 2.5,
-      "imagens": ["assets/products/tubetes.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "PRE-003",
-      "nome": "Cofrinho personalizado",
-      "descricao": "Personalizável",
-      "valor": 3.5,
-      "imagens": ["assets/products/cofrinho-personalizado.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-010",
-      "nome": "Kit massinha de modelar",
-      "descricao": "Contém: 3 bastões de massinha de modelar e 2 cortadores",
-      "valor": 3.9,
-      "imagens": ["assets/products/kit-massinha-de-modelar.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-011",
-      "nome": "Balde de pipoca",
-      "descricao": "Tamanho: 1 litro",
-      "valor": 5.0,
-      "imagens": ["assets/products/balde-de-pipoca.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-012",
-      "nome": "Caixa pirâmide",
-      "descricao": "Personalizável",
-      "valor": 5.0,
-      "imagens": ["assets/products/caixa-piramide.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "LEM-013",
-      "nome": "Caixa modelo Milk",
-      "descricao": "Personalizável",
-      "valor": 5.0,
-      "imagens": ["assets/products/caixa-modelo-milk.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-003",
-      "nome": "Copo Twister",
-      "descricao": "500ml",
-      "valor": 6.0,
-      "imagens": ["assets/products/copo-twister.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-004",
-      "nome": "Copo long drink",
-      "descricao": "325ml",
-      "valor": 3.0,
-      "imagens": ["assets/products/copo-long-drink.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-005",
-      "nome": "Taça de gin transparente",
-      "descricao": "Personalizável",
-      "valor": 10.0,
-      "imagens": ["assets/products/taca-de-gin-transparente.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-006",
-      "nome": "Taça de gin colorida",
-      "descricao": "450ml",
-      "valor": 15.0,
-      "imagens": ["assets/products/taca-de-gin-colorida.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-007",
-      "nome": "Taça de espumante",
-      "descricao": "200ml",
-      "valor": 5.0,
-      "imagens": ["assets/products/taca-de-espumante.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "FES-008",
-      "nome": "Caneca de chopp",
-      "descricao": "500ml",
-      "valor": 6.0,
-      "imagens": ["assets/products/caneca-de-chopp.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "PRE-004",
-      "nome": "Caneta personalizada",
-      "descricao": "Pedido mínimo 20un",
-      "valor": 3.0,
-      "imagens": ["assets/products/caneta-personalizada.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "PRE-005",
-      "nome": "Calendário com imã",
-      "descricao": "Tamanho: 5x10cm. Pedido mínimo 20un",
-      "valor": 2.5,
-      "imagens": ["assets/products/calendario-com-ima.jpg"],
-      "categorias": ["Balões"]
-    },
-    {
-      "codigo": "PRE-006",
-      "nome": "Imã de geladeira",
-      "descricao": "Tamanho: 7x10cm. Pedido mínimo: 10un",
-      "valor": 4.5,
-      "imagens": ["assets/products/ima-de-geladeira.jpg"],
-      "categorias": ["Balões"]
+      "codigo": "9",
+      "nome": "Vila Natalina com 3 peças",
+      "descricao": "✨🏠 Uma vila natalina para deixar o Natal ainda mais mágico! 🎄❤️\n\nProduzida em impressão 3D, essa delicada vila ganha vida com suas luzes quentinhas, criando um cenário acolhedor e cheio de encanto. ✨\n\nPerfeita para decorar aparadores, mesas, estantes e aquele cantinho especial da casa durante o Natal. 🎅🏼\n\n🎄 Vila Natalina 3D com iluminação\n✨ Um toque de magia para a sua decoração!\n🎁 Edição especial de Natal — feita com carinho em cada detalhe. ❤️",
+      "valor": 69.9,
+      "imagens": [
+        "assets/products/vila-natalina-com-3-pecas.jpg"
+      ],
+      "categorias": [
+        "Jogos"
+      ]
     }
   ]
 }
