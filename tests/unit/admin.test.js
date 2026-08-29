@@ -131,6 +131,67 @@ describe('AdminManager', () => {
     });
   });
 
+  describe('product images', () => {
+    it('allows selecting multiple image files from every image row', () => {
+      admin.openModal();
+
+      expect(admin.el.imageList.querySelector('input[data-role="image-file"]').multiple).toBe(true);
+    });
+
+    it('creates one row per selected image and keeps the selection order', async () => {
+      admin.openModal();
+      const fileInput = admin.el.imageList.querySelector('input[data-role="image-file"]');
+      const files = [
+        new File(['first'], 'first.png', { type: 'image/png' }),
+        new File(['second'], 'second.jpg', { type: 'image/jpeg' }),
+        new File(['third'], 'third.webp', { type: 'image/webp' }),
+      ];
+      Object.defineProperty(fileInput, 'files', { value: files, configurable: true });
+
+      fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+      expect(admin.el.imageList.children).toHaveLength(3);
+      await vi.waitFor(() => {
+        const paths = [...admin.el.imageList.querySelectorAll('input[data-role="image-path"]')].map(
+          (input) => input.value
+        );
+        expect(paths).toEqual([
+          'data:image/png;base64,Zmlyc3Q=',
+          'data:image/jpeg;base64,c2Vjb25k',
+          'data:image/webp;base64,dGhpcmQ=',
+        ]);
+      });
+    });
+
+    it('adds extra rows next to the edited row without removing existing images', async () => {
+      admin.el.imageList.innerHTML = '';
+      admin.addImageRow('assets/products/existing-a.jpg');
+      admin.addImageRow('assets/products/existing-b.jpg');
+      const fileInput = admin.el.imageList.children[0].querySelector('input[data-role="image-file"]');
+      Object.defineProperty(fileInput, 'files', {
+        value: [
+          new File(['new-a'], 'new-a.png', { type: 'image/png' }),
+          new File(['new-b'], 'new-b.png', { type: 'image/png' }),
+        ],
+        configurable: true,
+      });
+
+      fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+      expect(admin.el.imageList.children).toHaveLength(3);
+      await vi.waitFor(() => {
+        const paths = [...admin.el.imageList.querySelectorAll('input[data-role="image-path"]')].map(
+          (input) => input.value
+        );
+        expect(paths).toEqual([
+          'data:image/png;base64,bmV3LWE=',
+          'data:image/png;base64,bmV3LWI=',
+          'assets/products/existing-b.jpg',
+        ]);
+      });
+    });
+  });
+
   describe('handleSubmit validation', () => {
     it('requires codigo and nome', () => {
       fillForm(admin, { codigo: '', nome: '', valor: '1', categorias: ['Jogos'] });

@@ -213,32 +213,47 @@ class AdminManager {
       .join('');
   }
 
-  addImageRow(value) {
+  addImageRow(value, insertAfter = null) {
     const row = document.createElement('div');
     row.className = 'image-row';
     row.innerHTML = `
       <input type="text" data-role="image-path" placeholder="assets/products/arquivo.jpg" value="${Utils.escapeHtml(value)}">
       <img src="${Utils.escapeHtml(value) || 'assets/brand/header-logo-medallion.png'}" alt="" onerror="this.src='assets/brand/header-logo-medallion.png'">
-      <input type="file" accept="image/*" data-role="image-file" class="hidden">
+      <input type="file" accept="image/*" multiple data-role="image-file" class="hidden">
       <button type="button" class="icon-btn" data-action="upload-image" title="Selecionar imagem do computador">
         <i class="fa-solid fa-upload"></i>
       </button>
       <button type="button" class="icon-btn icon-btn--danger" data-action="remove-image" title="Remover imagem">
         <i class="fa-solid fa-xmark"></i>
       </button>`;
-    this.el.imageList.appendChild(row);
+    if (insertAfter) {
+      insertAfter.after(row);
+    } else {
+      this.el.imageList.appendChild(row);
+    }
+    return row;
   }
 
   handleImageFile(fileInput) {
-    const file = fileInput.files[0];
-    if (!file) return;
-    const row = fileInput.closest('.image-row');
-    const reader = new FileReader();
-    reader.onload = () => {
-      row.querySelector('input[data-role="image-path"]').value = reader.result;
-      row.querySelector('img').src = reader.result;
-    };
-    reader.readAsDataURL(file);
+    const files = [...fileInput.files];
+    if (!files.length) return;
+
+    const selectedRow = fileInput.closest('.image-row');
+    let previousRow = selectedRow;
+    const rows = files.map((file, index) => {
+      if (index === 0) return selectedRow;
+      previousRow = this.addImageRow('', previousRow);
+      return previousRow;
+    });
+
+    files.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        rows[index].querySelector('input[data-role="image-path"]').value = reader.result;
+        rows[index].querySelector('img').src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
     fileInput.value = '';
   }
 
