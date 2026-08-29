@@ -190,6 +190,24 @@ describe('AdminManager', () => {
   });
 
   describe('handleSubmit persistence', () => {
+    it('preserves line breaks pasted into the product description', () => {
+      admin.openModal();
+      fillForm(admin, {
+        codigo: 'NEW-2',
+        nome: 'Produto com descrição formatada',
+        descricao: 'Primeiro parágrafo\n\n• Primeiro item\n• Segundo item',
+        valor: '10',
+        categorias: ['Jogos'],
+      });
+
+      admin.handleSubmit(fakeEvent);
+
+      expect(admin.products[0].descricao).toBe('Primeiro parágrafo\n\n• Primeiro item\n• Segundo item');
+      expect(JSON.parse(localStorage.getItem(DRAFT_KEY))[0].descricao).toBe(
+        'Primeiro parágrafo\n\n• Primeiro item\n• Segundo item'
+      );
+    });
+
     it('creates a new product, saves a draft, closes the modal and shows a toast', () => {
       admin.openModal();
       fillForm(admin, {

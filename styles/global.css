@@ -631,6 +631,8 @@ img {
 .product-detail__descricao {
   color: var(--color-text-muted);
   margin-bottom: 1rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .product-detail__price {
