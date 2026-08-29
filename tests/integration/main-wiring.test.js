@@ -90,11 +90,9 @@ describe('main.js DOM wiring (index.html)', () => {
     expect(app.productManager.setSearch).toHaveBeenCalledWith('chaveiro');
   });
 
-  it('wires category filter pills to productManager.setCategory', () => {
-    document.getElementById('category-filters').innerHTML =
-      '<button type="button" class="filter-pill" data-category="Festas">Festas</button>';
-    document.querySelector('.filter-pill').click();
-    expect(app.productManager.setCategory).toHaveBeenCalledWith('Festas');
+  it('filters products from the header category buttons', () => {
+    document.querySelector('.header-pill[data-category="Jogos"]').click();
+    expect(app.productManager.setCategory).toHaveBeenCalledWith('Jogos');
   });
 
   it('delegates product-list button clicks by data-action', () => {

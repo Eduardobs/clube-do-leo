@@ -21,10 +21,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     productManager.setSearch(e.target.value);
   });
 
-  document.getElementById('category-filters').addEventListener('click', (e) => {
-    const pill = e.target.closest('.filter-pill');
-    if (!pill) return;
-    productManager.setCategory(pill.dataset.category);
+  document.querySelector('.header-pills').addEventListener('click', (e) => {
+    const button = e.target.closest('.header-pill[data-category]');
+    if (!button) return;
+    const category = productManager.currentCategory === button.dataset.category ? '' : button.dataset.category;
+    productManager.setCategory(category);
   });
 
   document.getElementById('product-list').addEventListener('click', (e) => {
@@ -76,10 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector('.mobile-nav').addEventListener('click', (e) => {
     const action = e.target.closest('[data-mobile-action]')?.dataset.mobileAction;
     if (action === 'cart') cartManager.openCart();
-    if (action === 'categories') {
-      document.getElementById('category-filters').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      document.querySelector('#category-filters .filter-pill')?.focus();
-    }
   });
 
   document.getElementById('toast-cart-action').addEventListener('click', () => cartManager.openCart());

@@ -11,7 +11,6 @@ function setProductsDom() {
   document.body.innerHTML = `
     <div id="error-message" class="hidden"></div>
     <div id="loading-spinner"></div>
-    <div id="category-filters"></div>
     <div id="product-list"></div>
     <div id="product-detail"></div>
     <div id="product-detail-modal" class="modal hidden"></div>
@@ -82,13 +81,13 @@ describe('ProductManager', () => {
       expect(productManager.filteredProducts.map((p) => p.codigo)).toEqual(['FES-001']);
     });
 
-    it('filters by category', () => {
-      productManager.setCategory('Festas');
-      expect(productManager.filteredProducts.map((p) => p.codigo)).toEqual(['FES-001']);
-    });
-
-    it('combines search and category filters', () => {
-      productManager.setCategory('Lembrancinhas');
+    it('filters by category and combines it with the current search', () => {
+      productManager.products = [
+        { ...SAMPLE_PRODUCTS[0], categorias: ['Jogos'] },
+        { ...SAMPLE_PRODUCTS[1], categorias: ['Brinquedos'] },
+        { ...SAMPLE_PRODUCTS[2], categorias: ['Jogos'] },
+      ];
+      productManager.setCategory('Jogos');
       productManager.setSearch('kit');
       expect(productManager.filteredProducts.map((p) => p.codigo)).toEqual(['LEM-004']);
     });

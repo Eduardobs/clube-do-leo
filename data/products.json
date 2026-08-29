@@ -119,6 +119,32 @@
       "categorias": [
         "Jogos"
       ]
+    },
+    {
+      "codigo": "10",
+      "nome": "Presépio com 3 peças",
+      "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 3 peças: Maria, José e o Menino Jesus, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
+      "valor": 39.9,
+      "imagens": [
+        "assets/products/presepio-com-3-pecas.jpg"
+      ],
+      "categorias": [
+        "Decorações"
+      ]
+    },
+    {
+      "codigo": "11",
+      "nome": "Kit de colorir com 6 peças",
+      "descricao": "🎨 Kit de Colorir – 6 Peças\n\nUma lembrancinha criativa, divertida e personalizada para deixar qualquer momento ainda mais especial! ✨\n\nO Kit de Colorir com 6 peças é composto por desenhos prontos para a criança destacar, colorir e soltar a imaginação. E o melhor: os temas podem ser variados e personalizados de acordo com a ocasião! 🌈\n\n🖍️ Podemos criar diversos temas, como:\n🦄 Unicórnios\n🦖 Dinossauros\n🦕 Mundo jurássico\n🧜‍♀️ Sereias\n🦁 Safari\n🚀 Espaço\n🐻 Animais\n🦸 Super-heróis\n🎀 Personagens e temas de festas\n💖 E muito mais!\n\nNÃO ACOMPANHA CANETINHAS",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/kit-de-colorir-com-6-pecas-1.png",
+        "assets/products/kit-de-colorir-com-6-pecas-2.png",
+        "assets/products/kit-de-colorir-com-6-pecas-3.png"
+      ],
+      "categorias": [
+        "Brinquedos"
+      ]
     }
   ]
 }

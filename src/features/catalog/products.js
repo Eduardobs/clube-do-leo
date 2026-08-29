@@ -31,7 +31,6 @@ class ProductManager {
       this.products = data.produtos;
       this.filteredProducts = [...this.products];
 
-      this.renderCategoryFilters();
       this.renderProducts();
     } catch (error) {
       console.error('Erro ao carregar produtos:', error);
@@ -41,21 +40,6 @@ class ProductManager {
     } finally {
       loadingSpinner.classList.add('hidden');
     }
-  }
-
-  renderCategoryFilters() {
-    const container = document.getElementById('category-filters');
-    const categories = CONFIG.categorias.filter((categoria) =>
-      this.products.some((product) => product.categorias.includes(categoria))
-    );
-
-    const pills = ['<button type="button" class="filter-pill is-active" data-category="" aria-pressed="true">Todos</button>'];
-    categories.forEach((categoria) => {
-      pills.push(
-        `<button type="button" class="filter-pill" data-category="${Utils.escapeHtml(categoria)}" aria-pressed="false">${Utils.escapeHtml(categoria)}</button>`
-      );
-    });
-    container.innerHTML = pills.join('');
   }
 
   applyFilters() {
@@ -75,10 +59,10 @@ class ProductManager {
 
   setCategory(category) {
     this.currentCategory = category;
-    document.querySelectorAll('#category-filters .filter-pill').forEach((pill) => {
-      const isActive = pill.dataset.category === category;
-      pill.classList.toggle('is-active', isActive);
-      pill.setAttribute('aria-pressed', String(isActive));
+    document.querySelectorAll('.header-pill[data-category]').forEach((button) => {
+      const isActive = button.dataset.category === category;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
     });
     this.applyFilters();
   }
@@ -90,7 +74,7 @@ class ProductManager {
         <article class="product-card" data-codigo="${product.codigo}">
           <button type="button" class="product-card__details-trigger" data-action="detail" data-codigo="${product.codigo}" aria-label="Ver detalhes de ${Utils.escapeHtml(product.nome)}">
           <div class="product-card__media">
-            <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
+            <img src="${mainImage}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/header-logo-medallion.png'">
             <span class="product-card__badge">${Utils.escapeHtml(product.categorias[0] || '')}</span>
           </div>
           <div class="product-card__body">
@@ -154,7 +138,7 @@ class ProductManager {
           .map(
             (image, index) => `
           <button type="button" class="product-detail__thumb${index === 0 ? ' is-active' : ''}" data-image="${Utils.escapeHtml(image)}">
-            <img src="${image}" alt="${Utils.escapeHtml(product.nome)} - imagem ${index + 1}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
+            <img src="${image}" alt="${Utils.escapeHtml(product.nome)} - imagem ${index + 1}" loading="lazy" onerror="this.src='assets/brand/header-logo-medallion.png'">
           </button>`
           )
           .join('')}
@@ -162,7 +146,7 @@ class ProductManager {
         : '';
     detailSection.innerHTML = `
       <div class="product-detail__gallery">
-        <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/logo_sem_descricao.png'">
+        <img id="detail-main-image" src="${images[0]}" alt="${Utils.escapeHtml(product.nome)}" loading="lazy" onerror="this.src='assets/brand/header-logo-medallion.png'">
         ${thumbsHtml}
       </div>
       <span class="tag">${Utils.escapeHtml(product.categorias.join(', '))}</span>

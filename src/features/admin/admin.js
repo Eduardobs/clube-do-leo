@@ -69,7 +69,7 @@ class AdminManager {
 
     this.el.imageList.addEventListener('input', (e) => {
       const input = e.target.closest('input[data-role="image-path"]');
-      if (input) input.nextElementSibling.src = input.value || 'assets/brand/logo_sem_descricao.png';
+      if (input) input.nextElementSibling.src = input.value || 'assets/brand/header-logo-medallion.png';
     });
 
     this.el.imageList.addEventListener('change', (e) => {
@@ -168,13 +168,13 @@ class AdminManager {
 
     this.el.tableBody.innerHTML = this.filtered
       .map((product) => {
-        const thumb = product.imagens?.[0] || 'assets/brand/logo_sem_descricao.png';
+        const thumb = product.imagens?.[0] || 'assets/brand/header-logo-medallion.png';
         const categorias = (product.categorias || [])
           .map((c) => `<span class="badge">${Utils.escapeHtml(c)}</span>`)
           .join('');
         return `
         <tr>
-          <td><img class="admin-table__thumb" src="${Utils.escapeHtml(thumb)}" alt="${Utils.escapeHtml(product.nome)}" onerror="this.src='assets/brand/logo_sem_descricao.png'"></td>
+          <td><img class="admin-table__thumb" src="${Utils.escapeHtml(thumb)}" alt="${Utils.escapeHtml(product.nome)}" onerror="this.src='assets/brand/header-logo-medallion.png'"></td>
           <td>${Utils.escapeHtml(product.codigo)}</td>
           <td class="admin-table__name">
             <strong>${Utils.escapeHtml(product.nome)}</strong>
@@ -218,7 +218,7 @@ class AdminManager {
     row.className = 'image-row';
     row.innerHTML = `
       <input type="text" data-role="image-path" placeholder="assets/products/arquivo.jpg" value="${Utils.escapeHtml(value)}">
-      <img src="${Utils.escapeHtml(value) || 'assets/brand/logo_sem_descricao.png'}" alt="" onerror="this.src='assets/brand/logo_sem_descricao.png'">
+      <img src="${Utils.escapeHtml(value) || 'assets/brand/header-logo-medallion.png'}" alt="" onerror="this.src='assets/brand/header-logo-medallion.png'">
       <input type="file" accept="image/*" data-role="image-file" class="hidden">
       <button type="button" class="icon-btn" data-action="upload-image" title="Selecionar imagem do computador">
         <i class="fa-solid fa-upload"></i>

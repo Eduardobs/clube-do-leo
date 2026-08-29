@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clube do Léo - Lembrancinhas, festas e presentes personalizados</title>
   <meta name="description" content="Lembrancinhas, itens de festa e presentes personalizados. Faça seu pedido e finalize direto pelo WhatsApp.">
-  <link rel="icon" href="assets/brand/logo_sem_descricao.png">
+  <link rel="icon" href="assets/brand/header-logo-medallion.png">
   <link rel="stylesheet" href="styles/global.css">
   <link rel="stylesheet" href="styles/responsive.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,15 +27,16 @@
             <span id="cart-count" class="cart-btn__badge">0</span>
           </button>
         </div>
-        <p class="header-showcase__eyebrow">um mundo de descobertas</p>
-        <h1>Brinquedos</h1>
+        <div class="header-showcase__sparkles" aria-hidden="true">♡</div>
+        <h1>Produtos 3D</h1>
         <div class="header-showcase__line" aria-hidden="true"></div>
-        <div class="header-pills" aria-label="Características dos brinquedos">
-          <a href="#produtos" class="header-pill header-pill--sage"><i class="fa-solid fa-puzzle-piece"></i> divertidos</a>
-          <a href="#produtos" class="header-pill header-pill--coral"><i class="fa-solid fa-heart"></i> coloridos</a>
-          <a href="#produtos" class="header-pill header-pill--blue"><i class="fa-solid fa-hand"></i> terapêuticos</a>
+        <div class="header-pills" aria-label="Categorias de produtos">
+          <button type="button" class="header-pill header-pill--sage" data-category="Jogos" aria-pressed="false"><span><i class="fa-solid fa-puzzle-piece"></i></span>Jogos</button>
+          <button type="button" class="header-pill header-pill--coral" data-category="Brinquedos" aria-pressed="false"><span><i class="fa-solid fa-paw"></i></span>Brinquedos</button>
+          <button type="button" class="header-pill header-pill--blue" data-category="Decorações" aria-pressed="false"><span><i class="fa-solid fa-house"></i></span>Decorações</button>
+          <button type="button" class="header-pill header-pill--gold" data-category="Utilidades" aria-pressed="false"><span><i class="fa-solid fa-mug-hot"></i></span>Utilidades</button>
         </div>
-        <p class="header-showcase__tagline">Brincar é desenvolver, aprender e ser feliz!</p>
+        <p class="header-showcase__tagline"><i class="fa-solid fa-heart" aria-hidden="true"></i> Qualidade, criatividade e diversão que você pode ver e tocar! <i class="fa-solid fa-heart" aria-hidden="true"></i></p>
       </div>
 
       <img src="assets/brand/header-toys.png" class="header-showcase__toys" alt="Brinquedos coloridos de madeira e ursinho">
@@ -49,7 +50,6 @@
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="search" id="search-input" placeholder="Buscar produto...">
         </div>
-        <div id="category-filters" class="filter-pills"></div>
       </div>
 
       <div id="loading-spinner" class="spinner"></div>
@@ -61,7 +61,7 @@
 
   <footer class="site-footer">
     <div class="container footer__inner">
-      <img src="assets/brand/logo-gray.png" alt="Clube do Léo" class="footer__logo">
+      <img src="assets/brand/header-logo-medallion.png" alt="Clube do Léo" class="footer__logo">
       <div class="footer__social">
         <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
@@ -75,9 +75,6 @@
     <a href="#produtos" class="mobile-nav__item" data-mobile-action="products">
       <i class="fa-solid fa-store"></i><span>Produtos</span>
     </a>
-    <button type="button" class="mobile-nav__item" data-mobile-action="categories">
-      <i class="fa-solid fa-sliders"></i><span>Categorias</span>
-    </button>
     <button type="button" class="mobile-nav__item mobile-nav__cart" data-mobile-action="cart" aria-label="Abrir carrinho">
       <i class="fa-solid fa-cart-shopping"></i><span>Carrinho</span>
       <small id="mobile-cart-summary">0 itens</small>
