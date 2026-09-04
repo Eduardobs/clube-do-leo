@@ -71,7 +71,12 @@
   .footer__inner { gap: 0.55rem; }
   .footer__logo { display: none; }
   .footer__social { gap: 1.2rem; }
+  .footer__links { flex-direction: column; gap: 0.35rem; }
   .footer__admin-link { margin-top: 0.25rem; }
+  .institutional-page { padding-bottom: 0; }
+  .institutional-header__inner { min-height: 76px; }
+  .institutional-main { padding-top: 2rem; padding-bottom: 2rem; }
+  .institutional-card { padding: 2rem 1.25rem; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

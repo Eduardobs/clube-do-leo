@@ -63,10 +63,11 @@ describe('local asset references resolve to real files', () => {
     ];
     return elements
       .map((el) => el.getAttribute('src') || el.getAttribute('href'))
-      .filter((src) => src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith('#') && !src.startsWith('mailto:'));
+      .filter((src) => src && !/^([a-z]+:)?\/\//i.test(src) && !src.startsWith('#') && !src.startsWith('mailto:'))
+      .map((src) => src.split(/[?#]/, 1)[0]);
   }
 
-  it.each(['index.html', 'admin.html'])('every local asset referenced in %s exists on disk', (htmlFileName) => {
+  it.each(['index.html', 'admin.html', 'politica-de-precos.html'])('every local asset referenced in %s exists on disk', (htmlFileName) => {
     const missing = localAssetPaths(htmlFileName).filter((assetPath) => !fs.existsSync(path.join(ROOT_DIR, assetPath)));
     expect(missing).toEqual([]);
   });
