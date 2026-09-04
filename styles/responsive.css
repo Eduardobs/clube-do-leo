@@ -54,7 +54,7 @@
   #detail-main-image { max-height: min(38vh, 310px); }
   .quantity-stepper button { width: 44px; height: 44px; }
   .quantity-stepper input { min-height: 44px; }
-  #product-detail > .btn--block { position: sticky; bottom: -1.25rem; min-height: 52px; margin: 0 -1rem; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom)); border-radius: 0; box-shadow: 0 -5px 14px rgba(58, 46, 34, 0.12); }
+  #product-detail > .btn--block { position: sticky; bottom: -1.25rem; width: calc(100% + 2rem); min-height: 52px; margin: 0 -1rem; padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom)); border-radius: 0; box-shadow: 0 -5px 14px rgba(58, 46, 34, 0.12); }
   .modal__content--cart { max-height: 88vh; }
   .cart-items { max-height: none; flex: 1; }
   .cart-item { gap: 0.6rem; padding: 0.6rem; }
