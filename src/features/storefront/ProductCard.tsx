@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { formatPrice, imageFallback, productPageUrl, productThumbnailUrl } from '../../lib/format';
 import type { Product } from '../../types/product';
@@ -7,7 +8,7 @@ interface ProductCardProps {
   onAdd: (product: Product) => void;
 }
 
-export function ProductCard({ product, onAdd }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({ product, onAdd }: ProductCardProps) {
   const descriptionLines = product.descricao.split('\n').map((line) => line.trim()).filter((line) => line.length > 15);
   const summary = descriptionLines[1] ?? descriptionLines[0];
   return (
@@ -30,4 +31,4 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
       </div>
     </article>
   );
-}
+});

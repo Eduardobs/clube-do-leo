@@ -72,7 +72,7 @@ export function StoreHeader({ activeCategory, cartCount, onCategoryChange, onOpe
           <p className="header-showcase__tagline"><Heart aria-hidden="true" /> Qualidade, criatividade e diversão que você pode ver e tocar! <Heart aria-hidden="true" /></p>
         </div>
 
-        <img src={HEADER_TOYS_URL} className="header-showcase__toys" alt="Brinquedos coloridos que representam o catálogo de produtos 3D" width="900" height="600" />
+        <img src={HEADER_TOYS_URL} className="header-showcase__toys" alt="Brinquedos coloridos que representam o catálogo de produtos 3D" width="900" height="600" decoding="async" fetchPriority="high" />
       </div>
     </header>
   );

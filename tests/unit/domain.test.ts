@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatPrice, normalizeSearchText, slugify } from '../../src/lib/format';
+import { formatPrice, normalizeSearchText, productThumbnailUrl, slugify } from '../../src/lib/format';
 import { cartItemCount, cartTotal, parseProductsFile } from '../../src/lib/products';
 import { buildConsultationMessage, buildDetailedOrderMessage, buildOrderMessage } from '../../src/lib/whatsapp';
 import type { Product } from '../../src/types/product';
@@ -26,6 +26,10 @@ describe('domínio do catálogo', () => {
   it('normaliza buscas e endereços sem depender de acentos', () => {
     expect(normalizeSearchText('  Presépio com Três Peças  ')).toBe('presepio com tres pecas');
     expect(slugify('Maçã & Chaveiro')).toBe('maca-chaveiro');
+  });
+
+  it('usa a versão reduzida das imagens nas miniaturas', () => {
+    expect(productThumbnailUrl('assets/products/produto.webp')).toBe('/assets/products/thumbs/produto.webp');
   });
 
   it('calcula total e quantidade ignorando produtos removidos do catálogo', () => {

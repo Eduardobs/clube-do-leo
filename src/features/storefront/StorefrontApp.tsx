@@ -15,6 +15,7 @@ import { ProductCard } from './ProductCard';
 import { StoreHeader } from './StoreHeader';
 
 const PAGE_SIZE = 12;
+const productNameCollator = new Intl.Collator('pt-BR');
 
 export function StorefrontApp() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,24 +44,31 @@ export function StorefrontApp() {
     return () => controller.abort();
   }, []);
 
+  const indexedProducts = useMemo(() => products.map((product) => ({
+    product,
+    searchText: normalizeSearchText([
+      product.nome,
+      product.codigo,
+      product.descricao,
+      ...product.categorias,
+    ].join(' ')),
+  })), [products]);
+
   const filteredProducts = useMemo(() => {
     const term = normalizeSearchText(search);
-    const matches = products.filter((product) =>
-      (!term || normalizeSearchText([
-        product.nome,
-        product.codigo,
-        product.descricao,
-        ...product.categorias,
-      ].join(' ')).includes(term)) &&
-      (!category || product.categorias.includes(category)),
-    );
-    if (sort === 'name') return [...matches].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    const matches = indexedProducts
+      .filter(({ product, searchText }) =>
+        (!term || searchText.includes(term)) &&
+        (!category || product.categorias.includes(category)),
+      )
+      .map(({ product }) => product);
+    if (sort === 'name') return [...matches].sort((a, b) => productNameCollator.compare(a.nome, b.nome));
     if (sort === 'price-asc') return [...matches].sort((a, b) => (a.valor || Number.POSITIVE_INFINITY) - (b.valor || Number.POSITIVE_INFINITY));
     if (sort === 'price-desc') return [...matches].sort((a, b) => b.valor - a.valor);
     return matches;
-  }, [category, products, search, sort]);
+  }, [category, indexedProducts, search, sort]);
 
-  useEffect(() => setVisibleCount(PAGE_SIZE), [category, search]);
+  useEffect(() => setVisibleCount(PAGE_SIZE), [category, search, sort]);
 
   useEffect(() => {
     if (loading || new URLSearchParams(window.location.search).get('carrinho') !== '1') return;
@@ -87,11 +95,11 @@ export function StorefrontApp() {
 
   const dismissToast = useCallback(() => setToast(''), []);
 
-  const addToCart = (product: Product, quantity = 1) => {
+  const addToCart = useCallback((product: Product, quantity = 1) => {
     cart.add(product.codigo, quantity);
     trackStoreEvent('add_to_cart', { product_code: product.codigo, quantity, value: product.valor });
     setToast(`${product.nome} adicionado ao carrinho!`);
-  };
+  }, [cart.add]);
 
   const startCheckout = () => {
     if (!cart.items.length) {

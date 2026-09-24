@@ -5,7 +5,7 @@ import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
 import { useCart } from '../../hooks/useCart';
 import { trackStoreEvent } from '../../lib/analytics';
-import { BRAND_LOGO_URL, formatPrice, imageFallback, resolveAsset, slugify } from '../../lib/format';
+import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset, slugify } from '../../lib/format';
 import { fetchProducts } from '../../lib/products';
 import { buildConsultationMessage, openWhatsApp } from '../../lib/whatsapp';
 import type { Product } from '../../types/product';
@@ -69,10 +69,10 @@ export function ProductPageApp() {
         {product ? (
           <article className="product-page__content">
             <div className="product-detail__gallery product-page__gallery">
-              <img id="detail-main-image" src={resolveAsset(selectedImage)} alt={product.nome} width="800" height="800" onError={imageFallback} />
+              <img id="detail-main-image" src={resolveAsset(selectedImage)} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} />
               {product.imagens.length > 1 ? <div className="product-detail__thumbs" aria-label="Galeria de imagens">{product.imagens.map((image, index) => (
                 <button key={`${image}-${index}`} type="button" className={`product-detail__thumb${selectedImage === image ? ' is-active' : ''}`} onClick={() => setSelectedImage(image)} aria-label={`Ver imagem ${index + 1} de ${product.nome}`}>
-                  <img src={resolveAsset(image)} alt="" loading="lazy" decoding="async" width="80" height="80" onError={imageFallback} />
+                  <img src={productThumbnailUrl(image)} alt="" loading="lazy" decoding="async" width="80" height="80" onError={imageFallback} />
                 </button>
               ))}</div> : null}
             </div>
