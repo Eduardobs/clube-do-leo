@@ -52,7 +52,7 @@ export function buildDetailedOrderMessage(
     const product = findProduct(products, item.codigo);
     if (!product) return [];
     if (product.valor <= 0) return `- ${product.nome} (cód. ${product.codigo}): ${item.quantity} un. — valor a confirmar`;
-    return `- ${product.nome} (${product.codigo}): ${item.quantity} x ${formatPrice(product.valor)} = ${formatPrice(product.valor * item.quantity)}`;
+    return `- ${product.nome} (cód. ${product.codigo}): ${item.quantity} x ${formatPrice(product.valor)} = ${formatPrice(product.valor * item.quantity)}`;
   });
   const notes = details.notes?.trim();
 
