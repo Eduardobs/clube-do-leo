@@ -28,7 +28,7 @@ export function StorefrontApp() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [toast, setToast] = useState('');
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const cart = useCart(products, !loading);
+  const cart = useCart(products);
 
   useEffect(() => {
     const controller = new AbortController();

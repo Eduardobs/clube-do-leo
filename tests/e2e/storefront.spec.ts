@@ -34,6 +34,34 @@ test('mantém o carrinho ao visitar a política de preços e voltar à loja', as
   await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Estrela Sensorial');
 });
 
+test('mantém o carrinho da vitrine ao abrir uma página de produto', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Adicionar' }).first().click();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
+    .toBe('[{"codigo":"1","quantity":1}]');
+
+  await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
+
+  await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Ver carrinho (1)' })).toBeVisible();
+  await page.getByRole('link', { name: 'Ver carrinho (1)' }).click();
+  await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Estrela Sensorial');
+});
+
+test('não apaga o carrinho se o catálogo falhar na troca de página', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Adicionar' }).first().click();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
+    .toBe('[{"codigo":"1","quantity":1}]');
+  await page.route('**/data/products.json', (route) => route.abort());
+
+  await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
+
+  await expect(page.getByRole('alert')).toContainText('Não foi possível carregar este produto.');
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
+    .toBe('[{"codigo":"1","quantity":1}]');
+});
+
 test('mantém o produto no carrinho ao voltar da página de detalhes', async ({ page }) => {
   await page.goto('/produto-cubo-infinito-2.html');
   await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click();

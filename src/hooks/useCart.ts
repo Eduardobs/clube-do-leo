@@ -50,7 +50,7 @@ function readCart(): CartItem[] {
   }
 }
 
-export function useCart(products: Product[], catalogReady = true) {
+export function useCart(products: Product[]) {
   const [items, setItemsState] = useState<CartItem[]>(readCart);
 
   const setItems = useCallback((updater: (current: CartItem[]) => CartItem[]) => {
@@ -70,15 +70,6 @@ export function useCart(products: Product[], catalogReady = true) {
     window.addEventListener('storage', syncCart);
     return () => window.removeEventListener('storage', syncCart);
   }, []);
-
-  useEffect(() => {
-    if (!catalogReady) return;
-    const productCodes = new Set(products.map((product) => product.codigo));
-    setItems((current) => {
-      const next = current.filter((item) => productCodes.has(item.codigo));
-      return next.length === current.length ? current : next;
-    });
-  }, [catalogReady, products, setItems]);
 
   const add = useCallback(
     (codigo: string, rawQuantity = 1) => {

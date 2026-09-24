@@ -22,7 +22,7 @@ export function ProductPageApp() {
   const [selectedImage, setSelectedImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [toast, setToast] = useState('');
-  const cart = useCart(products, !loading);
+  const cart = useCart(products);
   const product = useMemo(
     () => products.find((item) => slugify(`${item.nome}-${item.codigo}`) === pageSlug()),
     [products],
