@@ -5,6 +5,7 @@ import { BRAND_LOGO_URL } from '../../lib/format';
 export function PricingPolicyApp() {
   return (
     <div className="institutional-page">
+      <a className="skip-link" href="#politica-precos">Pular para a política de preços</a>
       <header className="institutional-header">
         <div className="container institutional-header__inner">
           <a href="./index.html" className="brand" aria-label="Clube do Léo, página inicial">
@@ -13,7 +14,7 @@ export function PricingPolicyApp() {
           <a href="./index.html" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
         </div>
       </header>
-      <main className="container institutional-main">
+      <main id="politica-precos" className="container institutional-main">
         <article className="institutional-card">
           <span className="institutional-card__icon" aria-hidden="true"><Tag /></span>
           <p className="institutional-card__eyebrow">Informação importante</p>

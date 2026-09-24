@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { STORE_CONFIG } from '../config/store';
 import type { CartItem, Product } from '../types/product';
 import { cartItemCount, cartTotal, findProduct } from '../lib/products';
 
@@ -17,13 +18,16 @@ function readCart(): CartItem[] {
         typeof (item as CartItem).codigo === 'string' &&
         Number.isInteger((item as CartItem).quantity) &&
         (item as CartItem).quantity > 0,
-    );
+    ).map((item) => ({
+      codigo: item.codigo.trim(),
+      quantity: Math.min(item.quantity, STORE_CONFIG.maxQuantityPerProduct),
+    }));
   } catch {
     return [];
   }
 }
 
-export function useCart(products: Product[]) {
+export function useCart(products: Product[], catalogReady = true) {
   const [items, setItemsState] = useState<CartItem[]>(readCart);
 
   const setItems = useCallback((updater: (current: CartItem[]) => CartItem[]) => {
@@ -38,16 +42,30 @@ export function useCart(products: Product[]) {
     });
   }, []);
 
+  useEffect(() => {
+    if (!catalogReady) return;
+    const productCodes = new Set(products.map((product) => product.codigo));
+    setItems((current) => {
+      const next = current.filter((item) => productCodes.has(item.codigo));
+      return next.length === current.length ? current : next;
+    });
+  }, [catalogReady, products, setItems]);
+
   const add = useCallback(
     (codigo: string, rawQuantity = 1) => {
       if (!findProduct(products, codigo)) return false;
       const parsed = Number.parseInt(String(rawQuantity), 10);
-      const quantity = Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+      const quantity = Math.min(
+        Number.isFinite(parsed) && parsed > 0 ? parsed : 1,
+        STORE_CONFIG.maxQuantityPerProduct,
+      );
       setItems((current) => {
         const existing = current.find((item) => item.codigo === codigo);
         return existing
           ? current.map((item) =>
-              item.codigo === codigo ? { ...item, quantity: item.quantity + quantity } : item,
+              item.codigo === codigo
+                ? { ...item, quantity: Math.min(item.quantity + quantity, STORE_CONFIG.maxQuantityPerProduct) }
+                : item,
             )
           : [...current, { codigo, quantity }];
       });
@@ -65,7 +83,11 @@ export function useCart(products: Product[]) {
     setItems((current) =>
       !Number.isFinite(quantity) || quantity < 1
         ? current.filter((item) => item.codigo !== codigo)
-        : current.map((item) => (item.codigo === codigo ? { ...item, quantity } : item)),
+        : current.map((item) => (
+          item.codigo === codigo
+            ? { ...item, quantity: Math.min(quantity, STORE_CONFIG.maxQuantityPerProduct) }
+            : item
+        )),
     );
   }, [setItems]);
 

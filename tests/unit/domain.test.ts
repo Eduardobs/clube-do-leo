@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { formatPrice } from '../../src/lib/format';
+import { formatPrice, normalizeSearchText, slugify } from '../../src/lib/format';
 import { cartItemCount, cartTotal, parseProductsFile } from '../../src/lib/products';
-import { buildConsultationMessage, buildOrderMessage } from '../../src/lib/whatsapp';
+import { buildConsultationMessage, buildDetailedOrderMessage, buildOrderMessage } from '../../src/lib/whatsapp';
 import type { Product } from '../../src/types/product';
 
 const products: Product[] = [
@@ -23,6 +23,11 @@ describe('domínio do catálogo', () => {
     expect(formatPrice(0)).toBe('Sob consulta');
   });
 
+  it('normaliza buscas e endereços sem depender de acentos', () => {
+    expect(normalizeSearchText('  Presépio com Três Peças  ')).toBe('presepio com tres pecas');
+    expect(slugify('Maçã & Chaveiro')).toBe('maca-chaveiro');
+  });
+
   it('calcula total e quantidade ignorando produtos removidos do catálogo', () => {
     const cart = [{ codigo: '1', quantity: 2 }, { codigo: 'ausente', quantity: 4 }];
     expect(cartTotal(cart, products)).toBe(25);
@@ -34,5 +39,13 @@ describe('domínio do catálogo', () => {
     const message = buildOrderMessage('  Maria  ', [{ codigo: '1', quantity: 2 }], products);
     expect(message).toContain('2 x R$ 12,50 = R$ 25,00');
     expect(message).toContain('*Cliente:* Maria');
+    const detailed = buildDetailedOrderMessage(
+      { orderId: 'CDL-20260924-ABC', customerName: 'Maria', notes: 'Azul' },
+      [{ codigo: '1', quantity: 2 }],
+      products,
+    );
+    expect(detailed).toContain('*Referência:* CDL-20260924-ABC');
+    expect(detailed).toContain('*Subtotal estimado: R$ 25,00*');
+    expect(detailed).toContain('*Observações:* Azul');
   });
 });

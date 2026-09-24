@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { MessageCircle, Search, ShoppingCart, Store } from 'lucide-react';
+import { BadgeCheck, Factory, MessageCircle, Search, ShoppingCart, Store } from 'lucide-react';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
 import { useCart } from '../../hooks/useCart';
-import { fetchProducts } from '../../lib/products';
-import { buildConsultationMessage, buildOrderMessage, openWhatsApp } from '../../lib/whatsapp';
+import { trackStoreEvent } from '../../lib/analytics';
+import { normalizeSearchText } from '../../lib/format';
+import { fetchProducts, findProduct } from '../../lib/products';
+import { buildDetailedOrderMessage, createOrderId, openWhatsApp } from '../../lib/whatsapp';
 import type { Category, Product } from '../../types/product';
 import { CartModal } from './CartModal';
 import { CheckoutModal } from './CheckoutModal';
 import { ProductCard } from './ProductCard';
-import { ProductDetailModal } from './ProductDetailModal';
 import { StoreHeader } from './StoreHeader';
 
 const PAGE_SIZE = 12;
@@ -22,12 +23,12 @@ export function StorefrontApp() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<Category | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+  const [sort, setSort] = useState<'catalog' | 'name' | 'price-asc' | 'price-desc'>('catalog');
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [toast, setToast] = useState('');
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const cart = useCart(products);
+  const cart = useCart(products, !loading);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -43,14 +44,29 @@ export function StorefrontApp() {
   }, []);
 
   const filteredProducts = useMemo(() => {
-    const term = search.trim().toLocaleLowerCase('pt-BR');
-    return products.filter((product) =>
-      (!term || product.nome.toLocaleLowerCase('pt-BR').includes(term)) &&
+    const term = normalizeSearchText(search);
+    const matches = products.filter((product) =>
+      (!term || normalizeSearchText([
+        product.nome,
+        product.codigo,
+        product.descricao,
+        ...product.categorias,
+      ].join(' ')).includes(term)) &&
       (!category || product.categorias.includes(category)),
     );
-  }, [category, products, search]);
+    if (sort === 'name') return [...matches].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    if (sort === 'price-asc') return [...matches].sort((a, b) => (a.valor || Number.POSITIVE_INFINITY) - (b.valor || Number.POSITIVE_INFINITY));
+    if (sort === 'price-desc') return [...matches].sort((a, b) => b.valor - a.valor);
+    return matches;
+  }, [category, products, search, sort]);
 
   useEffect(() => setVisibleCount(PAGE_SIZE), [category, search]);
+
+  useEffect(() => {
+    if (loading || new URLSearchParams(window.location.search).get('carrinho') !== '1') return;
+    setCartOpen(true);
+    window.history.replaceState({}, '', `${window.location.pathname}#produtos`);
+  }, [loading]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -73,11 +89,9 @@ export function StorefrontApp() {
 
   const addToCart = (product: Product, quantity = 1) => {
     cart.add(product.codigo, quantity);
-    setDetailProduct(null);
+    trackStoreEvent('add_to_cart', { product_code: product.codigo, quantity, value: product.valor });
     setToast(`${product.nome} adicionado ao carrinho!`);
   };
-
-  const consultProduct = (product: Product) => openWhatsApp(buildConsultationMessage(product));
 
   const startCheckout = () => {
     if (!cart.items.length) {
@@ -86,16 +100,22 @@ export function StorefrontApp() {
     }
     setCartOpen(false);
     setCheckoutOpen(true);
+    trackStoreEvent('begin_checkout', { item_count: cart.count, value: cart.total });
   };
 
-  const sendOrder = (customerName: string) => {
-    openWhatsApp(buildOrderMessage(customerName, cart.items, products));
-    cart.clear();
+  const sendOrder = (customerName: string, notes: string) => {
+    const orderId = createOrderId();
+    trackStoreEvent('click_whatsapp', { order_id: orderId, item_count: cart.count, value: cart.total });
+    openWhatsApp(buildDetailedOrderMessage({ orderId, customerName, notes }, cart.items, products));
     setCheckoutOpen(false);
+    setToast(`Pedido ${orderId} preparado. Seu carrinho foi mantido.`);
   };
+
+  const hasUnpricedItems = cart.items.some((item) => (findProduct(products, item.codigo)?.valor ?? 0) <= 0);
 
   return (
     <>
+      <a className="skip-link" href="#produtos">Pular para os produtos</a>
       <StoreHeader activeCategory={category} cartCount={cart.count} onCategoryChange={setCategory} onOpenCart={() => setCartOpen(true)} />
       <main>
         <section id="produtos" className="catalog container" aria-busy={loading}>
@@ -105,17 +125,40 @@ export function StorefrontApp() {
               <span className="sr-only">Buscar produto</span>
               <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar produto..." />
             </label>
+            <label className="sort-control">
+              <span>Ordenar por</span>
+              <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
+                <option value="catalog">Ordem do catálogo</option>
+                <option value="name">Nome</option>
+                <option value="price-asc">Menor preço</option>
+                <option value="price-desc">Maior preço</option>
+              </select>
+            </label>
+          </div>
+          <div className="catalog__filter-row">
+            <div className="category-filters" aria-label="Filtrar por categoria">
+              <button type="button" className={!category ? 'is-active' : ''} aria-pressed={!category} onClick={() => setCategory(null)}>Todos</button>
+              {STORE_CONFIG.categories.map((item) => <button type="button" key={item} className={category === item ? 'is-active' : ''} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
+            </div>
+            {!loading && !error ? <p className="catalog__count" aria-live="polite">{filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}</p> : null}
           </div>
           {loading ? <div className="spinner" aria-label="Carregando produtos" /> : null}
           {error ? <p className="error-message" role="alert">{error}</p> : null}
           {!loading && !error ? (
             <div className="product-grid">
               {filteredProducts.length ? filteredProducts.slice(0, visibleCount).map((product) => (
-                <ProductCard key={product.codigo} product={product} onDetails={setDetailProduct} onAdd={addToCart} onConsult={consultProduct} />
+                <ProductCard key={product.codigo} product={product} onAdd={addToCart} />
               )) : <p className="empty-state">Nenhum produto encontrado para essa busca.</p>}
             </div>
           ) : null}
           <div ref={sentinelRef} className="load-more-sentinel" aria-hidden="true" />
+        </section>
+        <section className="trust-strip" aria-label="Diferenciais da loja">
+          <div className="container trust-strip__inner">
+            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Produtos impressos em 3D</span></p>
+            <p><BadgeCheck aria-hidden="true" /><span><strong>Pedido transparente</strong>Subtotal antes de chamar</span></p>
+            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Confirmação pelo WhatsApp</span></p>
+          </div>
         </section>
       </main>
       <SiteFooter />
@@ -126,14 +169,13 @@ export function StorefrontApp() {
           <ShoppingCart aria-hidden="true" /><span>Carrinho</span>
           <small>{cart.count ? `${cart.count} ${cart.count === 1 ? 'item' : 'itens'}` : 'Carrinho vazio'}</small>
         </button>
-        <a href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="mobile-nav__item mobile-nav__whatsapp">
+        <a href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="mobile-nav__item mobile-nav__whatsapp" onClick={() => trackStoreEvent('click_whatsapp', { source: 'mobile_navigation' })}>
           <MessageCircle aria-hidden="true" /><span>WhatsApp</span>
         </a>
       </nav>
 
-      {detailProduct ? <ProductDetailModal product={detailProduct} onClose={() => setDetailProduct(null)} onAdd={addToCart} onConsult={consultProduct} /> : null}
       {cartOpen ? <CartModal items={cart.items} products={products} total={cart.total} onClose={() => setCartOpen(false)} onClear={cart.clear} onRemove={cart.remove} onUpdate={cart.updateQuantity} onCheckout={startCheckout} /> : null}
-      {checkoutOpen ? <CheckoutModal onClose={() => setCheckoutOpen(false)} onSubmit={sendOrder} /> : null}
+      {checkoutOpen ? <CheckoutModal itemCount={cart.count} total={cart.total} hasUnpricedItems={hasUnpricedItems} onClose={() => setCheckoutOpen(false)} onSubmit={sendOrder} /> : null}
       <Toast message={toast} onDismiss={dismissToast} actionLabel={cart.items.length ? 'Ver carrinho' : undefined} onAction={() => setCartOpen(true)} />
     </>
   );

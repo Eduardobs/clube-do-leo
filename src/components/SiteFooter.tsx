@@ -26,7 +26,6 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
           {compact ? <a href="./index.html">Página inicial</a> : (
             <>
               <a href="./politica-de-precos.html">Política de preços</a>
-              <a href="./admin.html" className="footer__admin-link">Painel administrativo</a>
             </>
           )}
         </div>

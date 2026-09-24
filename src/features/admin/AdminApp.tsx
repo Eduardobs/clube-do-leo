@@ -3,7 +3,7 @@ import { ArrowLeft, Download, FileUp, ImagePlus, Pencil, Plus, Search, Trash2, U
 import { Modal } from '../../components/Modal';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
-import { BRAND_LOGO_URL, formatPrice, imageFallback, resolveAsset } from '../../lib/format';
+import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset } from '../../lib/format';
 import { fetchProducts, parseProductsFile } from '../../lib/products';
 import type { Category, Product } from '../../types/product';
 
@@ -207,14 +207,19 @@ export function AdminApp() {
 
   return (
     <>
+      <a className="skip-link" href="#editor-produtos">Pular para o editor</a>
       <header className="admin-header">
         <div className="container admin-header__inner">
           <a href="./index.html" className="brand"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
-          <h1 className="admin-header__title">Painel de produtos</h1>
+          <h1 className="admin-header__title">Editor local do catálogo</h1>
           <a href="./index.html" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
         </div>
       </header>
-      <main className="container admin-main">
+      <main id="editor-produtos" className="container admin-main">
+        <aside className="admin-notice" role="note">
+          <strong>Editor local — alterações não são publicadas automaticamente.</strong>
+          <span>Baixe o arquivo ao terminar, substitua <code>data/products.json</code> no repositório e publique manualmente.</span>
+        </aside>
         <div className="admin-toolbar">
           <label className="search-box">
             <Search aria-hidden="true" /><span className="sr-only">Buscar por nome ou código</span>
@@ -235,7 +240,7 @@ export function AdminApp() {
             <tbody>
               {filteredProducts.map((product) => (
                 <tr key={product.codigo}>
-                  <td><img className="admin-table__thumb" src={resolveAsset(product.imagens[0])} alt={product.nome} onError={imageFallback} /></td>
+                  <td><img className="admin-table__thumb" src={productThumbnailUrl(product.imagens[0])} alt={product.nome} onError={imageFallback} /></td>
                   <td>{product.codigo}</td>
                   <td className="admin-table__name"><strong>{product.nome}</strong><span>{product.descricao}</span></td>
                   <td><div className="badge-list">{product.categorias.map((category) => <span className="badge" key={category}>{category}</span>)}</div></td>

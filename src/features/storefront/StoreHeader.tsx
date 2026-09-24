@@ -36,7 +36,7 @@ export function StoreHeader({ activeCategory, cartCount, onCategoryChange, onOpe
           <nav className="site-nav site-nav--header" aria-label="Navegação principal">
             <a href={STORE_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Camera /></a>
             <a href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle /></a>
-            <button type="button" className="cart-btn" onClick={onOpenCart} aria-label={`Abrir carrinho, ${cartCount} itens`}>
+            <button type="button" className="cart-btn" onClick={onOpenCart} aria-label={`Abrir carrinho, ${cartCount} ${cartCount === 1 ? 'item' : 'itens'}`}>
               <ShoppingCart aria-hidden="true" />
               <span className="cart-btn__badge">{cartCount}</span>
             </button>
@@ -64,7 +64,7 @@ export function StoreHeader({ activeCategory, cartCount, onCategoryChange, onOpe
           <p className="header-showcase__tagline"><Heart aria-hidden="true" /> Qualidade, criatividade e diversão que você pode ver e tocar! <Heart aria-hidden="true" /></p>
         </div>
 
-        <img src={HEADER_TOYS_URL} className="header-showcase__toys" alt="Brinquedos coloridos de madeira e ursinho" />
+        <img src={HEADER_TOYS_URL} className="header-showcase__toys" alt="Brinquedos coloridos que representam o catálogo de produtos 3D" width="900" height="600" />
       </div>
     </header>
   );

@@ -7,6 +7,7 @@ Catálogo estático em React e TypeScript, com carrinho, busca, filtros, galeria
 - React 19 e TypeScript
 - Vite para desenvolvimento e build
 - Vitest e Testing Library
+- Playwright e axe-core para fluxos ponta a ponta e acessibilidade
 - Lucide para ícones locais no bundle
 - GitHub Actions e GitHub Pages
 
@@ -22,14 +23,14 @@ npm run dev
 O Vite disponibiliza as três entradas do projeto:
 
 - `/index.html`: vitrine pública;
-- `/admin.html`: painel de produtos;
+- `/admin.html`: editor local de produtos (não vinculado na vitrine);
 - `/politica-de-precos.html`: política de preços.
 
 ## Catálogo
 
 O arquivo [`data/products.json`](data/products.json) continua sendo a fonte de dados. As imagens ficam em `assets/products/` e seus caminhos são registrados no JSON.
 
-O painel administrativo funciona inteiramente no navegador. Alterações ficam como rascunho no `localStorage`; para publicá-las, baixe o `products.json` pelo painel, substitua `data/products.json` no repositório e faça commit. Imagens enviadas pelo painel são incorporadas como Data URL; para manter o repositório leve, prefira salvar as imagens em `assets/products/` e informar o caminho no formulário.
+O editor local funciona inteiramente no navegador e não publica alterações. Os rascunhos ficam no `localStorage`; para publicar, baixe o `products.json`, substitua `data/products.json` no repositório e faça commit. Imagens enviadas pelo editor são incorporadas como Data URL; para manter o repositório leve, prefira salvar as imagens em `assets/products/` e informar o caminho no formulário.
 
 ## Qualidade e build
 
@@ -37,6 +38,7 @@ O painel administrativo funciona inteiramente no navegador. Alterações ficam c
 npm run typecheck
 npm test
 npm run build
+npm run test:e2e
 ```
 
 Ou execute todas as validações com:
@@ -45,8 +47,15 @@ Ou execute todas as validações com:
 npm run check
 ```
 
-O build é gerado em `dist/`. A configuração usa caminhos relativos e copia `assets/`, `data/products.json`, `CNAME` e `.nojekyll`, portanto funciona tanto no domínio personalizado quanto no subdiretório padrão do GitHub Pages.
+O build é gerado em `dist/`. Além das três entradas principais, ele gera uma página indexável para cada produto, `sitemap.xml` e `robots.txt`. A configuração usa caminhos relativos e copia as imagens WebP publicadas, `data/products.json`, `CNAME` e `.nojekyll`.
 
 ## Publicação
 
 O workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) valida, compila e publica o conteúdo de `dist/` a cada push na branch `master`. No GitHub, configure **Settings → Pages → Build and deployment → Source** como **GitHub Actions**.
+
+## Segurança e métricas
+
+- Nunca coloque tokens em variáveis `VITE_*` ou no JavaScript gerado. O fechamento atual usa somente `wa.me` e não requer segredo.
+- As páginas usam CSP e política de referência via HTML. Cabeçalhos que dependem da resposta HTTP, como `X-Content-Type-Options`, `Permissions-Policy` e `frame-ancestors`, exigem um proxy/CDN configurável, pois o GitHub Pages não oferece configuração de cabeçalhos por projeto.
+- Ative **Secret scanning** e **Push protection** nas configurações do repositório. O Dependabot já acompanha npm e GitHub Actions.
+- A vitrine emite eventos locais `view_item`, `add_to_cart`, `begin_checkout` e `click_whatsapp`, sem nome ou observações do cliente. Eles são enviados a `window.dataLayer` apenas quando uma ferramenta de métricas já tiver criado essa fila.
