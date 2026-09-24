@@ -1,4 +1,4 @@
-import { Camera, Coffee, Heart, House, MessageCircle, PawPrint, Puzzle, ShoppingCart } from 'lucide-react';
+import { Camera, Coffee, Grid2X2, Heart, House, MessageCircle, PawPrint, Puzzle, ShoppingCart } from 'lucide-react';
 import { STORE_CONFIG } from '../../config/store';
 import { BRAND_LOGO_URL, HEADER_TOYS_URL } from '../../lib/format';
 import type { Category } from '../../types/product';
@@ -45,6 +45,14 @@ export function StoreHeader({ activeCategory, cartCount, onCategoryChange, onOpe
           <h1>Produtos 3D</h1>
           <div className="header-showcase__line" aria-hidden="true" />
           <div className="header-pills" aria-label="Categorias de produtos">
+            <button
+              type="button"
+              className={`header-pill header-pill--all${activeCategory === null ? ' is-active' : ''}`}
+              aria-pressed={activeCategory === null}
+              onClick={() => onCategoryChange(null)}
+            >
+              <span><Grid2X2 aria-hidden="true" /></span>Todos
+            </button>
             {STORE_CONFIG.categories.map((category) => {
               const Icon = categoryIcons[category];
               const isActive = activeCategory === category;

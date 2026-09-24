@@ -4,14 +4,35 @@ import type { CartItem, Product } from '../types/product';
 import { cartItemCount, cartTotal, findProduct } from '../lib/products';
 
 const STORAGE_KEY = 'clubeDoLeo.cart';
+const LEGACY_STORAGE_KEY = 'cart';
+
+function readStoredValue(storage: Storage, key: string): string | null {
+  try {
+    return storage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredValue(storage: Storage, items: CartItem[]): boolean {
+  try {
+    storage.setItem(STORAGE_KEY, JSON.stringify(items));
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function readCart(): CartItem[] {
   try {
-    const stored = sessionStorage.getItem(STORAGE_KEY) ?? sessionStorage.getItem('cart');
+    const localCart = readStoredValue(localStorage, STORAGE_KEY);
+    const sessionCart = readStoredValue(sessionStorage, STORAGE_KEY)
+      ?? readStoredValue(sessionStorage, LEGACY_STORAGE_KEY);
+    const stored = localCart ?? sessionCart;
     if (!stored) return [];
     const value: unknown = JSON.parse(stored);
     if (!Array.isArray(value)) return [];
-    return value.filter(
+    const items = value.filter(
       (item): item is CartItem =>
         Boolean(item) &&
         typeof item === 'object' &&
@@ -22,6 +43,8 @@ function readCart(): CartItem[] {
       codigo: item.codigo.trim(),
       quantity: Math.min(item.quantity, STORE_CONFIG.maxQuantityPerProduct),
     }));
+    if (!localCart && sessionCart) writeStoredValue(localStorage, items);
+    return items;
   } catch {
     return [];
   }
@@ -33,13 +56,19 @@ export function useCart(products: Product[], catalogReady = true) {
   const setItems = useCallback((updater: (current: CartItem[]) => CartItem[]) => {
     setItemsState((current) => {
       const next = updater(current);
-      try {
-        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch (reason) {
-        console.warn('Não foi possível persistir o carrinho nesta sessão:', reason);
-      }
+      const savedLocally = writeStoredValue(localStorage, next);
+      const savedInSession = writeStoredValue(sessionStorage, next);
+      if (!savedLocally && !savedInSession) console.warn('Não foi possível persistir o carrinho.');
       return next;
     });
+  }, []);
+
+  useEffect(() => {
+    const syncCart = (event: StorageEvent) => {
+      if (event.key === STORAGE_KEY) setItemsState(readCart());
+    };
+    window.addEventListener('storage', syncCart);
+    return () => window.removeEventListener('storage', syncCart);
   }, []);
 
   useEffect(() => {

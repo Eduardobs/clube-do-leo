@@ -21,7 +21,7 @@ describe('carrinho', () => {
   });
 
   it('remove itens que não existem mais quando o catálogo fica pronto', async () => {
-    sessionStorage.setItem('clubeDoLeo.cart', JSON.stringify([
+    localStorage.setItem('clubeDoLeo.cart', JSON.stringify([
       { codigo: '1', quantity: 2 },
       { codigo: 'removido', quantity: 1 },
     ]));
@@ -32,5 +32,13 @@ describe('carrinho', () => {
     expect(result.current.items).toHaveLength(2);
     rerender({ ready: true });
     await waitFor(() => expect(result.current.items).toEqual([{ codigo: '1', quantity: 2 }]));
+  });
+
+  it('migra um carrinho salvo na sessão para o armazenamento persistente', () => {
+    sessionStorage.setItem('clubeDoLeo.cart', JSON.stringify([{ codigo: '1', quantity: 2 }]));
+    const { result } = renderHook(() => useCart([product]));
+    expect(result.current.items).toEqual([{ codigo: '1', quantity: 2 }]);
+    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 2 }]);
+    expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 2 }]);
   });
 });

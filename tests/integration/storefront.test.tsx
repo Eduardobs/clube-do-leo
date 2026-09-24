@@ -21,6 +21,11 @@ describe('vitrine', () => {
     const user = userEvent.setup();
     render(<StorefrontApp />);
     expect(await screen.findByRole('heading', { name: 'Cubo infinito' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Jogos' })).toHaveLength(1);
+    await user.click(screen.getByRole('button', { name: 'Jogos' }));
+    expect(screen.queryByRole('heading', { name: 'Cubo infinito' })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Todos' }));
+    expect(screen.getByRole('heading', { name: 'Cubo infinito' })).toBeInTheDocument();
     await user.type(screen.getByRole('searchbox'), 'dino');
     expect(screen.queryByRole('heading', { name: 'Cubo infinito' })).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Jogo Dino' })).toBeInTheDocument();
@@ -31,6 +36,7 @@ describe('vitrine', () => {
     render(<StorefrontApp />);
     await user.click((await screen.findAllByRole('button', { name: 'Adicionar' }))[0]);
     expect(screen.getByText('Cubo infinito adicionado ao carrinho!')).toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
     expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
     await user.click(screen.getByRole('button', { name: /abrir carrinho, 1 item/i }));
     expect(screen.getByRole('dialog', { name: 'Carrinho de compras' })).toBeInTheDocument();
@@ -47,7 +53,7 @@ describe('vitrine', () => {
     await user.clear(screen.getByRole('searchbox'));
     await user.type(screen.getByRole('searchbox'), 'jogo');
     await user.click(screen.getByRole('button', { name: 'Adicionar' }));
-    expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '2', quantity: 1 }]);
+    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '2', quantity: 1 }]);
   });
 
   it('mostra erro amigável quando o catálogo não pode ser carregado', async () => {

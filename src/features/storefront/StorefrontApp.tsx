@@ -135,13 +135,7 @@ export function StorefrontApp() {
               </select>
             </label>
           </div>
-          <div className="catalog__filter-row">
-            <div className="category-filters" aria-label="Filtrar por categoria">
-              <button type="button" className={!category ? 'is-active' : ''} aria-pressed={!category} onClick={() => setCategory(null)}>Todos</button>
-              {STORE_CONFIG.categories.map((item) => <button type="button" key={item} className={category === item ? 'is-active' : ''} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
-            </div>
-            {!loading && !error ? <p className="catalog__count" aria-live="polite">{filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}</p> : null}
-          </div>
+          {!loading && !error ? <p className="catalog__count" aria-live="polite">{filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}</p> : null}
           {loading ? <div className="spinner" aria-label="Carregando produtos" /> : null}
           {error ? <p className="error-message" role="alert">{error}</p> : null}
           {!loading && !error ? (

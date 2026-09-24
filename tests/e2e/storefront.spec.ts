@@ -22,7 +22,24 @@ test('monta o pedido no WhatsApp sem apagar o carrinho', async ({ page }) => {
   const whatsappUrl = await page.evaluate(() => (window as typeof window & { __lastWhatsAppUrl?: string }).__lastWhatsAppUrl);
   expect(whatsappUrl).toContain('https://wa.me/');
   expect(decodeURIComponent(whatsappUrl ?? '')).toContain('Prefiro a cor azul');
-  expect(await page.evaluate(() => sessionStorage.getItem('clubeDoLeo.cart'))).not.toBe('[]');
+  expect(await page.evaluate(() => localStorage.getItem('clubeDoLeo.cart'))).not.toBe('[]');
+});
+
+test('mantém o carrinho ao visitar a política de preços e voltar à loja', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Adicionar' }).first().click();
+  await page.getByRole('link', { name: 'Política de preços' }).click();
+  await page.getByRole('link', { name: 'Voltar à loja' }).click();
+  await page.getByRole('button', { name: /^abrir carrinho/i }).click();
+  await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Estrela Sensorial');
+});
+
+test('mantém o produto no carrinho ao voltar da página de detalhes', async ({ page }) => {
+  await page.goto('/produto-cubo-infinito-2.html');
+  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click();
+  await expect(page.getByRole('link', { name: 'Ver carrinho (1)' })).toBeVisible();
+  await page.getByRole('link', { name: 'Ver carrinho (1)' }).click();
+  await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Cubo infinito');
 });
 
 test('página inicial não apresenta violações sérias de acessibilidade', async ({ page }) => {

@@ -111,9 +111,23 @@ function generateProductPages(): Plugin {
   };
 }
 
+function serveProductPagesInDevelopment(): Plugin {
+  return {
+    name: 'serve-product-pages-in-development',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((request, _response, next) => {
+        const pathname = new URL(request.url ?? '/', 'http://localhost').pathname;
+        if (/^\/produto-[^/]+\.html$/.test(pathname)) request.url = '/product.html';
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   base: './',
-  plugins: [react(), copyStaticFiles(), generateProductPages()],
+  plugins: [serveProductPagesInDevelopment(), react(), copyStaticFiles(), generateProductPages()],
   build: {
     outDir: 'dist',
     emptyOutDir: true,
