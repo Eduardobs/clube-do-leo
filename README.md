@@ -1,40 +1,52 @@
 # Clube do Léo
 
-Catálogo estático de produtos, carrinho e envio de pedidos via WhatsApp.
+Catálogo estático em React e TypeScript, com carrinho, busca, filtros, galeria de produtos, painel de edição e envio de pedidos pelo WhatsApp.
 
-## Estrutura
+## Tecnologias
 
-```text
-assets/
-  brand/       # logos e identidade visual
-  products/    # imagens de produtos
-data/          # dados de domínio versionados (products.json)
-src/
-  config/      # configuração da loja
-  shared/      # utilitários reutilizáveis
-  features/    # regras e interface por funcionalidade
-  pages/       # inicialização específica de cada página
-styles/        # estilos globais, responsivos e administrativos
-tests/         # testes unitários, de integração e integridade
-index.html     # vitrine pública (ponto de entrada de deploy)
-admin.html     # painel administrativo
-```
-
-As páginas HTML permanecem na raiz para compatibilidade com hospedagens estáticas, como GitHub Pages. Os scripts são carregados na ordem explícita de suas dependências, pois o projeto não usa bundler.
+- React 19 e TypeScript
+- Vite para desenvolvimento e build
+- Vitest e Testing Library
+- Lucide para ícones locais no bundle
+- GitHub Actions e GitHub Pages
 
 ## Desenvolvimento
 
-Use um servidor HTTP local para que o navegador possa carregar `data/products.json`. Por exemplo:
+Requer Node.js 24 ou mais recente.
 
 ```bash
-npx serve .
+npm ci
+npm run dev
 ```
 
-## Qualidade
+O Vite disponibiliza as três entradas do projeto:
+
+- `/index.html`: vitrine pública;
+- `/admin.html`: painel de produtos;
+- `/politica-de-precos.html`: política de preços.
+
+## Catálogo
+
+O arquivo [`data/products.json`](data/products.json) continua sendo a fonte de dados. As imagens ficam em `assets/products/` e seus caminhos são registrados no JSON.
+
+O painel administrativo funciona inteiramente no navegador. Alterações ficam como rascunho no `localStorage`; para publicá-las, baixe o `products.json` pelo painel, substitua `data/products.json` no repositório e faça commit. Imagens enviadas pelo painel são incorporadas como Data URL; para manter o repositório leve, prefira salvar as imagens em `assets/products/` e informar o caminho no formulário.
+
+## Qualidade e build
 
 ```bash
+npm run typecheck
 npm test
-npm run test:coverage
+npm run build
 ```
 
-Os testes também verificam referências locais, o contrato de `products.json` e a ligação entre o HTML e o JavaScript.
+Ou execute todas as validações com:
+
+```bash
+npm run check
+```
+
+O build é gerado em `dist/`. A configuração usa caminhos relativos e copia `assets/`, `data/products.json`, `CNAME` e `.nojekyll`, portanto funciona tanto no domínio personalizado quanto no subdiretório padrão do GitHub Pages.
+
+## Publicação
+
+O workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) valida, compila e publica o conteúdo de `dist/` a cada push na branch `master`. No GitHub, configure **Settings → Pages → Build and deployment → Source** como **GitHub Actions**.

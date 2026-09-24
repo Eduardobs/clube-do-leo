@@ -1,136 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clube do Léo - Lembrancinhas, festas e presentes personalizados</title>
-  <meta name="description" content="Lembrancinhas, itens de festa e presentes personalizados. Faça seu pedido e finalize direto pelo WhatsApp.">
-  <link rel="icon" href="assets/brand/header-logo-medallion.png">
-  <link rel="stylesheet" href="styles/global.css">
-  <link rel="stylesheet" href="styles/responsive.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-  <header id="top" class="site-header site-header--storefront">
-    <div class="container header-showcase">
-      <a href="#top" class="brand brand--seal" aria-label="Clube do Léo, início">
-        <img src="assets/brand/header-logo-medallion.png" alt="Clube do Léo" class="brand__medallion">
-      </a>
-
-      <div class="header-showcase__center">
-        <div class="site-nav site-nav--header" aria-label="Navegação principal">
-          <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-          <button type="button" id="cart-btn" class="cart-btn" aria-label="Abrir carrinho">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="cart-count" class="cart-btn__badge">0</span>
-          </button>
-        </div>
-        <div class="header-showcase__sparkles" aria-hidden="true">♡</div>
-        <h1>Produtos 3D</h1>
-        <div class="header-showcase__line" aria-hidden="true"></div>
-        <div class="header-pills" aria-label="Categorias de produtos">
-          <button type="button" class="header-pill header-pill--sage" data-category="Jogos" aria-pressed="false"><span><i class="fa-solid fa-puzzle-piece"></i></span>Jogos</button>
-          <button type="button" class="header-pill header-pill--coral" data-category="Brinquedos" aria-pressed="false"><span><i class="fa-solid fa-paw"></i></span>Brinquedos</button>
-          <button type="button" class="header-pill header-pill--blue" data-category="Decorações" aria-pressed="false"><span><i class="fa-solid fa-house"></i></span>Decorações</button>
-          <button type="button" class="header-pill header-pill--gold" data-category="Utilidades" aria-pressed="false"><span><i class="fa-solid fa-mug-hot"></i></span>Utilidades</button>
-        </div>
-        <p class="header-showcase__tagline"><i class="fa-solid fa-heart" aria-hidden="true"></i> Qualidade, criatividade e diversão que você pode ver e tocar! <i class="fa-solid fa-heart" aria-hidden="true"></i></p>
-      </div>
-
-      <img src="assets/brand/header-toys.png" class="header-showcase__toys" alt="Brinquedos coloridos de madeira e ursinho">
-    </div>
-  </header>
-
-  <main>
-    <section id="produtos" class="catalog container">
-      <div class="catalog__controls">
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="search" id="search-input" placeholder="Buscar produto...">
-        </div>
-      </div>
-
-      <div id="loading-spinner" class="spinner"></div>
-      <p id="error-message" class="error-message hidden"></p>
-      <div id="product-list" class="product-grid"></div>
-      <div id="load-more-sentinel"></div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer__inner">
-      <img src="assets/brand/header-logo-medallion.png" alt="Clube do Léo" class="footer__logo">
-      <div class="footer__social">
-        <a href="https://www.instagram.com/clubedoleo_/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-      </div>
-      <p class="footer__copy">&copy; <span id="year"></span> Clube do Léo. Todos os direitos reservados.</p>
-      <div class="footer__links">
-        <a href="politica-de-precos.html">Política de preços</a>
-        <a href="admin.html" class="footer__admin-link">Painel administrativo</a>
-      </div>
-    </div>
-  </footer>
-
-  <nav class="mobile-nav" aria-label="Ações rápidas">
-    <a href="#produtos" class="mobile-nav__item" data-mobile-action="products">
-      <i class="fa-solid fa-store"></i><span>Produtos</span>
-    </a>
-    <button type="button" class="mobile-nav__item mobile-nav__cart" data-mobile-action="cart" aria-label="Abrir carrinho">
-      <i class="fa-solid fa-cart-shopping"></i><span>Carrinho</span>
-      <small id="mobile-cart-summary">0 itens</small>
-    </button>
-    <a href="https://wa.me/5551998450386" target="_blank" rel="noopener" class="mobile-nav__item mobile-nav__whatsapp">
-      <i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span>
-    </a>
-  </nav>
-
-  <div id="product-detail-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Detalhes do produto">
-    <div class="modal__overlay" data-close></div>
-    <div class="modal__content">
-      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
-      <div id="product-detail"></div>
-    </div>
-  </div>
-
-  <div id="cart-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Carrinho de compras">
-    <div class="modal__overlay" data-close></div>
-    <div class="modal__content modal__content--cart">
-      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
-      <h2><i class="fa-solid fa-cart-shopping"></i> Carrinho de compras</h2>
-      <div id="cart-items" class="cart-items"></div>
-      <div class="cart-footer">
-        <button type="button" id="clear-cart-btn" class="btn btn--ghost"><i class="fa-solid fa-trash"></i> Limpar</button>
-        <p class="cart-total">Total: <strong id="cart-total">R$ 0,00</strong></p>
-        <button type="button" id="finalize-btn" class="btn btn--primary"><i class="fa-solid fa-check"></i> Finalizar compra</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="checkout-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Enviar pedido">
-    <div class="modal__overlay" data-close></div>
-    <div class="modal__content">
-      <button type="button" class="modal__close" data-close aria-label="Fechar">&times;</button>
-      <h2>Enviar pedido</h2>
-      <p class="checkout__intro">Informe seu nome para identificarmos seu pedido no WhatsApp.</p>
-      <form id="checkout-form">
-        <label for="customer-name">Seu nome</label>
-        <input type="text" id="customer-name" placeholder="Digite seu nome" required minlength="2">
-        <button type="submit" class="btn btn--primary btn--block"><i class="fa-brands fa-whatsapp"></i> Enviar pedido pelo WhatsApp</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="toast" class="toast hidden"></div>
-  <button type="button" id="toast-cart-action" class="toast-cart-action hidden">Ver carrinho</button>
-
-  <script src="src/config/store.js"></script>
-  <script src="src/shared/utils.js"></script>
-  <script src="src/features/catalog/products.js"></script>
-  <script src="src/features/cart/cart.js"></script>
-  <script src="src/features/checkout/whatsapp.js"></script>
-  <script src="src/pages/storefront.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff8ef" />
+    <meta name="description" content="Lembrancinhas, itens de festa e presentes personalizados. Faça seu pedido e finalize direto pelo WhatsApp." />
+    <link rel="icon" href="./assets/brand/header-logo-medallion.webp" type="image/webp" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Clube do Léo - Lembrancinhas, festas e presentes personalizados</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/entries/storefront.tsx"></script>
+  </body>
 </html>

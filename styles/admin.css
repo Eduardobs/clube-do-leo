@@ -161,6 +161,18 @@
   text-align: left;
 }
 
+fieldset.form-group {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.form-group legend {
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .form-group {
   margin-bottom: 1.1rem;
 }
@@ -236,6 +248,11 @@
 
 .image-row input {
   flex: 1;
+  min-width: 0;
+}
+
+.image-row .icon-btn {
+  flex: 0 0 34px;
 }
 
 .form-actions {

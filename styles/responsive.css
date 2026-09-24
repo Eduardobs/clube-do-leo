@@ -11,14 +11,14 @@
   .header-pills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.25rem; padding: 0 0.1rem; }
   .header-pill { min-width: 0; gap: 0.1rem; padding: 0 0.05rem 0.3rem; border-width: 1px; border-radius: 10px 10px 6px 6px; font-size: clamp(0.48rem, 1.95vw, 0.62rem); }
   .header-pill span { width: 32px; height: 32px; margin-top: -8px; border-width: 2px; }
-  .header-pill i { font-size: 0.85rem; }
+  .header-pill svg { width: 0.85rem; height: 0.85rem; }
   .header-showcase__tagline { bottom: 0.45rem; width: calc(100% - 1.5rem); padding: 0.35rem 0.35rem; font-size: clamp(0.59rem, 2.2vw, 0.72rem); white-space: nowrap; }
-  .header-showcase__tagline i { display: none; }
+  .header-showcase__tagline svg { display: none; }
   .header-showcase__toys { top: 1rem; right: 0.15rem; width: 94px; opacity: 0.82; transform: none; }
   .site-nav--header { display: none; }
   .site-nav--header a:first-child { display: none; }
   .site-nav--header a { min-height: 32px; padding: 0.35rem 0.43rem; font-size: 0; }
-  .site-nav--header a i { font-size: 1rem; }
+  .site-nav--header a svg { width: 1rem; height: 1rem; }
   .cart-btn { width: 34px; height: 34px; font-size: 0.85rem; }
 
   .hero { padding: 1.5rem 0 1.35rem; text-align: left; }
@@ -43,9 +43,9 @@
 
   .mobile-nav { position: fixed; right: 0; bottom: 0; left: 0; z-index: 1500; display: grid; grid-template-columns: repeat(3, 1fr); min-height: 70px; padding-bottom: env(safe-area-inset-bottom); background: #fff; border-top: 1px solid var(--color-border); box-shadow: 0 -5px 18px rgba(58, 46, 34, 0.1); }
   .mobile-nav__item { display: flex; min-width: 0; min-height: 64px; align-items: center; justify-content: center; gap: 0.15rem; padding: 0.3rem; border: 0; background: transparent; color: var(--color-text); font: inherit; font-size: 0.66rem; line-height: 1.1; text-decoration: none; cursor: pointer; flex-direction: column; }
-  .mobile-nav__item i { color: var(--color-primary-dark); font-size: 1.15rem; }
+  .mobile-nav__item svg { width: 1.15rem; height: 1.15rem; color: var(--color-primary-dark); }
   .mobile-nav__item small { max-width: 100%; overflow: hidden; color: var(--color-primary-dark); font-size: 0.58rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-  .mobile-nav__whatsapp i { color: #168b4e; }
+  .mobile-nav__whatsapp svg { color: #168b4e; }
 
   .modal { align-items: flex-end; padding: 0; }
   .modal__content { width: 100%; max-width: none; max-height: 92vh; padding: 1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom)); border-radius: 22px 22px 0 0; }
@@ -73,7 +73,7 @@
   .footer__social { gap: 1.2rem; }
   .footer__links { flex-direction: column; gap: 0.35rem; }
   .footer__admin-link { margin-top: 0.25rem; }
-  .institutional-page { padding-bottom: 0; }
+  .institutional-page-body { padding-bottom: 0; }
   .institutional-header__inner { min-height: 76px; }
   .institutional-main { padding-top: 2rem; padding-bottom: 2rem; }
   .institutional-card { padding: 2rem 1.25rem; }
@@ -87,7 +87,7 @@
   .header-pills { gap: 0.35rem; }
   .header-pill { min-width: 88px; padding-right: 0.35rem; padding-left: 0.35rem; font-size: 0.7rem; }
   .header-pill span { width: 54px; height: 54px; }
-  .header-pill i { font-size: 1.5rem; }
+  .header-pill svg { width: 1.5rem; height: 1.5rem; }
   .header-showcase__toys { right: 0.5rem; width: 285px; opacity: 0.72; }
   .header-showcase__tagline { width: 68vw; font-size: 0.78rem; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
