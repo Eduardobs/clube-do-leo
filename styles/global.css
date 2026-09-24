@@ -1065,12 +1065,12 @@ button:disabled, .btn:disabled { cursor: not-allowed; opacity: 0.55; }
 /* Página individual de produto */
 .product-page { min-height: 100vh; display: flex; flex-direction: column; }
 .product-page__main { width: 100%; flex: 1; padding-top: 2.5rem; padding-bottom: 4rem; }
-.product-page__content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.product-page__content { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(230px, 0.8fr) minmax(250px, 0.72fr); gap: clamp(1.5rem, 2.5vw, 2.5rem); align-items: start; }
 .product-page__gallery { position: sticky; top: 1.5rem; }
 .product-page__gallery #detail-main-image { max-height: 620px; aspect-ratio: 1 / 1; }
-.product-page__info h1 { margin: 0.55rem 0 0.5rem; color: var(--color-primary-dark); font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; line-height: 1.05; }
+.product-page__info h1 { margin: 0.55rem 0 0.5rem; color: var(--color-primary-dark); font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 3vw, 3rem); font-weight: 400; line-height: 1.05; }
 .product-page__info .tag { display: inline-block; padding: 0.3rem 0.7rem; border-radius: 999px; background: #f6e7cf; color: var(--color-primary-dark); font-size: 0.75rem; font-weight: 700; }
-.product-page__purchase { display: grid; gap: 0.75rem; margin-top: 1.5rem; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #fff; box-shadow: var(--shadow-sm); }
+.product-page__purchase { position: sticky; top: 1.5rem; display: grid; gap: 0.75rem; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #fff; box-shadow: var(--shadow-sm); }
 .product-page__purchase .quantity-stepper { justify-content: center; margin-bottom: 0.25rem; }
 .product-page__purchase .quantity-stepper output { min-width: 3rem; text-align: center; font-weight: 700; }
 .product-page__purchase > small { color: var(--color-text-muted); text-align: center; }

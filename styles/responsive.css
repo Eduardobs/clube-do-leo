@@ -89,6 +89,7 @@
   .product-page__gallery { position: static; }
   .product-page__gallery #detail-main-image { max-height: min(60vh, 520px); }
   .product-page__info h1 { font-size: 2.2rem; }
+  .product-page__purchase { position: static; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -103,4 +104,8 @@
   .header-showcase__toys { right: 0.5rem; width: 285px; opacity: 0.72; }
   .header-showcase__tagline { width: 68vw; font-size: 0.78rem; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .product-page__content { grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr); grid-template-areas: 'gallery info' 'gallery purchase'; gap: 1.5rem 2rem; }
+  .product-page__gallery { grid-area: gallery; }
+  .product-page__info { grid-area: info; }
+  .product-page__purchase { position: static; grid-area: purchase; }
 }

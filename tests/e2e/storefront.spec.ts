@@ -86,6 +86,23 @@ test('página de produto possui conteúdo e metadados próprios', async ({ page 
   expect(structuredData).toContain('Product');
 });
 
+test('página de produto usa três colunas no desktop', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/produto-cubo-infinito-2.html');
+
+  const gallery = await page.locator('.product-page__gallery').boundingBox();
+  const info = await page.locator('.product-page__info').boundingBox();
+  const purchase = await page.locator('.product-page__purchase').boundingBox();
+
+  expect(gallery).not.toBeNull();
+  expect(info).not.toBeNull();
+  expect(purchase).not.toBeNull();
+  expect(info!.x).toBeGreaterThan(gallery!.x + gallery!.width);
+  expect(purchase!.x).toBeGreaterThan(info!.x + info!.width);
+  expect(Math.abs(gallery!.y - info!.y)).toBeLessThan(2);
+  expect(Math.abs(info!.y - purchase!.y)).toBeLessThan(2);
+});
+
 test('layout móvel não cria rolagem horizontal', async ({ page }) => {
   await page.goto('/');
   const hasHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);

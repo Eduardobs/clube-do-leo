@@ -81,17 +81,17 @@ export function ProductPageApp() {
               <h1>{product.nome}</h1>
               <p className="product-detail__price">{formatPrice(product.valor)}</p>
               <p className="product-detail__descricao">{product.descricao}</p>
-              <div className="product-page__purchase">
-                <div className="quantity-stepper">
-                  <button type="button" onClick={() => setQuantity((current) => Math.max(1, current - 1))} aria-label="Diminuir quantidade">−</button>
-                  <output aria-label="Quantidade">{quantity}</output>
-                  <button type="button" onClick={() => setQuantity((current) => Math.min(STORE_CONFIG.maxQuantityPerProduct, current + 1))} disabled={quantity >= STORE_CONFIG.maxQuantityPerProduct} aria-label="Aumentar quantidade">+</button>
-                </div>
-                <button type="button" className="btn btn--primary btn--block" onClick={addToCart}><ShoppingCart aria-hidden="true" /> Adicionar ao carrinho</button>
-                <a className="btn btn--ghost btn--block" href="./index.html?carrinho=1"><ShoppingCart aria-hidden="true" /> Ver carrinho ({cart.count})</a>
-                {product.valor <= 0 ? <button type="button" className="btn btn--whatsapp btn--block" onClick={() => { trackStoreEvent('click_whatsapp', { source: 'product_consultation', product_code: product.codigo }); openWhatsApp(buildConsultationMessage(product)); }}><MessageCircle aria-hidden="true" /> Consultar no WhatsApp</button> : null}
-                <small>O valor final e a disponibilidade serão confirmados pela loja.</small>
+            </div>
+            <div className="product-page__purchase">
+              <div className="quantity-stepper">
+                <button type="button" onClick={() => setQuantity((current) => Math.max(1, current - 1))} aria-label="Diminuir quantidade">−</button>
+                <output aria-label="Quantidade">{quantity}</output>
+                <button type="button" onClick={() => setQuantity((current) => Math.min(STORE_CONFIG.maxQuantityPerProduct, current + 1))} disabled={quantity >= STORE_CONFIG.maxQuantityPerProduct} aria-label="Aumentar quantidade">+</button>
               </div>
+              <button type="button" className="btn btn--primary btn--block" onClick={addToCart}><ShoppingCart aria-hidden="true" /> Adicionar ao carrinho</button>
+              <a className="btn btn--ghost btn--block" href="./index.html?carrinho=1"><ShoppingCart aria-hidden="true" /> Ver carrinho ({cart.count})</a>
+              {product.valor <= 0 ? <button type="button" className="btn btn--whatsapp btn--block" onClick={() => { trackStoreEvent('click_whatsapp', { source: 'product_consultation', product_code: product.codigo }); openWhatsApp(buildConsultationMessage(product)); }}><MessageCircle aria-hidden="true" /> Consultar no WhatsApp</button> : null}
+              <small>O valor final e a disponibilidade serão confirmados pela loja.</small>
             </div>
           </article>
         ) : null}
