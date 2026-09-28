@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, PackageCheck, Search, SearchX, ShoppingCart, Sparkles, Store, X } from 'lucide-react';
+import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, PackageCheck, Search, SearchX, ShoppingCart, Store, X } from 'lucide-react';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
@@ -175,13 +175,6 @@ export function StorefrontApp() {
           </div>
         </section>
         <section id="produtos" className="catalog container" aria-busy={loading}>
-          <div className="catalog__heading">
-            <div>
-              <p className="section-eyebrow"><Sparkles aria-hidden="true" /> Nosso catálogo</p>
-              <h2>Pequenas ideias, grandes descobertas</h2>
-            </div>
-            <p>Brinquedos, jogos e presentes criativos produzidos em 3D para encantar, estimular e fazer parte de momentos especiais.</p>
-          </div>
           <div className="catalog__toolbar" role="search" aria-label="Buscar e ordenar produtos">
             <div className="search-box">
               <Search aria-hidden="true" />
