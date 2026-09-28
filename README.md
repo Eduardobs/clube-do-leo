@@ -20,11 +20,11 @@ npm ci
 npm run dev
 ```
 
-O Vite disponibiliza as três entradas do projeto:
+O Vite disponibiliza as três rotas do projeto sem expor a extensão dos arquivos:
 
-- `/index.html`: vitrine pública;
-- `/admin.html`: editor local de produtos (não vinculado na vitrine);
-- `/politica-de-precos.html`: política de preços.
+- `/`: vitrine pública;
+- `/admin/`: editor local de produtos (não vinculado na vitrine);
+- `/politica-de-precos/`: política de preços.
 
 ## Catálogo
 
@@ -47,7 +47,7 @@ Ou execute todas as validações com:
 npm run check
 ```
 
-O build é gerado em `dist/`. Além das três entradas principais, ele gera uma página indexável para cada produto, `sitemap.xml` e `robots.txt`. A configuração usa caminhos relativos e copia as imagens WebP publicadas, `data/products.json`, `CNAME` e `.nojekyll`.
+O build é gerado em `dist/`. Além das três entradas principais, ele gera uma rota limpa e indexável para cada produto, `sitemap.xml` e `robots.txt`. Cada rota é publicada como um diretório com `index.html`, formato compatível com GitHub Pages, e os recursos usam caminhos a partir da raiz do domínio. O build também copia as imagens WebP publicadas, `data/products.json`, `CNAME` e `.nojekyll`.
 
 ## Publicação
 

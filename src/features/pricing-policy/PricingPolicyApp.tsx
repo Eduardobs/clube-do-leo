@@ -8,10 +8,10 @@ export function PricingPolicyApp() {
       <a className="skip-link" href="#politica-precos">Pular para a política de preços</a>
       <header className="institutional-header">
         <div className="container institutional-header__inner">
-          <a href="./index.html" className="brand" aria-label="Clube do Léo, página inicial">
+          <a href="/" className="brand" aria-label="Clube do Léo, página inicial">
             <img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" />
           </a>
-          <a href="./index.html" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
+          <a href="/" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
         </div>
       </header>
       <main id="politica-precos" className="container institutional-main">
@@ -21,7 +21,7 @@ export function PricingPolicyApp() {
           <h1>Política de preços</h1>
           <p>Os preços dos produtos apresentados neste site podem sofrer alterações sem aviso prévio.</p>
           <p>O valor final e a disponibilidade dos itens serão confirmados no momento do pedido pelo WhatsApp.</p>
-          <a href="./index.html#produtos" className="btn btn--primary">Ver produtos</a>
+          <a href="/#produtos" className="btn btn--primary">Ver produtos</a>
         </article>
       </main>
       <SiteFooter compact />

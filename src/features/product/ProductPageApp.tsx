@@ -11,8 +11,8 @@ import { buildConsultationMessage, openWhatsApp } from '../../lib/whatsapp';
 import type { Product } from '../../types/product';
 
 function pageSlug(): string {
-  const filename = window.location.pathname.split('/').at(-1) ?? '';
-  return decodeURIComponent(filename.replace(/^produto-/, '').replace(/\.html$/, ''));
+  const route = window.location.pathname.split('/').filter(Boolean).at(-1) ?? '';
+  return decodeURIComponent(route.replace(/^produto-/, '').replace(/\.html$/, ''));
 }
 
 export function ProductPageApp() {
@@ -59,13 +59,13 @@ export function ProductPageApp() {
       <a className="skip-link" href="#produto">Pular para o produto</a>
       <header className="institutional-header">
         <div className="container institutional-header__inner">
-          <a href="./index.html" className="brand" aria-label="Clube do Léo, página inicial"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
-          <a href="./index.html#produtos" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar aos produtos</a>
+          <a href="/" className="brand" aria-label="Clube do Léo, página inicial"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
+          <a href="/#produtos" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar aos produtos</a>
         </div>
       </header>
       <main id="produto" className="container product-page__main" aria-busy={loading}>
         {loading ? <div className="spinner" aria-label="Carregando produto" /> : null}
-        {error || (!loading && !product) ? <div className="error-message" role="alert">{error || 'Produto não encontrado.'} <a href="./index.html">Voltar à loja</a></div> : null}
+        {error || (!loading && !product) ? <div className="error-message" role="alert">{error || 'Produto não encontrado.'} <a href="/">Voltar à loja</a></div> : null}
         {product ? (
           <article className="product-page__content">
             <div className="product-detail__gallery product-page__gallery">
@@ -89,7 +89,7 @@ export function ProductPageApp() {
                 <button type="button" onClick={() => setQuantity((current) => Math.min(STORE_CONFIG.maxQuantityPerProduct, current + 1))} disabled={quantity >= STORE_CONFIG.maxQuantityPerProduct} aria-label="Aumentar quantidade">+</button>
               </div>
               <button type="button" className="btn btn--primary btn--block" onClick={addToCart}><ShoppingCart aria-hidden="true" /> Adicionar ao carrinho</button>
-              <a className="btn btn--ghost btn--block" href="./index.html?carrinho=1"><ShoppingCart aria-hidden="true" /> Ver carrinho ({cart.count})</a>
+              <a className="btn btn--ghost btn--block" href="/?carrinho=1"><ShoppingCart aria-hidden="true" /> Ver carrinho ({cart.count})</a>
               {product.valor <= 0 ? <button type="button" className="btn btn--whatsapp btn--block" onClick={() => { trackStoreEvent('click_whatsapp', { source: 'product_consultation', product_code: product.codigo }); openWhatsApp(buildConsultationMessage(product)); }}><MessageCircle aria-hidden="true" /> Consultar no WhatsApp</button> : null}
               <small>O valor final e a disponibilidade serão confirmados pela loja.</small>
             </div>
@@ -97,7 +97,7 @@ export function ProductPageApp() {
         ) : null}
       </main>
       <SiteFooter compact />
-      <Toast message={toast} onDismiss={() => setToast('')} actionLabel={cart.count ? 'Ver carrinho' : undefined} onAction={() => { window.location.href = './index.html?carrinho=1'; }} />
+      <Toast message={toast} onDismiss={() => setToast('')} actionLabel={cart.count ? 'Ver carrinho' : undefined} onAction={() => { window.location.href = '/?carrinho=1'; }} />
     </div>
   );
 }

@@ -23,9 +23,9 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
         ) : null}
         <p className="footer__copy">© {new Date().getFullYear()} Clube do Léo. Todos os direitos reservados.</p>
         <div className="footer__links">
-          {compact ? <a href="./index.html">Página inicial</a> : (
+          {compact ? <a href="/">Página inicial</a> : (
             <>
-              <a href="./politica-de-precos.html">Política de preços</a>
+              <a href="/politica-de-precos/">Política de preços</a>
             </>
           )}
         </div>

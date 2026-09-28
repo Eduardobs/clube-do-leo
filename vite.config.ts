@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { copyFileSync, cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
@@ -61,12 +61,12 @@ function generateProductPages(): Plugin {
       const templatePath = resolve(output, 'product.html');
       const template = readFileSync(templatePath, 'utf8');
       const { produtos } = JSON.parse(readFileSync(resolve(import.meta.dirname, 'data/products.json'), 'utf8')) as { produtos: CatalogProduct[] };
-      const urls = [`${SITE_URL}/`, `${SITE_URL}/politica-de-precos.html`];
+      const urls = [`${SITE_URL}/`, `${SITE_URL}/politica-de-precos/`];
 
       for (const product of produtos) {
         const slug = slugify(`${product.nome}-${product.codigo}`);
-        const filename = `produto-${slug}.html`;
-        const url = `${SITE_URL}/${filename}`;
+        const route = `produto-${slug}`;
+        const url = `${SITE_URL}/${route}/`;
         const compactDescription = product.descricao.replace(/\s+/g, ' ').trim();
         const description = compactDescription.length > 155
           ? `${compactDescription.slice(0, 152).replace(/\s+\S*$/, '')}…`
@@ -90,7 +90,7 @@ function generateProductPages(): Plugin {
           } : {}),
         }).replaceAll('<', '\\u003c');
         const jsonHash = createHash('sha256').update(jsonLd).digest('base64');
-        const fallback = `<article><h1>${escapeHtml(product.nome)}</h1><p>${escapeHtml(description)}</p><p><a href="./index.html#produtos">Voltar aos produtos</a></p></article>`;
+        const fallback = `<article><h1>${escapeHtml(product.nome)}</h1><p>${escapeHtml(description)}</p><p><a href="/#produtos">Voltar aos produtos</a></p></article>`;
         const page = template
           .replaceAll('__PRODUCT_TITLE__', escapeHtml(product.nome))
           .replaceAll('__PRODUCT_DESCRIPTION__', escapeHtml(description))
@@ -99,26 +99,42 @@ function generateProductPages(): Plugin {
           .replaceAll('__PRODUCT_JSON_HASH__', `sha256-${jsonHash}`)
           .replace('__PRODUCT_JSON_LD__', jsonLd)
           .replace('__PRODUCT_FALLBACK__', fallback);
-        writeFileSync(resolve(output, filename), page);
+        const routeDirectory = resolve(output, route);
+        mkdirSync(routeDirectory, { recursive: true });
+        writeFileSync(resolve(routeDirectory, 'index.html'), page);
         urls.push(url);
       }
 
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`;
       writeFileSync(resolve(output, 'sitemap.xml'), sitemap);
-      writeFileSync(resolve(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin.html\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+      writeFileSync(resolve(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\nSitemap: ${SITE_URL}/sitemap.xml\n`);
       rmSync(templatePath);
+
+      for (const route of ['admin', 'politica-de-precos']) {
+        const routeDirectory = resolve(output, route);
+        mkdirSync(routeDirectory, { recursive: true });
+        renameSync(resolve(output, `${route}.html`), resolve(routeDirectory, 'index.html'));
+      }
     },
   };
 }
 
-function serveProductPagesInDevelopment(): Plugin {
+function serveCleanRoutesInDevelopment(): Plugin {
   return {
-    name: 'serve-product-pages-in-development',
+    name: 'serve-clean-routes-in-development',
     apply: 'serve',
     configureServer(server) {
       server.middlewares.use((request, _response, next) => {
-        const pathname = new URL(request.url ?? '/', 'http://localhost').pathname;
-        if (/^\/produto-[^/]+\.html$/.test(pathname)) request.url = '/product.html';
+        const url = new URL(request.url ?? '/', 'http://localhost');
+        const cleanEntryPoints: Record<string, string> = {
+          '/admin': '/admin.html',
+          '/admin/': '/admin.html',
+          '/politica-de-precos': '/politica-de-precos.html',
+          '/politica-de-precos/': '/politica-de-precos.html',
+        };
+        const entryPoint = cleanEntryPoints[url.pathname]
+          ?? (/^\/produto-[^/]+\/?$/.test(url.pathname) ? '/product.html' : undefined);
+        if (entryPoint) request.url = `${entryPoint}${url.search}`;
         next();
       });
     },
@@ -126,8 +142,8 @@ function serveProductPagesInDevelopment(): Plugin {
 }
 
 export default defineConfig({
-  base: './',
-  plugins: [serveProductPagesInDevelopment(), react(), copyStaticFiles(), generateProductPages()],
+  base: '/',
+  plugins: [serveCleanRoutesInDevelopment(), react(), copyStaticFiles(), generateProductPages()],
   build: {
     outDir: 'dist',
     emptyOutDir: true,

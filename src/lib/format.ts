@@ -34,7 +34,7 @@ export function slugify(value: string): string {
 }
 
 export function productPageUrl(name: string, code: string): string {
-  return `${import.meta.env.BASE_URL}produto-${slugify(`${name}-${code}`)}.html`;
+  return `${import.meta.env.BASE_URL}produto-${slugify(`${name}-${code}`)}/`;
 }
 
 export function productThumbnailUrl(path: string | undefined): string {

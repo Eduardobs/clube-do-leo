@@ -29,6 +29,7 @@ test('mantém o carrinho ao visitar a política de preços e voltar à loja', as
   await page.goto('/');
   await page.getByRole('button', { name: 'Adicionar' }).first().click();
   await page.getByRole('link', { name: 'Política de preços' }).click();
+  await expect(page).toHaveURL(/\/politica-de-precos\/$/);
   await page.getByRole('link', { name: 'Voltar à loja' }).click();
   await page.getByRole('button', { name: /^abrir carrinho/i }).click();
   await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Estrela Sensorial');
@@ -42,6 +43,7 @@ test('mantém o carrinho da vitrine ao abrir uma página de produto', async ({ p
 
   await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
 
+  await expect(page).toHaveURL(/\/produto-cubo-infinito-2\/$/);
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Ver carrinho (1)' })).toBeVisible();
   await page.getByRole('link', { name: 'Ver carrinho (1)' }).click();
@@ -63,7 +65,7 @@ test('não apaga o carrinho se o catálogo falhar na troca de página', async ({
 });
 
 test('mantém o produto no carrinho ao voltar da página de detalhes', async ({ page }) => {
-  await page.goto('/produto-cubo-infinito-2.html');
+  await page.goto('/produto-cubo-infinito-2/');
   await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click();
   await expect(page.getByRole('link', { name: 'Ver carrinho (1)' })).toBeVisible();
   await page.getByRole('link', { name: 'Ver carrinho (1)' }).click();
@@ -78,17 +80,17 @@ test('página inicial não apresenta violações sérias de acessibilidade', asy
 });
 
 test('página de produto possui conteúdo e metadados próprios', async ({ page }) => {
-  await page.goto('/produto-cubo-infinito-2.html');
+  await page.goto('/produto-cubo-infinito-2/');
   await expect(page).toHaveTitle(/Cubo infinito \| Clube do Léo/);
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://clubedoleo.com.br/produto-cubo-infinito-2.html');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://clubedoleo.com.br/produto-cubo-infinito-2/');
   const structuredData = await page.locator('script[type="application/ld+json"]').textContent();
   expect(structuredData).toContain('Product');
 });
 
 test('página de produto usa três colunas no desktop', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/produto-cubo-infinito-2.html');
+  await page.goto('/produto-cubo-infinito-2/');
 
   const gallery = await page.locator('.product-page__gallery').boundingBox();
   const info = await page.locator('.product-page__info').boundingBox();

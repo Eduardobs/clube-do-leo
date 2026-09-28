@@ -210,9 +210,9 @@ export function AdminApp() {
       <a className="skip-link" href="#editor-produtos">Pular para o editor</a>
       <header className="admin-header">
         <div className="container admin-header__inner">
-          <a href="./index.html" className="brand"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
+          <a href="/" className="brand"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
           <h1 className="admin-header__title">Editor local do catálogo</h1>
-          <a href="./index.html" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
+          <a href="/" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
         </div>
       </header>
       <main id="editor-produtos" className="container admin-main">
