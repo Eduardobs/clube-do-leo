@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { BadgeCheck, Factory, MessageCircle, Search, ShoppingCart, Store } from 'lucide-react';
+import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, PackageCheck, Search, SearchX, ShoppingCart, Sparkles, Store, X } from 'lucide-react';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
@@ -126,15 +126,30 @@ export function StorefrontApp() {
       <a className="skip-link" href="#produtos">Pular para os produtos</a>
       <StoreHeader activeCategory={category} cartCount={cart.count} onCategoryChange={setCategory} onOpenCart={() => setCartOpen(true)} />
       <main>
+        <section className="trust-strip" aria-label="Diferenciais da loja">
+          <div className="container trust-strip__inner" tabIndex={0} aria-label="Deslize para conhecer os diferenciais da loja">
+            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito com carinho em impressão 3D</span></p>
+            <p><BadgeCheck aria-hidden="true" /><span><strong>Compra sem surpresa</strong>Confira o subtotal antes de enviar</span></p>
+            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Finalize direto com a gente no WhatsApp</span></p>
+          </div>
+        </section>
         <section id="produtos" className="catalog container" aria-busy={loading}>
-          <div className="catalog__controls">
-            <label className="search-box">
+          <div className="catalog__heading">
+            <div>
+              <p className="section-eyebrow"><Sparkles aria-hidden="true" /> Nosso catálogo</p>
+              <h2>Pequenas ideias, grandes descobertas</h2>
+            </div>
+            <p>Brinquedos, jogos e presentes criativos produzidos em 3D para encantar, estimular e fazer parte de momentos especiais.</p>
+          </div>
+          <div className="catalog__toolbar" role="search" aria-label="Buscar e ordenar produtos">
+            <div className="search-box">
               <Search aria-hidden="true" />
-              <span className="sr-only">Buscar produto</span>
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar produto..." />
-            </label>
+              <label className="sr-only" htmlFor="catalog-search">Buscar produto</label>
+              <input id="catalog-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="O que você está procurando?" />
+              {search ? <button type="button" className="search-box__clear" onClick={() => setSearch('')} aria-label="Limpar busca"><X aria-hidden="true" /></button> : null}
+            </div>
             <label className="sort-control">
-              <span>Ordenar por</span>
+              <span><ArrowUpDown aria-hidden="true" /> Ordenar por</span>
               <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
                 <option value="catalog">Ordem do catálogo</option>
                 <option value="name">Nome</option>
@@ -143,23 +158,49 @@ export function StorefrontApp() {
               </select>
             </label>
           </div>
-          {!loading && !error ? <p className="catalog__count" aria-live="polite">{filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}</p> : null}
-          {loading ? <div className="spinner" aria-label="Carregando produtos" /> : null}
+          {!loading && !error ? (
+            <div className="catalog__meta">
+              <p className="catalog__count" aria-live="polite"><strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'produto encontrado' : 'produtos encontrados'}</p>
+              {category ? <button type="button" className="active-filter" onClick={() => setCategory(null)}>Categoria: {category}<X aria-hidden="true" /></button> : null}
+            </div>
+          ) : null}
+          {loading ? (
+            <div className="product-grid product-grid--loading" aria-label="Carregando produtos">
+              {Array.from({ length: 8 }, (_, index) => <div key={index} className="product-skeleton" aria-hidden="true"><span /><i /><i /></div>)}
+            </div>
+          ) : null}
           {error ? <p className="error-message" role="alert">{error}</p> : null}
           {!loading && !error ? (
             <div className="product-grid">
               {filteredProducts.length ? filteredProducts.slice(0, visibleCount).map((product) => (
                 <ProductCard key={product.codigo} product={product} onAdd={addToCart} />
-              )) : <p className="empty-state">Nenhum produto encontrado para essa busca.</p>}
+              )) : (
+                <div className="empty-state">
+                  <span className="empty-state__icon"><SearchX aria-hidden="true" /></span>
+                  <h3>Nenhum produto por aqui</h3>
+                  <p>Tente buscar outro termo ou volte a ver todo o nosso catálogo.</p>
+                  <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); }}>Limpar filtros</button>
+                </div>
+              )}
             </div>
           ) : null}
           <div ref={sentinelRef} className="load-more-sentinel" aria-hidden="true" />
         </section>
-        <section className="trust-strip" aria-label="Diferenciais da loja">
-          <div className="container trust-strip__inner">
-            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Produtos impressos em 3D</span></p>
-            <p><BadgeCheck aria-hidden="true" /><span><strong>Pedido transparente</strong>Subtotal antes de chamar</span></p>
-            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Confirmação pelo WhatsApp</span></p>
+        <section className="how-it-works" aria-labelledby="como-comprar">
+          <div className="container">
+            <div className="how-it-works__heading">
+              <p className="section-eyebrow"><PackageCheck aria-hidden="true" /> Simples e seguro</p>
+              <h2 id="como-comprar">Seu pedido em três passos</h2>
+              <p>Escolha com calma. Antes de confirmar, você ainda conversa com a gente para combinar todos os detalhes.</p>
+            </div>
+            <ol className="purchase-steps">
+              <li><span>01</span><div><strong>Escolha seus favoritos</strong><p>Adicione quantos produtos quiser ao carrinho.</p></div></li>
+              <li><span>02</span><div><strong>Revise seu pedido</strong><p>Confira itens, quantidades e o subtotal estimado.</p></div></li>
+              <li><span>03</span><div><strong>Combine pelo WhatsApp</strong><p>Envie o pedido e confirme cores, prazo e entrega.</p></div></li>
+            </ol>
+            <a className="how-it-works__cta" href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" onClick={() => trackStoreEvent('click_whatsapp', { source: 'purchase_steps' })}>
+              Ficou com alguma dúvida? Fale com a gente <ArrowRight aria-hidden="true" />
+            </a>
           </div>
         </section>
       </main>

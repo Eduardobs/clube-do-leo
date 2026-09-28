@@ -1,7 +1,7 @@
 import { ShoppingCart, Trash2 } from 'lucide-react';
 import { Modal } from '../../components/Modal';
 import { STORE_CONFIG } from '../../config/store';
-import { formatPrice, imageFallback, productThumbnailUrl } from '../../lib/format';
+import { formatPrice, imageFallback, productPageUrl, productThumbnailUrl } from '../../lib/format';
 import { findProduct } from '../../lib/products';
 import type { CartItem, Product } from '../../types/product';
 
@@ -26,11 +26,13 @@ export function CartModal({ items, products, total, onClose, onClear, onRemove, 
           if (!product) return null;
           return (
             <div className="cart-item" key={item.codigo}>
-              <img src={productThumbnailUrl(product.imagens[0])} alt={product.nome} loading="lazy" decoding="async" width="56" height="56" onError={imageFallback} />
-              <div className="cart-item__details">
-                <h3>{product.nome}</h3>
-                <p>{product.valor > 0 ? `${formatPrice(product.valor)} × ${item.quantity} = ${formatPrice(product.valor * item.quantity)}` : `${item.quantity} un. — valor a confirmar`}</p>
-              </div>
+              <a className="cart-item__product" href={productPageUrl(product.nome, product.codigo)} aria-label={`Ver detalhes de ${product.nome}`}>
+                <img src={productThumbnailUrl(product.imagens[0])} alt={product.nome} loading="lazy" decoding="async" width="56" height="56" onError={imageFallback} />
+                <div className="cart-item__details">
+                  <h3>{product.nome}</h3>
+                  <p>{product.valor > 0 ? `${formatPrice(product.valor)} × ${item.quantity} = ${formatPrice(product.valor * item.quantity)}` : `${item.quantity} un. — valor a confirmar`}</p>
+                </div>
+              </a>
               <div className="cart-item__actions">
                 <button type="button" className="quantity-button" onClick={() => onUpdate(item.codigo, item.quantity - 1)} aria-label={`Diminuir quantidade de ${product.nome}`}>−</button>
                 <output aria-label={`Quantidade de ${product.nome}`}>{item.quantity}</output>

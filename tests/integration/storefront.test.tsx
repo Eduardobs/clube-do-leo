@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { StorefrontApp } from '../../src/features/storefront/StorefrontApp';
@@ -39,7 +39,9 @@ describe('vitrine', () => {
     expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
     expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
     await user.click(screen.getByRole('button', { name: /abrir carrinho, 1 item/i }));
-    expect(screen.getByRole('dialog', { name: 'Carrinho de compras' })).toBeInTheDocument();
+    const cartDialog = screen.getByRole('dialog', { name: 'Carrinho de compras' });
+    expect(cartDialog).toBeInTheDocument();
+    expect(within(cartDialog).getByRole('link', { name: 'Ver detalhes de Cubo infinito' })).toHaveAttribute('href', '/produto-cubo-infinito-1/');
     await user.click(screen.getByRole('button', { name: /revisar pedido/i }));
     expect(screen.getByRole('dialog', { name: 'Enviar pedido' })).toBeInTheDocument();
   });

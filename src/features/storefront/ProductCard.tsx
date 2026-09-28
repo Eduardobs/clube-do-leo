@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ShoppingCart } from 'lucide-react';
+import { ArrowUpRight, ShoppingCart } from 'lucide-react';
 import { formatPrice, imageFallback, productPageUrl, productThumbnailUrl } from '../../lib/format';
 import type { Product } from '../../types/product';
 
@@ -16,12 +16,15 @@ export const ProductCard = memo(function ProductCard({ product, onAdd }: Product
       <a className="product-card__details-trigger" href={productPageUrl(product.nome, product.codigo)} aria-label={`Ver detalhes de ${product.nome}`}>
         <div className="product-card__media">
           <img src={productThumbnailUrl(product.imagens[0])} alt={product.nome} loading="lazy" decoding="async" width="480" height="480" onError={imageFallback} />
-          <span className="product-card__badge">{product.categorias[0]}</span>
+          <span className="product-card__badge" data-category={product.categorias[0]}>{product.categorias[0]}</span>
         </div>
         <div className="product-card__body">
           <h2 className="product-card__title">{product.nome}</h2>
           {summary ? <p className="product-card__summary">{summary}</p> : null}
-          <p className="product-card__price">{formatPrice(product.valor)}</p>
+          <div className="product-card__buying-info">
+            <p className={`product-card__price${product.valor <= 0 ? ' product-card__price--quote' : ''}`}>{formatPrice(product.valor)}</p>
+            <span className="product-card__details-hint">Ver detalhes <ArrowUpRight aria-hidden="true" /></span>
+          </div>
         </div>
       </a>
       <div className="product-card__actions">
