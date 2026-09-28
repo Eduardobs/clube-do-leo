@@ -29,7 +29,48 @@ export function StorefrontApp() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [toast, setToast] = useState('');
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const trustStripRef = useRef<HTMLDivElement>(null);
   const cart = useCart(products);
+
+  useEffect(() => {
+    const strip = trustStripRef.current;
+    if (!strip || typeof window.matchMedia !== 'function') return;
+
+    const mobileViewport = window.matchMedia('(max-width: 768px)');
+    let activeItem = 0;
+    let intervalId: number | undefined;
+
+    const scrollToNextItem = () => {
+      const items = Array.from(strip.querySelectorAll<HTMLElement>(':scope > p'));
+      if (items.length < 2) return;
+
+      activeItem = (activeItem + 1) % items.length;
+      const itemRect = items[activeItem].getBoundingClientRect();
+      const stripRect = strip.getBoundingClientRect();
+      const centeredItemPosition = strip.scrollLeft + itemRect.left - stripRect.left
+        - (strip.clientWidth - itemRect.width) / 2;
+
+      strip.scrollTo({ left: Math.max(0, centeredItemPosition), behavior: 'smooth' });
+    };
+
+    const updateAutoScroll = () => {
+      window.clearInterval(intervalId);
+      intervalId = undefined;
+
+      if (mobileViewport.matches) {
+        activeItem = 0;
+        intervalId = window.setInterval(scrollToNextItem, 4000);
+      }
+    };
+
+    updateAutoScroll();
+    mobileViewport.addEventListener('change', updateAutoScroll);
+
+    return () => {
+      window.clearInterval(intervalId);
+      mobileViewport.removeEventListener('change', updateAutoScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -127,7 +168,7 @@ export function StorefrontApp() {
       <StoreHeader activeCategory={category} cartCount={cart.count} onCategoryChange={setCategory} onOpenCart={() => setCartOpen(true)} />
       <main>
         <section className="trust-strip" aria-label="Diferenciais da loja">
-          <div className="container trust-strip__inner" tabIndex={0} aria-label="Deslize para conhecer os diferenciais da loja">
+          <div ref={trustStripRef} className="container trust-strip__inner" tabIndex={0} aria-label="Deslize para conhecer os diferenciais da loja">
             <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito com carinho em impressão 3D</span></p>
             <p><BadgeCheck aria-hidden="true" /><span><strong>Compra sem surpresa</strong>Confira o subtotal antes de enviar</span></p>
             <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Finalize direto com a gente no WhatsApp</span></p>
