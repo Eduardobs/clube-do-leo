@@ -20,6 +20,7 @@ export const ProductCard = memo(function ProductCard({ product, onAdd }: Product
         </div>
         <div className="product-card__body">
           <h2 className="product-card__title">{product.nome}</h2>
+          <p className="product-card__code">Código {product.codigo}</p>
           {summary ? <p className="product-card__summary">{summary}</p> : null}
           <div className="product-card__buying-info">
             <p className={`product-card__price${product.valor <= 0 ? ' product-card__price--quote' : ''}`}>{formatPrice(product.valor)}</p>

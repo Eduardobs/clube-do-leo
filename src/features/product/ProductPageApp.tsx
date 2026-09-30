@@ -79,6 +79,7 @@ export function ProductPageApp() {
             <div className="product-page__info">
               <span className="tag">{product.categorias.join(', ')}</span>
               <h1>{product.nome}</h1>
+              <p className="product-detail__code">Código {product.codigo}</p>
               <p className="product-detail__price">{formatPrice(product.valor)}</p>
               <p className="product-detail__descricao">{product.descricao}</p>
             </div>

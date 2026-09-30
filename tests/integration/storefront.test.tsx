@@ -21,6 +21,7 @@ describe('vitrine', () => {
     const user = userEvent.setup();
     render(<StorefrontApp />);
     expect(await screen.findByRole('heading', { name: 'Cubo infinito' })).toBeInTheDocument();
+    expect(screen.getByText('Código 1')).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: 'Jogos' })).toHaveLength(1);
     await user.click(screen.getByRole('button', { name: 'Jogos' }));
     expect(screen.queryByRole('heading', { name: 'Cubo infinito' })).not.toBeInTheDocument();
