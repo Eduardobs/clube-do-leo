@@ -5,14 +5,15 @@
       "nome": "Estrela Sensorial",
       "descricao": "Estrela Sensorial 3D\n\nUma estrela diferente de tudo que você já viu! 💖\n\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n\n✨ Estimula a percepção visual e espacial\n👐 Incentiva a exploração sensorial e tátil\n🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta\n\nUm brinquedo que une diversão, criatividade e estímulos sensoriais em uma peça encantadora! 🌟\n\nDiversão que estimula. Aprendizado que acontece brincando! 💕",
       "valor": 29.9,
+      "categorias": [
+        "Brinquedos"
+      ],
       "imagens": [
         "assets/products/estrela-sensorial-1.webp",
         "assets/products/estrela-sensorial-2.webp",
         "assets/products/estrela-sensorial-3.webp",
-        "assets/products/estrela-sensorial-4.webp"
-      ],
-      "categorias": [
-        "Brinquedos"
+        "assets/products/estrela-sensorial-4.webp",
+        "assets/products/estrela-sensorial-5.jpg"
       ]
     },
     {
@@ -88,11 +89,12 @@
       "nome": "Pote de recompensas",
       "descricao": "⭐ Pote de Recompensas — Estrelinhas da Conquista\n\nTransforme pequenas conquistas em grandes incentivos para a criança! 💛\n\nO Pote de Recompensas é uma ferramenta lúdica que ajuda a criança a visualizar seu progresso de forma divertida. A cada objetivo alcançado, tarefa concluída ou bom comportamento, ela ganha uma estrelinha para colocar no pote.  O conjunto vem todo com imã para que possa ser fixado a geladeira. ⭐\n\n🧠 Incentiva a autonomia e a responsabilidade\n🎯 Ajuda a criar hábitos e estabelecer objetivos\n⭐ Torna o progresso visual e motivador\n💛 Estimula a sensação de conquista e valorização\n👐 Trabalha organização e acompanhamento de metas\n\nA proposta é simples: cumpriu a tarefa? Ganhou uma estrela! ✨\n\nAo completar o pote, a criança pode receber uma recompensa combinada previamente — que pode ser um passeio, uma brincadeira especial, escolher um filme ou qualquer outra experiência significativa.\n\n🌈 Porque cada pequena conquista merece ser comemorada!",
       "valor": 39.9,
-      "imagens": [
-        "assets/products/pote-de-recompensas.webp"
-      ],
       "categorias": [
         "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/pote-de-recompensas.webp",
+        "assets/products/pote-de-recompensas-2.jpg"
       ]
     },
     {
@@ -100,12 +102,11 @@
       "nome": "Porta objetos: Maçã com clips de papel e chaveiro",
       "descricao": "🍎 Porta-Objetos Maçã — Presente para Professor\n\nUm presente criativo, útil e cheio de significado! ❤️🍎\n\nNosso Porta-Objetos em formato de maçã, produzido em impressão 3D, foi pensado especialmente para deixar a mesa do professor mais organizada e charmosa.\n\nO kit acompanha:\n🍎 Porta-objetos em formato de maçã\n📎 Clips de papel para facilitar a organização\n🔑 Chaveiro personalizado com nome, tornando o presente ainda mais especial\n\nAlém de funcional, é uma lembrança que combina com o universo escolar e demonstra todo o carinho por quem dedica seus dias a ensinar, inspirar e transformar vidas. ✨\n\n🎁 Uma opção diferente e personalizada para presentear professores em qualquer ocasião!",
       "valor": 25,
-      "imagens": [
-        "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-1.webp",
-        "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-2.webp"
-      ],
       "categorias": [
         "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro.png"
       ]
     },
     {
@@ -122,28 +123,320 @@
     },
     {
       "codigo": "10",
-      "nome": "Presépio com 3 peças",
+      "nome": "Presépio com 3 peças (Sagrada Família)",
       "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 3 peças: Maria, José e o Menino Jesus, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
-      "valor": 39.9,
-      "imagens": [
-        "assets/products/presepio-com-3-pecas.webp"
-      ],
+      "valor": 49.9,
       "categorias": [
         "Decorações"
+      ],
+      "imagens": [
+        "assets/products/presepio-com-3-pecas-sagrada-familia-1.png",
+        "assets/products/presepio-com-3-pecas-sagrada-familia-2.png"
+      ]
+    },
+    {
+      "codigo": "15",
+      "nome": "Kit de colorir com 10 peças",
+      "descricao": "🎨 Kit de Colorir – 10 Peças\n\nUma lembrancinha criativa, divertida e personalizada para deixar qualquer momento ainda mais especial! ✨\n\nO Kit de Colorir com 10 peças é composto por desenhos prontos para a criança colorir e soltar a imaginação. E o melhor: os temas podem ser variados e personalizados de acordo com a ocasião e é embalado com um lindo cartão com o motivo da comemoração! 🌈\n\n🖍️ Podemos criar diversos temas, como:\n🦄 Unicórnios\n🦖 Dinossauros\n🦕 Mundo jurássico\n🧜‍♀️ Sereias\n🦁 Safari\n🚀 Espaço\n🐻 Animais\n🦸 Super-heróis\n🎀 Personagens e temas de festas\n💖 E muito mais!",
+      "valor": 49.9,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/kit-de-colorir-com-10-pecas-1.png",
+        "assets/products/kit-de-colorir-com-10-pecas-2.png",
+        "assets/products/kit-de-colorir-com-10-pecas-3.png"
       ]
     },
     {
       "codigo": "11",
-      "nome": "Kit de colorir com 6 peças",
-      "descricao": "🎨 Kit de Colorir – 6 Peças\n\nUma lembrancinha criativa, divertida e personalizada para deixar qualquer momento ainda mais especial! ✨\n\nO Kit de Colorir com 6 peças é composto por desenhos prontos para a criança destacar, colorir e soltar a imaginação. E o melhor: os temas podem ser variados e personalizados de acordo com a ocasião! 🌈\n\n🖍️ Podemos criar diversos temas, como:\n🦄 Unicórnios\n🦖 Dinossauros\n🦕 Mundo jurássico\n🧜‍♀️ Sereias\n🦁 Safari\n🚀 Espaço\n🐻 Animais\n🦸 Super-heróis\n🎀 Personagens e temas de festas\n💖 E muito mais!\n\nNÃO ACOMPANHA CANETINHAS",
-      "valor": 29.9,
-      "imagens": [
-        "assets/products/kit-de-colorir-com-6-pecas-1.webp",
-        "assets/products/kit-de-colorir-com-6-pecas-2.webp",
-        "assets/products/kit-de-colorir-com-6-pecas-3.webp"
+      "nome": "Presépio com 3 peças (animais)",
+      "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 3 peças: vaquinha, ovelha e burrinho, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
+      "valor": 35,
+      "categorias": [
+        "Decorações"
       ],
+      "imagens": [
+        "assets/products/presepio-com-3-pecas-animais.png"
+      ]
+    },
+    {
+      "codigo": "12",
+      "nome": "Presépio com 3 peças (Reis)",
+      "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 3 peças: 3 Reis Magos, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
+      "valor": 49.9,
+      "categorias": [
+        "Decorações"
+      ],
+      "imagens": [
+        "assets/products/presepio-com-3-pecas-reis.png"
+      ]
+    },
+    {
+      "codigo": "13",
+      "nome": "Presépio (Casinha)",
+      "descricao": "✨ Presépio em 3D — 1 Peça\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 1 peça: casinha, com detalhes delicados que valorizam e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
+      "valor": 45,
+      "categorias": [
+        "Decorações"
+      ],
+      "imagens": [
+        "assets/products/presepio-casinha-1.png",
+        "assets/products/presepio-casinha-2.jpg",
+        "assets/products/presepio-casinha-3.jpg",
+        "assets/products/presepio-casinha-4.jpg"
+      ]
+    },
+    {
+      "codigo": "14",
+      "nome": "Presépio completo com 10 peças",
+      "descricao": "✨ Presépio em 3D — 10 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 10 peças: Maria, José, Jesus, Burrinho, vaquinha, ovelha, três Reis e casinha, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
+      "valor": 159.9,
+      "categorias": [
+        "Decorações"
+      ],
+      "imagens": [
+        "assets/products/presepio-completo-com-10-pecas-1.png",
+        "assets/products/presepio-completo-com-10-pecas-2.jpg"
+      ]
+    },
+    {
+      "codigo": "16",
+      "nome": "Carimbo para doces",
+      "descricao": "🍬✨ CARIMBOS PERSONALIZADOS PARA DOCES ✨🍬\n\nDeixe seus doces ainda mais especiais e personalizados! 💕\nVocê escolhe o tema, o desenho e a quantidade de peças que precisa.\n\n🎀 Perfeitos para:\n🍭 Festas de aniversário\n🧁 Doces personalizados\n🎂 Lembrancinhas\n🎉 Eventos especiais\n\nTudo feito especialmente para combinar com a sua festa! 💖",
+      "valor": 0,
+      "categorias": [
+        "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/carimbo-para-doces-1.png",
+        "assets/products/carimbo-para-doces-2.png"
+      ]
+    },
+    {
+      "codigo": "17",
+      "nome": "Squishy sensorial com caixa",
+      "descricao": "As crianças estão vidradas nesse brinquedo! 🤩🧡 E o Dia das Crianças está chegando… 🎉\n\nQue tal surpreender os pequenos com um presente superdivertido, sensorial e que eles vão amar deslizar e brincar? 😍\n\n🎁 Squishy Sensorial + caixinha para guardar\nUma opção divertida para presentear e garantir muitos momentos de diversão! ✨",
+      "valor": 59.9,
       "categorias": [
         "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/squishy-sensorial-com-caixa-1.png",
+        "assets/products/squishy-sensorial-com-caixa-2.png",
+        "assets/products/squishy-sensorial-com-caixa-3.png",
+        "assets/products/squishy-sensorial-com-caixa-4.png"
+      ]
+    },
+    {
+      "codigo": "18",
+      "nome": "Chaveiro Squishy",
+      "descricao": "Claro que não íamos ficar de fora da nova sensação do momento! 🤩✨\n\nChegou o chaveiro Squishy com click! 🥰🎉 Além de super fofo, é perfeito para apertar, brincar e levar para todos os lugares! 💖🔑\n\nA nova tendência que está conquistando todo mundo agora também está por aqui! 😍\n\nGaranta já o seu! ✨🛍️",
+      "valor": 30,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/chaveiro-squishy.png"
+      ]
+    },
+    {
+      "codigo": "19",
+      "nome": "Ejetor de doces",
+      "descricao": "🍬✨ Mais uma novidade para as confeiteiras de plantão! ✨🍬\n\nChegou o Ejetor de Doces, perfeito para deixar suas criações ainda mais lindas e cheias de detalhes! 😍👩‍🍳 Deixe seus doces ainda mais especiais e personalizados! 💕\nVocê escolhe o tema, o desenho e a quantidade de peças que precisa.\n\n🎨 Vários temas disponíveis para você escolher e soltar a criatividade!\n\nPorque confeitar fica ainda mais divertido com os acessórios certos! 💕🍭",
+      "valor": 0,
+      "categorias": [
+        "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/ejetor-de-doces-1.png",
+        "assets/products/ejetor-de-doces-2.png",
+        "assets/products/ejetor-de-doces-3.png"
+      ]
+    },
+    {
+      "codigo": "22",
+      "nome": "Placa de contagem",
+      "descricao": "🔢✨ PLACA DE CONTAGEM ✨🧠\n\nAprender matemática pode ser muito mais divertido! 💛\n\nA criança precisa identificar o número na placa e, em seguida, colocar a quantidade de pinos correspondente. Assim, de forma lúdica, ela aprende a associar número e quantidade, desenvolvendo também a concentração, coordenação motora e raciocínio lógico. 🧩💡\n\n🎯 Uma atividade simples, divertida e educativa para os pequenos aprenderem brincando!\n\n📩 Entre em contato e garanta a sua!",
+      "valor": 89.9,
+      "categorias": [
+        "Jogos"
+      ],
+      "imagens": [
+        "assets/products/placa-de-contagem.png"
+      ]
+    },
+    {
+      "codigo": "23",
+      "nome": "Jogo da memória dos pinos",
+      "descricao": "🎲 Um jogo da memória diferente e cheio de diversão! 🧠✨\n\nAqui, a brincadeira começa com o dado! Cada jogador joga o dado e, de acordo com a cor sorteada, precisa encontrar no tabuleiro os pinos correspondentes. \n\n👉 Encontrou? Marca ponto e continua a diversão!\n👉 Não encontrou? É a vez do próximo jogador jogar o dado e tentar a sorte! 😄\n\nSão 6 cores diferentes, muita concentração, memória e, claro, aquela dose de diversão que as crianças adoram! 💛\n\n🧠 Brincar também é aprender!\nUm jogo que estimula a atenção, a percepção das cores, a memória e o raciocínio de forma divertida. 🎨✨",
+      "valor": 89.9,
+      "categorias": [
+        "Jogos"
+      ],
+      "imagens": [
+        "assets/products/jogo-da-memoria-dos-pinos.png"
+      ]
+    },
+    {
+      "codigo": "25",
+      "nome": "Comidinhas sensoriais",
+      "descricao": "Comidinhas sensoriais!\nDivertidas, estimulam a criatividade e proporcionam momentos de diversão!\nMonte seu kit com duas unidades da sua escolha! \nOpções: Banana 🍌\nOvo🥚\nCarne🍖\nTomate🍅\nCachorro quente🌭\nSorvete🍦",
+      "valor": 40,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/comidinhas-sensoriais-1.png",
+        "assets/products/comidinhas-sensoriais-2.png",
+        "assets/products/comidinhas-sensoriais-3.png",
+        "assets/products/comidinhas-sensoriais-4.png",
+        "assets/products/comidinhas-sensoriais-5.png",
+        "assets/products/comidinhas-sensoriais-6.png",
+        "assets/products/comidinhas-sensoriais-7.png",
+        "assets/products/comidinhas-sensoriais-8.png"
+      ]
+    },
+    {
+      "codigo": "27",
+      "nome": "Mini Jesus",
+      "descricao": "Leve Jesus para estar presente em todos os momentos! 🤍✨\n\nNosso Mini Jesus em 3D foi feito para ficar sentadinho na sua tela, acompanhando você no trabalho, nos estudos e em tudo o que faz. 🙏🥰\n\nPorque quando colocamos Jesus em tudo, tudo ganha um propósito ainda mais especial! ✨✝️",
+      "valor": 25,
+      "categorias": [
+        "Decorações"
+      ],
+      "imagens": [
+        "assets/products/mini-jesus-1.jpg",
+        "assets/products/mini-jesus-2.jpg"
+      ]
+    },
+    {
+      "codigo": "29",
+      "nome": "Ponteira de lápis - 10un",
+      "descricao": "Personalize seus lápis com essa ponteira super divertida com nome.\nIdeal para lembrancinha escolar!\nPedido mínimo 10un, podendo ser com nomes variados.",
+      "valor": 49.9,
+      "categorias": [
+        "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/ponteira-de-lapis-10un.png"
+      ]
+    },
+    {
+      "codigo": "30",
+      "nome": "Equilibra: Arca de Noé",
+      "descricao": "⚖️ Jogo de Equilíbrio Arca de Noé 3D\nPrepare-se para uma aventura cheia de desafios! \nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os animais na arca e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais animais, maior o desafio! 😄\n🧠 Estimula o raciocínio e a percepção espacial\n ⚖️ Trabalha equilíbrio e coordenação motora fina\n 🎯 Incentiva a concentração e o planejamento\n 👐 Desenvolve a habilidade de posicionar e organizar as peças\n 🎨 Animais coloridos que deixam a brincadeira ainda mais divertida\nSerá que você consegue colocar todos os animais sem derrubar a arca? 😍",
+      "valor": 49.9,
+      "categorias": [
+        "Jogos"
+      ],
+      "imagens": []
+    },
+    {
+      "codigo": "31",
+      "nome": "Ore e confie + mini Jesus",
+      "descricao": "✨ Um detalhe que transforma a decoração e leva uma mensagem especial para o ambiente! ✨\n\n“Ore e confie.” 🙏🤍\nUma peça delicada, cheia de significado e fé, perfeita para decorar aquele cantinho especial da casa.\n\nPorque, às vezes, tudo o que precisamos é orar, entregar e confiar. ✨\n\n💕 Personalize o seu com suas cores preferidas e tenha uma mensagem de fé sempre por perto!",
+      "valor": 59.9,
+      "categorias": [
+        "Decorações"
+      ],
+      "imagens": [
+        "assets/products/ore-e-confie-mini-jesus-1.png",
+        "assets/products/ore-e-confie-mini-jesus-2.png",
+        "assets/products/ore-e-confie-mini-jesus-3.png"
+      ]
+    },
+    {
+      "codigo": "33",
+      "nome": "Macarrão sensorial com tigela",
+      "descricao": "Brincar de faz de conta nunca foi tão divertido!\n\nNosso kit macarrão com tigela promove momentos de diversão, imaginação e aprendizado!",
+      "valor": 149.9,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/macarrao-sensorial-com-tigela-1.png",
+        "assets/products/macarrao-sensorial-com-tigela-2.png",
+        "assets/products/macarrao-sensorial-com-tigela-3.png"
+      ]
+    },
+    {
+      "codigo": "40",
+      "nome": "Chaveiro com apoio para celular",
+      "descricao": "🎁📱 Um presente útil, personalizado e cheio de carinho!\n\nNosso chaveiro personalizado com nome também funciona como apoio para celular, perfeito para deixar o celular apoiado com praticidade no dia a dia. 💕\n\n✨ Personalizado com o nome da pessoa\n📱 Função 2 em 1: chaveiro + suporte para celular\n🎀 Uma lembrança criativa e útil para presentear\n\nPorque um presente especial fica ainda melhor quando pode ser usado todos os dias! 💖",
+      "valor": 19.9,
+      "categorias": [
+        "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/chaveiro-com-apoio-para-celular.jpg"
+      ]
+    },
+    {
+      "codigo": "42",
+      "nome": "Quebra-cabeça animais",
+      "descricao": "🧩✨ Um quebra-cabeça diferente, divertido e cheio de descobertas! 🦒🦁🐘🦍🐊🦏💛\n\nAqui, cada peça tem seu lugar! A diversão está em encontrar o encaixe perfeito e completar a moldura com esses amiguinhos super fofos. 🥰\n\nAlém de brincar, os pequenos desenvolvem a coordenação motora, o raciocínio e a percepção de formas de um jeito leve e divertido! 🌈🧠\n\nBrincar, aprender e encaixar! 🧩💚",
+      "valor": 39.9,
+      "categorias": [
+        "Jogos"
+      ],
+      "imagens": [
+        "assets/products/quebra-cabeca-animais.jpg"
+      ]
+    },
+    {
+      "codigo": "43",
+      "nome": "Rolo de massinha das emoções",
+      "descricao": "🧠✨ O dia das crianças está chegando e precisamos sempre lembrar que Brincar também é aprender a sentir!\n\nNossos rolinhos de massinha com emoções tornam a brincadeira ainda mais divertida e cheia de significado! 🥰\nCada carinha ajuda a criança a reconhecer, nomear e expressar suas emoções enquanto cria, explora e se diverte. 🎨💭\n\nUma ferramenta lúdica para trabalhar a educação emocional, criatividade e coordenação motora de forma leve e divertida! 💛\n\n🎨 Porque toda emoção merece ser reconhecida e acolhida. 🥰",
+      "valor": 39.9,
+      "categorias": [
+        "Utilidades",
+        "Brinquedos"
+      ],
+      "imagens": []
+    },
+    {
+      "codigo": "49",
+      "nome": "Ovo de dragão sensorial",
+      "descricao": "🐉✨ OVO DE DRAGÃO SENSORIAL ✨🐉\nUm brinquedo mágico e super divertido para soltar a imaginação! 💙\nCom suas escamas articuladas, o ovo pode ser movimentado e transformado, proporcionando uma experiência sensorial gostosa e divertida para as crianças. 🥰\n🎮 Perfeito para brincar, explorar movimentos e se divertir!\n🎁 Uma opção incrível para presentear no Dia das Crianças!\n📩 Garanta o seu e leve um pouquinho de magia para a brincadeira! 🐉💙",
+      "valor": 29.9,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": []
+    },
+    {
+      "codigo": "51",
+      "nome": "Bailarina sensorial",
+      "descricao": "🩰✨ BAILARINA SENSORIAL ✨🩰\nUma experiência encantadora para as pequenas bailarinas! 💕\nA Bailarina Sensorial une delicadeza e diversão em uma atividade que convida a criança a explorar texturas, movimentos e diferentes formas.\n💗 Estimula a percepção sensorial\n🧠 Incentiva a concentração\n🤲 Trabalha a coordenação motora fina\n🩰 E ainda proporciona uma brincadeira linda e envolvente!\nUm presente especial para quem ama ballet e atividades sensoriais. 🎀",
+      "valor": 34.9,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": []
+    },
+    {
+      "codigo": "53",
+      "nome": "Apito Passarinho",
+      "descricao": "🐦 Apito que imita o som dos pássaros!\nBasta adicionar um pouquinho de água e, em um passe de mágica, o som do apito se transforma em um lindo canto de passarinho! 🎶💧\n\nDiversão, curiosidade e muita imaginação para a criançada! 🥰",
+      "valor": 20,
+      "categorias": [
+        "Brinquedos"
+      ],
+      "imagens": [
+        "assets/products/apito-passarinho.png"
+      ]
+    },
+    {
+      "codigo": "58",
+      "nome": "Enfeite de chimarrão",
+      "descricao": "💚❤️ Tradição que se compartilha, carinho que se leva para a vida! \n\nPresenteie seus colaboradores, clientes e amigos com um enfeite de chimarrão personalizado, unindo a identidade da empresa à tradição gaúcha. 🧉✨\n\nUm pequeno detalhe para acompanhar aquele momento especial do mate e lembrar que tradição também é feita de pessoas, histórias e carinho. 💚\n\nPedido mínimo 20un",
+      "valor": 0,
+      "categorias": [
+        "Utilidades"
+      ],
+      "imagens": [
+        "assets/products/enfeite-de-chimarrao.png"
       ]
     }
   ]
