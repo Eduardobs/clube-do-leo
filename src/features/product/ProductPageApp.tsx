@@ -51,6 +51,10 @@ export function ProductPageApp() {
   }, [retry]);
 
   useEffect(() => {
+    document.title = `${product ? product.nome : loading ? 'Produto' : error ? 'Erro ao carregar produto' : 'Produto não encontrado'} | Clube do Léo`;
+  }, [product, loading, error]);
+
+  useEffect(() => {
     if (product) {
       setSelectedImage(product.imagens[0] ?? '');
       setQuantity(minimum(product));
@@ -98,29 +102,31 @@ export function ProductPageApp() {
                 </button>
               ))}</div> : null}
             </div>
-            <div className="product-page__info">
-              <span className="tag">{product.categorias.join(', ')}</span>
-              <h1>{product.nome}</h1>
-              <p className="product-detail__code">Código {product.codigo}</p>
-            </div>
-            <form id="purchase" className="product-page__purchase" onSubmit={event => { event.preventDefault(); addToCart(); }}>
-              <p className="product-detail__price">{isQuote(product) ? 'Preço sob consulta' : `${formatPrice(product.valor)} / ${product.unidadeVenda || 'unidade'}`}</p>
-              <strong>Feito sob encomenda</strong>
-              <p>Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
-              <small>Entrega e eventuais personalizações combinadas com a loja.</small>
-              <ProductOptions product={product} values={options} onChange={values => { if (!Object.keys(options).length) trackStoreEvent('personalization_started', { product_code: product.codigo }); setOptions(values); }} />
-              {formError ? <p role="alert">{formError}</p> : null}
-              <p>{quantityLabel(product, quantity)} · Mínimo {minimum(product)}</p>
-              <div className="quantity-stepper">
-                <button type="button" onClick={() => setQuantity((current) => normalizeQuantity(product, current - increment(product)))} disabled={quantity <= minimum(product)} aria-label="Diminuir quantidade">−</button>
-                <output aria-label="Quantidade">{quantity}</output>
-                <button type="button" onClick={() => setQuantity((current) => normalizeQuantity(product, current + increment(product)))} disabled={normalizeQuantity(product, quantity + increment(product)) === quantity} aria-label="Aumentar quantidade">+</button>
+            <div className="product-page__summary">
+              <div className="product-page__info">
+                <span className="tag">{product.categorias.join(', ')}</span>
+                <h1>{product.nome}</h1>
+                <p className="product-detail__code">Código {product.codigo}</p>
               </div>
-              <button type="submit" className="btn btn--primary btn--block">{isQuote(product) ? <MessageCircle aria-hidden="true" /> : <ShoppingCart aria-hidden="true" />}{isQuote(product) ? 'Solicitar orçamento pelo WhatsApp' : 'Adicionar ao carrinho'}</button>
-              <a className="btn btn--ghost btn--block" href={catalogUrl(true)}>Ver carrinho ({cart.count})</a>
-              <small>Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou produção.</small>
-              {message ? <WhatsAppRecovery message={message} kind="orcamento" /> : null}
-            </form>
+              <form id="purchase" className="product-page__purchase" onSubmit={event => { event.preventDefault(); addToCart(); }}>
+                <p className="product-detail__price">{isQuote(product) ? 'Preço sob consulta' : `${formatPrice(product.valor)} / ${product.unidadeVenda || 'unidade'}`}</p>
+                <strong>Feito sob encomenda</strong>
+                <p>Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
+                <small>Entrega e eventuais personalizações combinadas com a loja.</small>
+                <ProductOptions product={product} values={options} onChange={values => { if (!Object.keys(options).length) trackStoreEvent('personalization_started', { product_code: product.codigo }); setOptions(values); }} />
+                {formError ? <p role="alert">{formError}</p> : null}
+                <p>{quantityLabel(product, quantity)} · Mínimo {minimum(product)}</p>
+                <div className="quantity-stepper">
+                  <button type="button" onClick={() => setQuantity((current) => normalizeQuantity(product, current - increment(product)))} disabled={quantity <= minimum(product)} aria-label="Diminuir quantidade">−</button>
+                  <output aria-label="Quantidade">{quantity}</output>
+                  <button type="button" onClick={() => setQuantity((current) => normalizeQuantity(product, current + increment(product)))} disabled={normalizeQuantity(product, quantity + increment(product)) === quantity} aria-label="Aumentar quantidade">+</button>
+                </div>
+                <button type="submit" className="btn btn--primary btn--block">{isQuote(product) ? <MessageCircle aria-hidden="true" /> : <ShoppingCart aria-hidden="true" />}{isQuote(product) ? 'Solicitar orçamento pelo WhatsApp' : 'Adicionar ao carrinho'}</button>
+                <a className="btn btn--ghost btn--block" href={catalogUrl(true)}>Ver carrinho ({cart.count})</a>
+                <small>Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou produção.</small>
+                {message ? <WhatsAppRecovery message={message} kind="orcamento" /> : null}
+              </form>
+            </div>
             <section className="product-page__description" aria-label="Especificações e descrição">
               <h2>Sobre o produto</h2>
               <dl>{([['dimensoes', 'Dimensões'], ['conteudo', 'Conteúdo do conjunto']] as const).map(([key, label]) => product[key] ? <div key={key}><dt>{label}</dt><dd>{product[key]}</dd></div> : null)}</dl>

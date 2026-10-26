@@ -88,7 +88,7 @@ test('página de produto possui conteúdo e metadados próprios', async ({ page 
   expect(structuredData).toContain('Product');
 });
 
-test('página de produto usa três colunas no desktop', async ({ page }) => {
+test('página de produto mantém título e compra juntos no desktop', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/produto-cubo-infinito-2/');
 
@@ -100,9 +100,10 @@ test('página de produto usa três colunas no desktop', async ({ page }) => {
   expect(info).not.toBeNull();
   expect(purchase).not.toBeNull();
   expect(info!.x).toBeGreaterThan(gallery!.x + gallery!.width);
-  expect(purchase!.x).toBeGreaterThan(info!.x + info!.width);
+  expect(Math.abs(info!.x - purchase!.x)).toBeLessThan(2);
+  expect(Math.abs(info!.width - purchase!.width)).toBeLessThan(2);
   expect(Math.abs(gallery!.y - info!.y)).toBeLessThan(2);
-  expect(Math.abs(info!.y - purchase!.y)).toBeLessThan(2);
+  expect(purchase!.y).toBeGreaterThan(info!.y + info!.height);
 });
 
 test('layout móvel não cria rolagem horizontal', async ({ page }) => {
