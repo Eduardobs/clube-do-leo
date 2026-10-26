@@ -4,6 +4,7 @@ import { cleanup } from '@testing-library/react';
 
 afterEach(() => {
   cleanup();
+  window.history.replaceState({}, '', '/');
   localStorage.clear();
   sessionStorage.clear();
 });

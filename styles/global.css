@@ -1456,3 +1456,40 @@ button:disabled, .btn:disabled { cursor: not-allowed; opacity: 0.55; }
 .institutional-card .btn {
   margin-top: 0.75rem;
 }
+
+/* Sob encomenda: informações de decisão e formulários compartilhados. */
+.made-to-order { display: block; margin-top: .4rem; font: 500 .85rem/1.4 sans-serif; color: #5b351c; }
+.option-field { display: grid; gap: .35rem; margin: .6rem 0; font-weight: 600; }
+.option-field input, .option-field select, .option-field textarea, .catalog-filters input, .catalog-filters select { width: 100%; min-width: 0; min-height: 44px; padding: .65rem; border: 1px solid #977957; border-radius: 8px; background: white; color: #35251c; font: inherit; }
+.option-field textarea { resize: vertical; }
+.catalog-filters { display: flex; align-items: end; gap: .75rem; flex-wrap: wrap; margin: .75rem 0; }
+.catalog-filters label { display: grid; gap: .25rem; font-size: .875rem; }
+.catalog-filters input { max-width: 180px; }
+.product-card__price { overflow-wrap: anywhere; }
+.product-card__title { overflow-wrap: anywhere; }
+.product-card__code { color: #6b6055; font-size: .75rem; }
+.product-page__description { grid-column: 1 / -1; max-width: 850px; }
+.product-page__description dl > div { display: grid; grid-template-columns: minmax(110px, 1fr) 2fr; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid #d7c6ae; }
+.product-page__description dt { font-weight: bold; }
+.product-page__description dd { margin: 0; }
+.product-mobile-action { display: none; }
+.gallery-enlarge { width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.zoom-image { display: block; width: 100%; max-height: 65vh; object-fit: contain; }
+.whatsapp-recovery { margin-top: 1rem; border-top: 1px solid #d7c6ae; padding-top: 1rem; overflow-wrap: anywhere; }
+.whatsapp-recovery .btn { margin: .25rem 0; }
+.cart-item--configured { display: block; }
+.cart-item--configured .cart-item__actions { flex-wrap: wrap; margin-top: .5rem; }
+.quantity-button { min-width: 44px; min-height: 44px; }
+.admin-personalization { padding: 1rem; margin: 1rem 0; border: 1px solid #d7c6ae; border-radius: 10px; }
+:focus-visible { outline: 3px solid #68451b; outline-offset: 3px; }
+#purchase { scroll-margin-top: 1rem; }
+@media (min-width: 1025px) {
+  .header-showcase { min-height: 260px; }
+  .header-showcase h1 { font-size: 3.8rem; }
+  .header-showcase__toys { max-height: 220px; object-fit: contain; }
+  .brand--seal { width: 170px; height: 170px; }
+}
+
+.gallery-navigation { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem; color: var(--color-primary-dark); }
+.gallery-navigation__arrow { width: 48px; height: 48px; min-width: 48px; padding: .6rem; border-radius: 50%; }
+.gallery-navigation__arrow svg { width: 1.4rem; height: 1.4rem; }

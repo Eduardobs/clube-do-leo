@@ -30,6 +30,7 @@ function copyStaticFiles(): Plugin {
 }
 
 interface CatalogProduct {
+  modalidadePreco?: string;
   codigo: string;
   nome: string;
   descricao: string;
@@ -80,7 +81,7 @@ function generateProductPages(): Plugin {
           sku: product.codigo,
           category: product.categorias.join(', '),
           image: images,
-          ...(product.valor > 0 ? {
+          ...(product.valor > 0 && product.modalidadePreco !== 'consulta' ? {
             offers: {
               '@type': 'Offer',
               url,

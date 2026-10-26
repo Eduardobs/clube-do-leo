@@ -1,4 +1,4 @@
-type StoreEventName = 'view_item' | 'add_to_cart' | 'begin_checkout' | 'click_whatsapp';
+type StoreEventName = 'personalization_started' | 'request_quote' | 'view_item' | 'add_to_cart' | 'begin_checkout' | 'click_whatsapp';
 
 type StoreEventData = Record<string, string | number | boolean>;
 

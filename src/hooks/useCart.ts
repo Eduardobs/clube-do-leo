@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { STORE_CONFIG } from '../config/store';
 import type { CartItem, Product } from '../types/product';
-import { cartItemCount, cartTotal, findProduct } from '../lib/products';
+import { cartItemCount, cartTotal, findProduct, isQuote, normalizeQuantity, configurationError, productSignature, itemKey } from '../lib/products';
 
 const STORAGE_KEY = 'clubeDoLeo.cart';
 const LEGACY_STORAGE_KEY = 'cart';
@@ -26,9 +26,10 @@ function writeStoredValue(storage: Storage, items: CartItem[]): boolean {
 function readCart(): CartItem[] {
   try {
     const localCart = readStoredValue(localStorage, STORAGE_KEY);
+    const legacyLocalCart = readStoredValue(localStorage, LEGACY_STORAGE_KEY);
     const sessionCart = readStoredValue(sessionStorage, STORAGE_KEY)
       ?? readStoredValue(sessionStorage, LEGACY_STORAGE_KEY);
-    const stored = localCart ?? sessionCart;
+    const stored = localCart ?? sessionCart ?? legacyLocalCart;
     if (!stored) return [];
     const value: unknown = JSON.parse(stored);
     if (!Array.isArray(value)) return [];
@@ -40,10 +41,12 @@ function readCart(): CartItem[] {
         Number.isInteger((item as CartItem).quantity) &&
         (item as CartItem).quantity > 0,
     ).map((item) => ({
+      ...item,
+      personalizacoes: item.personalizacoes && typeof item.personalizacoes === 'object' ? Object.fromEntries(Object.entries(item.personalizacoes).filter(([,v]) => typeof v === 'string')) : undefined,
       codigo: item.codigo.trim(),
       quantity: Math.min(item.quantity, STORE_CONFIG.maxQuantityPerProduct),
     }));
-    if (!localCart && sessionCart) writeStoredValue(localStorage, items);
+    if (!localCart && (sessionCart || legacyLocalCart)) writeStoredValue(localStorage, items);
     return items;
   } catch {
     return [];
@@ -72,22 +75,15 @@ export function useCart(products: Product[]) {
   }, []);
 
   const add = useCallback(
-    (codigo: string, rawQuantity = 1) => {
-      if (!findProduct(products, codigo)) return false;
-      const parsed = Number.parseInt(String(rawQuantity), 10);
-      const quantity = Math.min(
-        Number.isFinite(parsed) && parsed > 0 ? parsed : 1,
-        STORE_CONFIG.maxQuantityPerProduct,
-      );
+    (codigo: string, rawQuantity = 1, personalizacoes: Record<string, string> = {}) => {
+      const product = findProduct(products, codigo);
+      if (!product || isQuote(product) || configurationError(product, personalizacoes)) return false;
+      const quantity = normalizeQuantity(product, rawQuantity);
+      const signature = JSON.stringify(Object.entries(personalizacoes).sort());
       setItems((current) => {
-        const existing = current.find((item) => item.codigo === codigo);
-        return existing
-          ? current.map((item) =>
-              item.codigo === codigo
-                ? { ...item, quantity: Math.min(item.quantity + quantity, STORE_CONFIG.maxQuantityPerProduct) }
-                : item,
-            )
-          : [...current, { codigo, quantity }];
+        const existing = current.find(item => item.codigo === codigo && JSON.stringify(Object.entries(item.personalizacoes || {}).sort()) === signature);
+        return existing ? current.map(item => item === existing ? { ...item, quantity: normalizeQuantity(product, item.quantity + quantity) } : item)
+          : [...current, { codigo, quantity, id: crypto.randomUUID(), personalizacoes, catalogSignature: productSignature(product) }];
       });
       return true;
     },
@@ -95,25 +91,31 @@ export function useCart(products: Product[]) {
   );
 
   const remove = useCallback((codigo: string) => {
-    setItems((current) => current.filter((item) => item.codigo !== codigo));
+    setItems((current) => current.filter((item) => itemKey(item) !== codigo));
   }, [setItems]);
 
   const updateQuantity = useCallback((codigo: string, rawQuantity: number) => {
     const quantity = Number.parseInt(String(rawQuantity), 10);
     setItems((current) =>
       !Number.isFinite(quantity) || quantity < 1
-        ? current.filter((item) => item.codigo !== codigo)
+        ? current.filter((item) => itemKey(item) !== codigo)
         : current.map((item) => (
-          item.codigo === codigo
-            ? { ...item, quantity: Math.min(quantity, STORE_CONFIG.maxQuantityPerProduct) }
+          itemKey(item) === codigo
+            ? { ...item, quantity: normalizeQuantity(findProduct(products, item.codigo)!, quantity) }
             : item
         )),
     );
-  }, [setItems]);
+  }, [products, setItems]);
 
+  const configure = useCallback((id: string, values: Record<string, string>) => {
+    setItems(current => current.map(item => {
+      const product = findProduct(products, item.codigo);
+      return itemKey(item) === id && product ? { ...item, personalizacoes: values, quantity: normalizeQuantity(product, item.quantity), catalogSignature: productSignature(product) } : item;
+    }));
+  }, [products, setItems]);
   const clear = useCallback(() => setItems(() => []), [setItems]);
   const total = useMemo(() => cartTotal(items, products), [items, products]);
-  const count = useMemo(() => cartItemCount(items), [items]);
+  const count = useMemo(() => cartItemCount(items.filter(item => findProduct(products, item.codigo))), [items, products]);
 
-  return { items, total, count, add, remove, updateQuantity, clear };
+  return { items, total, count, add, remove, updateQuantity, configure, clear };
 }

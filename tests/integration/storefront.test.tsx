@@ -35,19 +35,19 @@ describe('vitrine', () => {
   it('adiciona produto, atualiza o carrinho persistido e inicia checkout', async () => {
     const user = userEvent.setup();
     render(<StorefrontApp />);
-    await user.click((await screen.findAllByRole('button', { name: 'Adicionar' }))[0]);
+    await user.click((await screen.findAllByRole('button', { name: 'Adicionar ao carrinho' }))[0]);
     expect(screen.getByText('Cubo infinito adicionado ao carrinho!')).toBeInTheDocument();
-    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
-    expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 1 }]);
+    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toMatchObject([{ codigo: '1', quantity: 1 }]);
+    expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toMatchObject([{ codigo: '1', quantity: 1 }]);
     await user.click(screen.getByRole('button', { name: /abrir carrinho, 1 item/i }));
     const cartDialog = screen.getByRole('dialog', { name: 'Carrinho de compras' });
     expect(cartDialog).toBeInTheDocument();
-    expect(within(cartDialog).getByRole('link', { name: 'Ver detalhes de Cubo infinito' })).toHaveAttribute('href', '/produto-cubo-infinito-1/');
+    expect(within(cartDialog).getByRole('link', { name: 'Cubo infinito' })).toHaveAttribute('href', '/produto-cubo-infinito-1/');
     await user.click(screen.getByRole('button', { name: /revisar pedido/i }));
     expect(screen.getByRole('dialog', { name: 'Enviar pedido' })).toBeInTheDocument();
   });
 
-  it('busca sem acentos e permite adicionar item sob consulta', async () => {
+  it('busca sem acentos e direciona itens sob consulta ao orçamento', async () => {
     const user = userEvent.setup();
     render(<StorefrontApp />);
     await screen.findByRole('heading', { name: 'Cubo infinito' });
@@ -55,8 +55,8 @@ describe('vitrine', () => {
     expect(screen.getByRole('heading', { name: 'Cubo infinito' })).toBeInTheDocument();
     await user.clear(screen.getByRole('searchbox'));
     await user.type(screen.getByRole('searchbox'), 'jogo');
-    await user.click(screen.getByRole('button', { name: 'Adicionar' }));
-    expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '2', quantity: 1 }]);
+    expect(screen.getByRole('link', { name: 'Solicitar orçamento' })).toHaveAttribute('href', '/produto-jogo-dino-2/');
+    expect(screen.queryByRole('button', { name: 'Adicionar ao carrinho' })).not.toBeInTheDocument();
   });
 
   it('mostra erro amigável quando o catálogo não pode ser carregado', async () => {

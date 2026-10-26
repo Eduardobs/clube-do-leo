@@ -4,12 +4,13 @@ import { Modal } from '../../components/Modal';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
 import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset } from '../../lib/format';
-import { fetchProducts, parseProductsFile } from '../../lib/products';
+import { fetchProducts, parseProductsFile, normalizeProduct, isQuote } from '../../lib/products';
 import type { Category, Product } from '../../types/product';
 
 const DRAFT_KEY = 'clubeDoLeo.admin.draft';
 
 interface ProductFormState {
+  details: Partial<Product>;
   codigo: string;
   nome: string;
   descricao: string;
@@ -19,6 +20,7 @@ interface ProductFormState {
 }
 
 const emptyForm = (): ProductFormState => ({
+  details: { modalidadePreco: 'definido' },
   codigo: '',
   nome: '',
   descricao: '',
@@ -29,6 +31,7 @@ const emptyForm = (): ProductFormState => ({
 
 function productToForm(product: Product): ProductFormState {
   return {
+    details: { ...product, modalidadePreco: isQuote(product) ? 'consulta' : 'definido' },
     codigo: product.codigo,
     nome: product.nome,
     descricao: product.descricao,
@@ -152,7 +155,7 @@ export function AdminApp() {
     if (!form) return;
     const codigo = form.codigo.trim();
     const nome = form.nome.trim();
-    const valor = form.valor.trim() === '' ? 0 : Number(form.valor);
+    const valor = form.details.modalidadePreco === 'consulta' ? 0 : form.valor.trim() === '' ? 0 : Number(form.valor);
     if (!codigo || !nome) return setFormError('Código e nome são obrigatórios.');
     if (!Number.isFinite(valor) || valor < 0) return setFormError('Informe um valor numérico válido (0 ou maior).');
     if (!form.categorias.length) return setFormError('Selecione ao menos uma categoria.');
@@ -160,14 +163,17 @@ export function AdminApp() {
       return setFormError(`Já existe um produto com o código “${codigo}”.`);
     }
 
-    const product: Product = {
+    if (form.details.modalidadePreco === 'definido' && valor <= 0) return setFormError('Informe um preço maior que zero ou selecione sob consulta.');
+    const product = normalizeProduct({
+      ...form.details,
       codigo,
       nome,
       descricao: form.descricao.trim(),
       valor,
       categorias: form.categorias,
       imagens: form.imagens.map((image) => image.trim()).filter(Boolean),
-    };
+    });
+    if (!product) return setFormError('Revise os campos: quantidades devem ser inteiras entre 1 e 99; personalizações precisam de identificadores únicos e limites positivos.');
     const next = editingCode
       ? products.map((current) => current.codigo === editingCode ? product : current)
       : [...products, product];
@@ -244,7 +250,7 @@ export function AdminApp() {
                   <td>{product.codigo}</td>
                   <td className="admin-table__name"><strong>{product.nome}</strong><span>{product.descricao}</span></td>
                   <td><div className="badge-list">{product.categorias.map((category) => <span className="badge" key={category}>{category}</span>)}</div></td>
-                  <td>{formatPrice(product.valor)}</td>
+                  <td>{isQuote(product) ? 'Preço sob consulta' : formatPrice(product.valor)}</td>
                   <td><div className="admin-table__actions">
                     <button type="button" className="icon-btn" onClick={() => openForm(product)} title="Editar" aria-label={`Editar ${product.nome}`}><Pencil aria-hidden="true" /></button>
                     <button type="button" className="icon-btn icon-btn--danger" onClick={() => deleteProduct(product)} title="Excluir" aria-label={`Excluir ${product.nome}`}><Trash2 aria-hidden="true" /></button>
@@ -265,7 +271,20 @@ export function AdminApp() {
             <div className="form-group"><label htmlFor="field-codigo">Código</label><input id="field-codigo" type="text" value={form.codigo} onChange={(event) => setForm({ ...form, codigo: event.target.value })} placeholder="Ex: LEM-014" required /></div>
             <div className="form-group"><label htmlFor="field-nome">Nome</label><input id="field-nome" type="text" value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} placeholder="Nome do produto" required /></div>
             <div className="form-group"><label htmlFor="field-descricao">Descrição</label><textarea id="field-descricao" value={form.descricao} onChange={(event) => setForm({ ...form, descricao: event.target.value })} placeholder="Descrição, tamanho, conteúdo..." /></div>
-            <div className="form-group"><label htmlFor="field-valor">Valor (R$)</label><input id="field-valor" type="number" min="0" step="0.01" value={form.valor} onChange={(event) => setForm({ ...form, valor: event.target.value })} placeholder="0,00" /><small className="form-hint">Deixe 0 para exibir “Sob consulta”.</small></div>
+            <div className="form-group"><label htmlFor="field-valor">Valor (R$)</label><input id="field-valor" disabled={form.details.modalidadePreco === 'consulta'} type="number" min="0" step="0.01" value={form.valor} onChange={(event) => setForm({ ...form, valor: event.target.value })} placeholder="0,00" /></div>
+            <label className="option-field">Modalidade de preço<select value={form.details.modalidadePreco} onChange={e => setForm({ ...form, details: { ...form.details, modalidadePreco: e.target.value as Product['modalidadePreco'] } })}><option value="definido">Preço definido</option><option value="consulta">Preço sob consulta</option></select></label>
+            {([['unidadeVenda', 'Unidade de venda (ex.: unidade, kit)'], ['dimensoes', 'Dimensões'], ['conteudo', 'Conteúdo do conjunto']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input value={form.details[key] || ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value } })} /></label>)}
+            {([['quantidadeMinima', 'Quantidade mínima'], ['incremento', 'Incremento'], ['pecasPorKit', 'Peças por kit']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input type="number" min="1" max="99" step="1" value={form.details[key] ?? ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value ? Number(e.target.value) : undefined } })} /></label>)}
+            <fieldset><legend>Campos de personalização</legend><p>Cadastre somente opções oferecidas pela loja. Limites de texto são opcionais.</p>
+              {(form.details.personalizacoes || []).map((field, index) => <div className="admin-personalization" key={index}>
+                {(['id', 'label'] as const).map(key => <label className="option-field" key={key}>{key === 'id' ? 'Identificador' : 'Rótulo'}<input required value={field[key]} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, [key]: e.target.value } : f) } })} /></label>)}
+                <label><input type="checkbox" checked={field.required || false} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, required: e.target.checked } : f) } })} /> Obrigatório</label>
+                <label className="option-field">Limite de caracteres<input type="number" min="1" step="1" value={field.maxLength || ''} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, maxLength: e.target.value ? Number(e.target.value) : undefined } : f) } })} /></label>
+                <label className="option-field">Opções (uma por linha; vazio para texto livre)<textarea value={field.options?.join('\n') || ''} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, options: e.target.value ? e.target.value.split('\n') : undefined } : f) } })} /></label>
+                <button type="button" onClick={() => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.filter((_, i) => i !== index) } })}>Remover campo</button>
+              </div>)}
+              <button type="button" className="btn btn--ghost" onClick={() => setForm({ ...form, details: { ...form.details, personalizacoes: [...(form.details.personalizacoes || []), { id: '', label: '' }] } })}>Adicionar campo de personalização</button>
+            </fieldset>
             <fieldset className="form-group"><legend>Categorias</legend><div className="checkbox-group">{STORE_CONFIG.categories.map((category) => (
               <label key={category}><input type="checkbox" checked={form.categorias.includes(category)} onChange={(event) => setForm({ ...form, categorias: event.target.checked ? [...form.categorias, category] : form.categorias.filter((current) => current !== category) })} />{category}</label>
             ))}</div></fieldset>

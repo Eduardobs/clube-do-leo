@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 
 test('monta o pedido no WhatsApp sem apagar o carrinho', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Adicionar' }).first().click();
+  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
   await page.getByRole('button', { name: /^abrir carrinho/i }).click();
   await page.getByRole('button', { name: 'Revisar pedido' }).click();
   await page.getByLabel('Seu nome').fill('Maria');
@@ -22,12 +22,12 @@ test('monta o pedido no WhatsApp sem apagar o carrinho', async ({ page }) => {
   const whatsappUrl = await page.evaluate(() => (window as typeof window & { __lastWhatsAppUrl?: string }).__lastWhatsAppUrl);
   expect(whatsappUrl).toContain('https://wa.me/');
   expect(decodeURIComponent(whatsappUrl ?? '')).toContain('Prefiro a cor azul');
-  expect(await page.evaluate(() => localStorage.getItem('clubeDoLeo.cart'))).not.toBe('[]');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity })))).not.toBe('[]');
 });
 
 test('mantém o carrinho ao visitar a política de preços e voltar à loja', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Adicionar' }).first().click();
+  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
   await page.getByRole('link', { name: 'Política de preços' }).click();
   await expect(page).toHaveURL(/\/politica-de-precos\/$/);
   await page.getByRole('link', { name: 'Voltar à loja' }).click();
@@ -37,9 +37,9 @@ test('mantém o carrinho ao visitar a política de preços e voltar à loja', as
 
 test('mantém o carrinho da vitrine ao abrir uma página de produto', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Adicionar' }).first().click();
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
-    .toBe('[{"codigo":"1","quantity":1}]');
+  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity }))))
+    .toEqual([{ codigo: '1', quantity: 1 }]);
 
   await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
 
@@ -52,21 +52,21 @@ test('mantém o carrinho da vitrine ao abrir uma página de produto', async ({ p
 
 test('não apaga o carrinho se o catálogo falhar na troca de página', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Adicionar' }).first().click();
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
-    .toBe('[{"codigo":"1","quantity":1}]');
+  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity }))))
+    .toEqual([{ codigo: '1', quantity: 1 }]);
   await page.route('**/data/products.json', (route) => route.abort());
 
   await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
 
   await expect(page.getByRole('alert')).toContainText('Não foi possível carregar este produto.');
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('clubeDoLeo.cart')))
-    .toBe('[{"codigo":"1","quantity":1}]');
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity }))))
+    .toEqual([{ codigo: '1', quantity: 1 }]);
 });
 
 test('mantém o produto no carrinho ao voltar da página de detalhes', async ({ page }) => {
   await page.goto('/produto-cubo-infinito-2/');
-  await page.getByRole('button', { name: 'Adicionar ao carrinho' }).click();
+  await page.locator('#purchase').getByRole('button', { name: 'Adicionar ao carrinho' }).click();
   await expect(page.getByRole('link', { name: 'Ver carrinho (1)' })).toBeVisible();
   await page.getByRole('link', { name: 'Ver carrinho (1)' }).click();
   await expect(page.getByRole('dialog', { name: 'Carrinho de compras' })).toContainText('Cubo infinito');

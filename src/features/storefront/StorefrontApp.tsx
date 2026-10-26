@@ -6,8 +6,9 @@ import { STORE_CONFIG } from '../../config/store';
 import { useCart } from '../../hooks/useCart';
 import { trackStoreEvent } from '../../lib/analytics';
 import { normalizeSearchText } from '../../lib/format';
-import { fetchProducts, findProduct } from '../../lib/products';
+import { fetchProducts, findProduct, isQuote, itemIssue, normalizeQuantity } from '../../lib/products';
 import { buildDetailedOrderMessage, createOrderId, openWhatsApp } from '../../lib/whatsapp';
+import { saveCatalog } from '../../lib/navigation';
 import type { Category, Product } from '../../types/product';
 import { CartModal } from './CartModal';
 import { CheckoutModal } from './CheckoutModal';
@@ -15,64 +16,53 @@ import { ProductCard } from './ProductCard';
 import { StoreHeader } from './StoreHeader';
 
 const PAGE_SIZE = 12;
+const params = () => new URLSearchParams(window.location.search);
+const readCategory = () => STORE_CONFIG.categories.find(c => c === params().get('categoria')) || null;
+const readSort = () => { const s = params().get('ordem'); return s === 'name' || s === 'price-asc' || s === 'price-desc' ? s : 'catalog'; };
 const productNameCollator = new Intl.Collator('pt-BR');
 
 export function StorefrontApp() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<Category | null>(null);
+  const [search, setSearch] = useState(() => params().get('busca') || '');
+  const [category, setCategory] = useState<Category | null>(readCategory);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const [sort, setSort] = useState<'catalog' | 'name' | 'price-asc' | 'price-desc'>('catalog');
+  const [sort, setSort] = useState<'catalog' | 'name' | 'price-asc' | 'price-desc'>(readSort);
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [toast, setToast] = useState('');
+  const [mode, setMode] = useState(() => params().get('preco') || 'todos');
+  const [maxPrice, setMaxPrice] = useState(() => params().get('ate') || '');
+  const [retry, setRetry] = useState(0);
+  const [preparedMessage, setPreparedMessage] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [notes, setNotes] = useState('');
   const sentinelRef = useRef<HTMLDivElement>(null);
   const trustStripRef = useRef<HTMLDivElement>(null);
   const cart = useCart(products);
 
   useEffect(() => {
-    const strip = trustStripRef.current;
-    if (!strip || typeof window.matchMedia !== 'function') return;
-
-    const mobileViewport = window.matchMedia('(max-width: 768px)');
-    let activeItem = 0;
-    let intervalId: number | undefined;
-
-    const scrollToNextItem = () => {
-      const items = Array.from(strip.querySelectorAll<HTMLElement>(':scope > p'));
-      if (items.length < 2) return;
-
-      activeItem = (activeItem + 1) % items.length;
-      const itemRect = items[activeItem].getBoundingClientRect();
-      const stripRect = strip.getBoundingClientRect();
-      const centeredItemPosition = strip.scrollLeft + itemRect.left - stripRect.left
-        - (strip.clientWidth - itemRect.width) / 2;
-
-      strip.scrollTo({ left: Math.max(0, centeredItemPosition), behavior: 'smooth' });
-    };
-
-    const updateAutoScroll = () => {
-      window.clearInterval(intervalId);
-      intervalId = undefined;
-
-      if (mobileViewport.matches) {
-        activeItem = 0;
-        intervalId = window.setInterval(scrollToNextItem, 4000);
-      }
-    };
-
-    updateAutoScroll();
-    mobileViewport.addEventListener('change', updateAutoScroll);
-
-    return () => {
-      window.clearInterval(intervalId);
-      mobileViewport.removeEventListener('change', updateAutoScroll);
-    };
+    const restore = () => { setSearch(params().get('busca') || ''); setCategory(readCategory()); setSort(readSort()); setMode(params().get('preco') || 'todos'); setMaxPrice(params().get('ate') || ''); };
+    window.addEventListener('popstate', restore);
+    return () => window.removeEventListener('popstate', restore);
   }, []);
-
   useEffect(() => {
+    const next = new URLSearchParams(window.location.search);
+    for (const [key, value] of Object.entries({ busca: search, categoria: category || '', ordem: sort === 'catalog' ? '' : sort, preco: mode === 'todos' ? '' : mode, ate: maxPrice })) {
+      if (value) next.set(key, value); else next.delete(key);
+    }
+    const query = next.toString();
+    if (query !== window.location.search.slice(1)) window.history.pushState({}, '', `${window.location.pathname}${query ? `?${query}` : ''}#produtos`);
+    saveCatalog(query);
+  }, [search, category, sort, mode, maxPrice]);
+  useEffect(() => {
+    const remember = () => { try { sessionStorage.setItem(`catalog-position:${window.location.search}`, JSON.stringify({ count: visibleCount, y: window.scrollY })); } catch { /* optional */ } };
+    window.addEventListener('pagehide', remember);
+    return () => window.removeEventListener('pagehide', remember);
+  }, [visibleCount]);
+  useEffect(() => {
+    setLoading(true); setError('');
     const controller = new AbortController();
     fetchProducts(controller.signal)
       .then(setProducts)
@@ -81,9 +71,9 @@ export function StorefrontApp() {
         console.error('Erro ao carregar produtos:', reason);
         setError('Não foi possível carregar os produtos. Tente novamente mais tarde.');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, []);
+  }, [retry]);
 
   const indexedProducts = useMemo(() => products.map((product) => ({
     product,
@@ -99,22 +89,28 @@ export function StorefrontApp() {
     const term = normalizeSearchText(search);
     const matches = indexedProducts
       .filter(({ product, searchText }) =>
-        (!term || searchText.includes(term)) &&
+        (!term || term.split(/\s+/).every(word => searchText.includes(word))) &&
+        (mode === 'todos' || (mode === 'consulta' ? isQuote(product) : !isQuote(product))) &&
+        (!maxPrice || (!isQuote(product) && product.valor <= Number(maxPrice))) &&
         (!category || product.categorias.includes(category)),
       )
       .map(({ product }) => product);
     if (sort === 'name') return [...matches].sort((a, b) => productNameCollator.compare(a.nome, b.nome));
-    if (sort === 'price-asc') return [...matches].sort((a, b) => (a.valor || Number.POSITIVE_INFINITY) - (b.valor || Number.POSITIVE_INFINITY));
-    if (sort === 'price-desc') return [...matches].sort((a, b) => b.valor - a.valor);
+    if (sort === 'price-asc' || sort === 'price-desc') return [...matches].sort((a, b) => Number(isQuote(a)) - Number(isQuote(b)) || (isQuote(a) ? 0 : sort === 'price-asc' ? a.valor - b.valor : b.valor - a.valor));
     return matches;
-  }, [category, indexedProducts, search, sort]);
+  }, [category, indexedProducts, search, sort, mode, maxPrice]);
 
-  useEffect(() => setVisibleCount(PAGE_SIZE), [category, search, sort]);
+  useEffect(() => {
+    let count = PAGE_SIZE; let y = 0;
+    try { const stored = JSON.parse(sessionStorage.getItem(`catalog-position:${window.location.search}`) || 'null'); if (stored) { count = stored.count; y = stored.y; } } catch { /* optional */ }
+    setVisibleCount(count);
+    if (!loading && y) requestAnimationFrame(() => window.scrollTo(0, y));
+  }, [category, search, sort, mode, maxPrice, loading]);
 
   useEffect(() => {
     if (loading || new URLSearchParams(window.location.search).get('carrinho') !== '1') return;
     setCartOpen(true);
-    window.history.replaceState({}, '', `${window.location.pathname}#produtos`);
+    const next = params(); next.delete('carrinho'); window.history.replaceState({}, '', `/${next.size ? `?${next}` : ''}#produtos`); saveCatalog(next.toString());
   }, [loading]);
 
   useEffect(() => {
@@ -137,13 +133,14 @@ export function StorefrontApp() {
   const dismissToast = useCallback(() => setToast(''), []);
 
   const addToCart = useCallback((product: Product, quantity = 1) => {
-    cart.add(product.codigo, quantity);
+    quantity = normalizeQuantity(product, quantity);
+    if (!cart.add(product.codigo, quantity)) return;
     trackStoreEvent('add_to_cart', { product_code: product.codigo, quantity, value: product.valor });
     setToast(`${product.nome} adicionado ao carrinho!`);
   }, [cart.add]);
 
   const startCheckout = () => {
-    if (!cart.items.length) {
+    if (!cart.items.length || cart.items.some(item => { const p = findProduct(products, item.codigo); return !p || itemIssue(p, item); })) {
       setToast('Carrinho vazio! Adicione itens antes de finalizar.');
       return;
     }
@@ -154,13 +151,14 @@ export function StorefrontApp() {
 
   const sendOrder = (customerName: string, notes: string) => {
     const orderId = createOrderId();
-    trackStoreEvent('click_whatsapp', { order_id: orderId, item_count: cart.count, value: cart.total });
-    openWhatsApp(buildDetailedOrderMessage({ orderId, customerName, notes }, cart.items, products));
-    setCheckoutOpen(false);
+    trackStoreEvent('click_whatsapp', { kind: cart.items.every(item => { const p = findProduct(products, item.codigo); return p && isQuote(p); }) ? 'orcamento' : 'pedido', order_id: orderId, item_count: cart.count, value: cart.total });
+    const message = buildDetailedOrderMessage({ orderId, customerName, notes }, cart.items, products);
+    setPreparedMessage(message);
+    openWhatsApp(message);
     setToast(`Pedido ${orderId} preparado. Seu carrinho foi mantido.`);
   };
 
-  const hasUnpricedItems = cart.items.some((item) => (findProduct(products, item.codigo)?.valor ?? 0) <= 0);
+  const hasUnpricedItems = cart.items.some((item) => (findProduct(products, item.codigo) ? isQuote(findProduct(products, item.codigo)!) : false));
 
   return (
     <>
@@ -169,9 +167,9 @@ export function StorefrontApp() {
       <main>
         <section className="trust-strip" aria-label="Diferenciais da loja">
           <div ref={trustStripRef} className="container trust-strip__inner" tabIndex={0} aria-label="Deslize para conhecer os diferenciais da loja">
-            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito com carinho em impressão 3D</span></p>
-            <p><BadgeCheck aria-hidden="true" /><span><strong>Compra sem surpresa</strong>Confira o subtotal antes de enviar</span></p>
-            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Finalize direto com a gente no WhatsApp</span></p>
+            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito sob encomenda</span></p>
+            <p><BadgeCheck aria-hidden="true" /><span><strong>Confirmação pelo WhatsApp</strong>Combine as condições antes da produção</span></p>
+            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Envie sua solicitação pelo WhatsApp</span></p>
           </div>
         </section>
         <section id="produtos" className="catalog container" aria-busy={loading}>
@@ -192,6 +190,12 @@ export function StorefrontApp() {
               </select>
             </label>
           </div>
+          <div className="catalog-filters">
+            <label>Modalidade de preço<select value={mode} onChange={e => setMode(e.target.value)}><option value="todos">Todos</option><option value="definido">Preço definido</option><option value="consulta">Sob consulta</option></select></label>
+            <label>Preço definido até (R$)<input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} /></label>
+            {search || category || mode !== 'todos' || maxPrice || sort !== 'catalog' ? <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); setSort('catalog'); setMode('todos'); setMaxPrice(''); }}>Limpar filtros</button> : null}
+          </div>
+          {sort.startsWith('price') ? <p>Produtos sob consulta aparecem após os produtos com preço definido.</p> : null}
           {!loading && !error ? (
             <div className="catalog__meta">
               <p className="catalog__count" aria-live="polite"><strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'produto encontrado' : 'produtos encontrados'}</p>
@@ -203,7 +207,7 @@ export function StorefrontApp() {
               {Array.from({ length: 8 }, (_, index) => <div key={index} className="product-skeleton" aria-hidden="true"><span /><i /><i /></div>)}
             </div>
           ) : null}
-          {error ? <p className="error-message" role="alert">{error}</p> : null}
+          {error ? <p className="error-message" role="alert">{error} <button type="button" onClick={() => setRetry(r => r + 1)}>Tentar novamente</button></p> : null}
           {!loading && !error ? (
             <div className="product-grid">
               {filteredProducts.length ? filteredProducts.slice(0, visibleCount).map((product) => (
@@ -218,6 +222,7 @@ export function StorefrontApp() {
               )}
             </div>
           ) : null}
+          {visibleCount < filteredProducts.length ? <button type="button" className="btn btn--ghost" onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>Carregar mais</button> : null}
           <div ref={sentinelRef} className="load-more-sentinel" aria-hidden="true" />
         </section>
         <section className="how-it-works" aria-labelledby="como-comprar">
@@ -225,12 +230,12 @@ export function StorefrontApp() {
             <div className="how-it-works__heading">
               <p className="section-eyebrow"><PackageCheck aria-hidden="true" /> Simples e seguro</p>
               <h2 id="como-comprar">Seu pedido em três passos</h2>
-              <p>Escolha com calma. Antes de confirmar, você ainda conversa com a gente para combinar todos os detalhes.</p>
+              <p>Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
             </div>
             <ol className="purchase-steps">
-              <li><span>01</span><div><strong>Escolha seus favoritos</strong><p>Adicione quantos produtos quiser ao carrinho.</p></div></li>
-              <li><span>02</span><div><strong>Revise seu pedido</strong><p>Confira itens, quantidades e o subtotal estimado.</p></div></li>
-              <li><span>03</span><div><strong>Combine pelo WhatsApp</strong><p>Envie o pedido e confirme cores, prazo e entrega.</p></div></li>
+              <li><span>01</span><div><strong>Escolha seus favoritos</strong><p>Adicione produtos com preço definido ou solicite orçamento.</p></div></li>
+              <li><span>02</span><div><strong>Revise seu pedido</strong><p>Confira itens, quantidades e o subtotal dos produtos.</p></div></li>
+              <li><span>03</span><div><strong>Combine pelo WhatsApp</strong><p>Confirme o pedido, o prazo de produção e a entrega.</p></div></li>
             </ol>
             <a className="how-it-works__cta" href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" onClick={() => trackStoreEvent('click_whatsapp', { source: 'purchase_steps' })}>
               Ficou com alguma dúvida? Fale com a gente <ArrowRight aria-hidden="true" />
@@ -251,8 +256,8 @@ export function StorefrontApp() {
         </a>
       </nav>
 
-      {cartOpen ? <CartModal items={cart.items} products={products} total={cart.total} onClose={() => setCartOpen(false)} onClear={cart.clear} onRemove={cart.remove} onUpdate={cart.updateQuantity} onCheckout={startCheckout} /> : null}
-      {checkoutOpen ? <CheckoutModal itemCount={cart.count} total={cart.total} hasUnpricedItems={hasUnpricedItems} onClose={() => setCheckoutOpen(false)} onSubmit={sendOrder} /> : null}
+      {cartOpen ? <CartModal items={cart.items} products={products} total={cart.total} onClose={() => setCartOpen(false)} onClear={cart.clear} onRemove={cart.remove} onUpdate={cart.updateQuantity} onConfigure={cart.configure} onCheckout={startCheckout} /> : null}
+      {checkoutOpen ? <CheckoutModal items={cart.items} products={products} message={preparedMessage} name={customerName} notes={notes} onNameChange={setCustomerName} onNotesChange={setNotes} onEdit={() => { setCheckoutOpen(false); setCartOpen(true); }} itemCount={cart.count} total={cart.total} hasUnpricedItems={hasUnpricedItems} onClose={() => setCheckoutOpen(false)} onSubmit={sendOrder} /> : null}
       <Toast message={toast} onDismiss={dismissToast} actionLabel={cart.items.length ? 'Ver carrinho' : undefined} onAction={() => setCartOpen(true)} />
     </>
   );

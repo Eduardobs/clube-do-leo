@@ -5,147 +5,187 @@
       "nome": "Estrela Sensorial",
       "descricao": "Estrela Sensorial 3D\n\nUma estrela diferente de tudo que você já viu! 💖\n\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n\n✨ Estimula a percepção visual e espacial\n👐 Incentiva a exploração sensorial e tátil\n🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta\n\nUm brinquedo que une diversão, criatividade e estímulos sensoriais em uma peça encantadora! 🌟\n\nDiversão que estimula. Aprendizado que acontece brincando! 💕",
       "valor": 29.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/estrela-sensorial-1-2.webp",
         "assets/products/estrela-sensorial-2-2.webp",
         "assets/products/estrela-sensorial-3-2.webp",
         "assets/products/estrela-sensorial-4-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "2",
       "nome": "Cubo infinito",
       "descricao": "🧩 Cubo Infinito 3D\n\nUm brinquedo que parece simples, mas proporciona diversão sem fim! 💛\n\nO Cubo Infinito é formado por peças articuladas que podem ser movimentadas e transformadas continuamente, criando diferentes formas e possibilidades de exploração.\n\n✨ Estimula a coordenação motora fina\n🧠 Incentiva a concentração e o raciocínio\n👐 Proporciona estímulos táteis e sensoriais\n🎯 Pode auxiliar em momentos de relaxamento e foco\n🎨 Impressão 3D com design divertido, resistente e cheio de possibilidades\n\nPerfeito para crianças e adultos que gostam de mexer, explorar e descobrir novas formas de brincar.\n\nGire, dobre, transforme e recomece! 🔄💛\n\nUm brinquedo educativo e sensorial que transforma movimento em diversão.",
       "valor": 19.9,
+      "imagens": [
+        "assets/products/cubo-infinito-1.webp"
+      ],
       "categorias": [
         "Brinquedos"
       ],
-      "imagens": [
-        "assets/products/cubo-infinito-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "3",
       "nome": "Cone infinito",
       "descricao": "🌀 Cone Infinito 3D\n\nUm brinquedo que gira, transforma e surpreende! 💛\n\nO Cone Infinito é um brinquedo sensorial produzido em impressão 3D, desenvolvido para proporcionar uma experiência divertida e envolvente por meio do movimento e da exploração tátil.\n\n✨ Estimula a coordenação motora fina\n🧠 Favorece a concentração e o raciocínio\n👐 Proporciona estímulos sensoriais através do toque e movimento\n🎯 Pode ser utilizado como recurso para momentos de foco e relaxamento\n🌈 Disponível em diferentes combinações de cores\n\nSeu movimento contínuo e seu formato diferenciado tornam cada interação uma nova descoberta!\n\nGire, encaixe, explore e divirta-se! 🌀💛\n\nUm brinquedo educativo e terapêutico que transforma movimentos simples em uma experiência sensorial divertida.",
       "valor": 19.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/cone-infinito-1-2.webp",
         "assets/products/cone-infinito-2-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "4",
       "nome": "Kit Sensorial",
       "descricao": "🌈 Kit Sensorial 3D — Diversão que estimula!\n\nUm trio pensado para brincar, explorar e estimular os sentidos! 💛\n\nO Kit Sensorial 3D reúne três brinquedos educativos e terapêuticos, cada um com movimentos e formas diferentes para proporcionar experiências únicas:\n\n⭐ Estrela Sensorial — com seu formato cheio de caminhos e relevos, proporciona estímulos táteis e exploração através do toque.\n\n🧩 Cubo Infinito — peças articuladas que se movimentam e se transformam continuamente, estimulando a coordenação motora, concentração e criatividade.\n\n🌀 Cone Infinito — um brinquedo envolvente que permite explorar movimentos contínuos, proporcionando uma experiência sensorial divertida e relaxante.\n\n💛 O kit estimula:\n\n✨ Coordenação motora fina\n🧠 Concentração e raciocínio\n👐 Percepção tátil e sensorial\n🎯 Foco e exploração\n🌈 Criatividade e descobertas\n\nProduzidos em impressão 3D, com possibilidades de diferentes cores e combinações.\n\n3 brinquedos, muitas possibilidades de brincar!\nUm kit para transformar pequenos movimentos em grandes descobertas. 🥰",
       "valor": 59.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/kit-sensorial-1-2.webp",
         "assets/products/kit-sensorial-2-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "5",
       "nome": "Jogo Equilibra Dino",
       "descricao": "🦖⚖️ Jogo de Equilíbrio dos Dinossauros 3D\n\nPrepare-se para uma aventura jurássica cheia de desafios! 🌋🦕\n\nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os dinossauros na gangorra e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais dinossauros, maior o desafio! 😄\n\n🧠 Estimula o raciocínio e a percepção espacial\n⚖️ Trabalha equilíbrio e coordenação motora fina\n🎯 Incentiva a concentração e o planejamento\n👐 Desenvolve a habilidade de posicionar e organizar as peças\n🎨 Dinossauros coloridos que deixam a brincadeira ainda mais divertida\n\nUma brincadeira que transforma equilíbrio, estratégia e criatividade em uma divertida missão jurássica! 🦖💚\n\nSerá que você consegue colocar todos os dinossauros sem derrubar a gangorra? 😍\n\nProduzido em impressão 3D.",
       "valor": 39.9,
+      "imagens": [
+        "assets/products/jogo-equilibra-dino-1-2.webp"
+      ],
       "categorias": [
         "Jogos"
       ],
-      "imagens": [
-        "assets/products/jogo-equilibra-dino-1-2.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "6",
       "nome": "Destaque e monte: T-REX",
       "descricao": "🦖🧩 Desafio Jurássico 3D — Monte seu T-Rex!\n\nPrepare-se para uma aventura jurássica! 🌋🦖\n\nNeste divertido quebra-cabeça 3D, a criança precisa destacar as peças da base e montar seu próprio T-Rex. Cada peça possui um número de identificação, que ajuda a encontrar o encaixe correto e torna a montagem mais fácil e divertida.\n\n🧠 Estimula o raciocínio lógico e a percepção espacial\n👐 Desenvolve a coordenação motora fina\n🔢 Trabalha a identificação e sequência de números\n🎯 Incentiva a atenção, concentração e resolução de problemas\n🦖 Proporciona uma experiência de construção divertida e interativa\n\nA criança aprende brincando enquanto acompanha os números, procura cada peça e vê o T-Rex ganhar vida!\n\nDestaque as peças. Siga os números. Monte o T-Rex. 🦖💚\n\n✨ Um desafio jurássico que transforma a montagem em uma grande aventura!",
       "valor": 19.9,
-      "categorias": [
-        "Jogos"
-      ],
       "imagens": [
         "assets/products/destaque-e-monte-t-rex-1-2.webp",
         "assets/products/destaque-e-monte-t-rex-3.webp"
-      ]
+      ],
+      "categorias": [
+        "Jogos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "7",
       "nome": "Pote de recompensas",
       "descricao": "⭐ Pote de Recompensas — Estrelinhas da Conquista\n\nTransforme pequenas conquistas em grandes incentivos para a criança! 💛\n\nO Pote de Recompensas é uma ferramenta lúdica que ajuda a criança a visualizar seu progresso de forma divertida. A cada objetivo alcançado, tarefa concluída ou bom comportamento, ela ganha uma estrelinha para colocar no pote.  O conjunto vem todo com imã para que possa ser fixado a geladeira. ⭐\n\n🧠 Incentiva a autonomia e a responsabilidade\n🎯 Ajuda a criar hábitos e estabelecer objetivos\n⭐ Torna o progresso visual e motivador\n💛 Estimula a sensação de conquista e valorização\n👐 Trabalha organização e acompanhamento de metas\n\nA proposta é simples: cumpriu a tarefa? Ganhou uma estrela! ✨\n\nAo completar o pote, a criança pode receber uma recompensa combinada previamente — que pode ser um passeio, uma brincadeira especial, escolher um filme ou qualquer outra experiência significativa.\n\n🌈 Porque cada pequena conquista merece ser comemorada!",
       "valor": 39.9,
-      "categorias": [
-        "Utilidades"
-      ],
       "imagens": [
         "assets/products/pote-de-recompensas-1.webp",
         "assets/products/pote-de-recompensas-2-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "8",
       "nome": "Porta objetos: Maçã com clips de papel e chaveiro",
       "descricao": "🍎 Porta-Objetos Maçã — Presente para Professor\n\nUm presente criativo, útil e cheio de significado! ❤️🍎\n\nNosso Porta-Objetos em formato de maçã, produzido em impressão 3D, foi pensado especialmente para deixar a mesa do professor mais organizada e charmosa.\n\nO kit acompanha:\n🍎 Porta-objetos em formato de maçã\n📎 Clips de papel para facilitar a organização\n🔑 Chaveiro personalizado com nome, tornando o presente ainda mais especial\n\nAlém de funcional, é uma lembrança que combina com o universo escolar e demonstra todo o carinho por quem dedica seus dias a ensinar, inspirar e transformar vidas. ✨\n\n🎁 Uma opção diferente e personalizada para presentear professores em qualquer ocasião!",
       "valor": 25,
-      "categorias": [
-        "Utilidades"
-      ],
       "imagens": [
         "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro.webp",
         "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-2-2.webp",
         "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-3.webp",
         "assets/products/porta-objetos-maca-com-clips-de-papel-e-chaveiro-4.webp"
-      ]
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "unidade",
+      "personalizacoes": [
+        {
+          "id": "nome",
+          "label": "Nome para personalizar",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "9",
       "nome": "Vila Natalina com 3 peças",
       "descricao": "✨🏠 Uma vila natalina para deixar o Natal ainda mais mágico! 🎄❤️\n\nProduzida em impressão 3D, essa delicada vila ganha vida com suas luzes quentinhas, criando um cenário acolhedor e cheio de encanto. ✨\n\nPerfeita para decorar aparadores, mesas, estantes e aquele cantinho especial da casa durante o Natal. 🎅🏼\n\n🎄 Vila Natalina 3D com iluminação\n✨ Um toque de magia para a sua decoração!\n🎁 Edição especial de Natal — feita com carinho em cada detalhe. ❤️",
       "valor": 69.9,
+      "imagens": [
+        "assets/products/vila-natalina-com-3-pecas-1.webp"
+      ],
       "categorias": [
         "Decorações"
       ],
-      "imagens": [
-        "assets/products/vila-natalina-com-3-pecas-1.webp"
-      ]
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "10",
       "nome": "Presépio com 3 peças (Sagrada Família)",
       "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 3 peças: Maria, José e o Menino Jesus, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 49.9,
-      "categorias": [
-        "Decorações"
-      ],
       "imagens": [
         "assets/products/presepio-com-3-pecas-sagrada-familia-1.webp",
         "assets/products/presepio-com-3-pecas-sagrada-familia-2.webp",
         "assets/products/presepio-com-3-pecas-sagrada-familia-3.webp"
-      ]
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "15",
       "nome": "Kit de colorir com 10 peças",
       "descricao": "🎨 Kit de Colorir – 10 Peças\n\nUma lembrancinha criativa, divertida e personalizada para deixar qualquer momento ainda mais especial! ✨\n\nO Kit de Colorir com 10 peças é composto por desenhos prontos para a criança colorir e soltar a imaginação. E o melhor: os temas podem ser variados e personalizados de acordo com a ocasião e é embalado com um lindo cartão com o motivo da comemoração! 🌈\n\n🖍️ Podemos criar diversos temas, como:\n🦄 Unicórnios\n🦖 Dinossauros\n🦕 Mundo jurássico\n🧜‍♀️ Sereias\n🦁 Safari\n🚀 Espaço\n🐻 Animais\n🦸 Super-heróis\n🎀 Personagens e temas de festas\n💖 E muito mais!",
       "valor": 49.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/kit-de-colorir-com-10-pecas-1.webp",
         "assets/products/kit-de-colorir-com-10-pecas-2.webp",
         "assets/products/kit-de-colorir-com-10-pecas-3.webp",
         "assets/products/kit-de-colorir-com-10-pecas-4.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 10,
+      "personalizacoes": [
+        {
+          "id": "tema",
+          "label": "Tema e motivo da comemoração",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "11",
@@ -157,7 +197,10 @@
       ],
       "categorias": [
         "Decorações"
-      ]
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "12",
@@ -169,7 +212,10 @@
       ],
       "categorias": [
         "Decorações"
-      ]
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "13",
@@ -184,7 +230,9 @@
       ],
       "categorias": [
         "Decorações"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "14",
@@ -197,21 +245,33 @@
       ],
       "categorias": [
         "Decorações"
-      ]
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 10,
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "16",
       "nome": "Carimbo para doces",
       "descricao": "🍬✨ CARIMBOS PERSONALIZADOS PARA DOCES ✨🍬\n\nDeixe seus doces ainda mais especiais e personalizados! 💕\nVocê escolhe o tema, o desenho e a quantidade de peças que precisa.\n\n🎀 Perfeitos para:\n🍭 Festas de aniversário\n🧁 Doces personalizados\n🎂 Lembrancinhas\n🎉 Eventos especiais\n\nTudo feito especialmente para combinar com a sua festa! 💖",
       "valor": 0,
-      "categorias": [
-        "Utilidades"
-      ],
       "imagens": [
         "assets/products/carimbo-para-doces-1.webp",
         "assets/products/carimbo-para-doces-2.webp",
         "assets/products/carimbo-para-doces-3.webp"
-      ]
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "unidade",
+      "personalizacoes": [
+        {
+          "id": "tema",
+          "label": "Tema e desenho desejados",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "consulta"
     },
     {
       "codigo": "17",
@@ -226,7 +286,9 @@
       ],
       "categorias": [
         "Brinquedos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "18",
@@ -238,7 +300,9 @@
       ],
       "categorias": [
         "Brinquedos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "19",
@@ -252,7 +316,16 @@
       ],
       "categorias": [
         "Utilidades"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "personalizacoes": [
+        {
+          "id": "tema",
+          "label": "Tema e desenho desejados",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "consulta"
     },
     {
       "codigo": "22",
@@ -264,7 +337,9 @@
       ],
       "categorias": [
         "Jogos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "23",
@@ -276,16 +351,15 @@
       ],
       "categorias": [
         "Jogos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "25",
       "nome": "Comidinhas sensoriais",
       "descricao": "Comidinhas sensoriais!\nDivertidas, estimulam a criatividade e proporcionam momentos de diversão!\nMonte seu kit com duas unidades da sua escolha! \nOpções: Banana 🍌\nOvo🥚\nCarne🍖\nTomate🍅\nCachorro quente🌭\nSorvete🍦",
       "valor": 40,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/comidinhas-sensoriais-1.webp",
         "assets/products/comidinhas-sensoriais-2.webp",
@@ -295,54 +369,101 @@
         "assets/products/comidinhas-sensoriais-6.webp",
         "assets/products/comidinhas-sensoriais-7.webp",
         "assets/products/comidinhas-sensoriais-8.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 2,
+      "personalizacoes": [
+        {
+          "id": "peca1",
+          "label": "Peça 1",
+          "required": true,
+          "options": [
+            "Banana",
+            "Ovo",
+            "Carne",
+            "Tomate",
+            "Cachorro quente",
+            "Sorvete"
+          ]
+        },
+        {
+          "id": "peca2",
+          "label": "Peça 2",
+          "required": true,
+          "options": [
+            "Banana",
+            "Ovo",
+            "Carne",
+            "Tomate",
+            "Cachorro quente",
+            "Sorvete"
+          ]
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "27",
       "nome": "Mini Jesus",
       "descricao": "Leve Jesus para estar presente em todos os momentos! 🤍✨\n\nNosso Mini Jesus em 3D foi feito para ficar sentadinho na sua tela, acompanhando você no trabalho, nos estudos e em tudo o que faz. 🙏🥰\n\nPorque quando colocamos Jesus em tudo, tudo ganha um propósito ainda mais especial! ✨✝️",
       "valor": 25,
-      "categorias": [
-        "Decorações"
-      ],
       "imagens": [
         "assets/products/mini-jesus-1-2.webp",
         "assets/products/mini-jesus-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "29",
       "nome": "Ponteira de lápis - 10un",
       "descricao": "Personalize seus lápis com essa ponteira super divertida com nome.\nIdeal para lembrancinha escolar!\nPedido mínimo 10un, podendo ser com nomes variados.",
       "valor": 49.9,
-      "categorias": [
-        "Utilidades"
-      ],
       "imagens": [
         "assets/products/ponteira-de-lapis-10un.webp",
         "assets/products/ponteira-de-lapis-10un-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "resumo": "Kit com 10 ponteiras, com nomes iguais ou variados.",
+      "unidadeVenda": "kit",
+      "conteudo": "10 ponteiras de lápis por kit",
+      "pecasPorKit": 10,
+      "personalizacoes": [
+        {
+          "id": "nomes",
+          "label": "Nomes para as ponteiras (10 por kit)",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "30",
       "nome": "Equilibra: Arca de Noé",
       "descricao": "⚖️ Jogo de Equilíbrio Arca de Noé 3D\nPrepare-se para uma aventura cheia de desafios! \nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os animais na arca e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais animais, maior o desafio! 😄\n🧠 Estimula o raciocínio e a percepção espacial\n ⚖️ Trabalha equilíbrio e coordenação motora fina\n 🎯 Incentiva a concentração e o planejamento\n 👐 Desenvolve a habilidade de posicionar e organizar as peças\n 🎨 Animais coloridos que deixam a brincadeira ainda mais divertida\nSerá que você consegue colocar todos os animais sem derrubar a arca? 😍",
       "valor": 49.9,
+      "imagens": [
+        "assets/products/equilibra-arca-de-noe-1.webp"
+      ],
       "categorias": [
         "Jogos"
       ],
-      "imagens": [
-        "assets/products/equilibra-arca-de-noe-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "31",
       "nome": "Ore e confie + mini Jesus",
       "descricao": "✨ Um detalhe que transforma a decoração e leva uma mensagem especial para o ambiente! ✨\n\n“Ore e confie.” 🙏🤍\nUma peça delicada, cheia de significado e fé, perfeita para decorar aquele cantinho especial da casa.\n\nPorque, às vezes, tudo o que precisamos é orar, entregar e confiar. ✨\n\n💕 Personalize o seu com suas cores preferidas e tenha uma mensagem de fé sempre por perto!",
       "valor": 59.9,
-      "categorias": [
-        "Decorações"
-      ],
       "imagens": [
         "assets/products/ore-e-confie-mini-jesus-1-2.webp",
         "assets/products/ore-e-confie-mini-jesus-2-2.webp",
@@ -350,7 +471,18 @@
         "assets/products/ore-e-confie-mini-jesus-4.webp",
         "assets/products/ore-e-confie-mini-jesus-5.webp",
         "assets/products/ore-e-confie-mini-jesus-6.webp"
-      ]
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "unidade",
+      "personalizacoes": [
+        {
+          "id": "cores",
+          "label": "Cores desejadas (a combinar com a loja)"
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "33",
@@ -364,7 +496,9 @@
       ],
       "categorias": [
         "Brinquedos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "40",
@@ -376,58 +510,75 @@
       ],
       "categorias": [
         "Utilidades"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "personalizacoes": [
+        {
+          "id": "nome",
+          "label": "Nome para personalizar",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "42",
       "nome": "Quebra-cabeça animais",
       "descricao": "🧩✨ Um quebra-cabeça diferente, divertido e cheio de descobertas! 🦒🦁🐘🦍🐊🦏💛\n\nAqui, cada peça tem seu lugar! A diversão está em encontrar o encaixe perfeito e completar a moldura com esses amiguinhos super fofos. 🥰\n\nAlém de brincar, os pequenos desenvolvem a coordenação motora, o raciocínio e a percepção de formas de um jeito leve e divertido! 🌈🧠\n\nBrincar, aprender e encaixar! 🧩💚",
       "valor": 39.9,
+      "imagens": [
+        "assets/products/quebra-cabeca-animais-1.webp"
+      ],
       "categorias": [
         "Jogos"
       ],
-      "imagens": [
-        "assets/products/quebra-cabeca-animais-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "43",
       "nome": "Rolo de massinha das emoções",
       "descricao": "🧠✨ O dia das crianças está chegando e precisamos sempre lembrar que Brincar também é aprender a sentir!\n\nNossos rolinhos de massinha com emoções tornam a brincadeira ainda mais divertida e cheia de significado! 🥰\nCada carinha ajuda a criança a reconhecer, nomear e expressar suas emoções enquanto cria, explora e se diverte. 🎨💭\n\nUma ferramenta lúdica para trabalhar a educação emocional, criatividade e coordenação motora de forma leve e divertida! 💛\n\n🎨 Porque toda emoção merece ser reconhecida e acolhida. 🥰",
       "valor": 39.9,
+      "imagens": [
+        "assets/products/rolo-de-massinha-das-emocoes-1.webp"
+      ],
       "categorias": [
         "Utilidades",
         "Brinquedos"
       ],
-      "imagens": [
-        "assets/products/rolo-de-massinha-das-emocoes-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "49",
       "nome": "Ovo de dragão sensorial",
       "descricao": "🐉✨ OVO DE DRAGÃO SENSORIAL ✨🐉\nUm brinquedo mágico e super divertido para soltar a imaginação! 💙\nCom suas escamas articuladas, o ovo pode ser movimentado e transformado, proporcionando uma experiência sensorial gostosa e divertida para as crianças. 🥰\n🎮 Perfeito para brincar, explorar movimentos e se divertir!\n🎁 Uma opção incrível para presentear no Dia das Crianças!\n📩 Garanta o seu e leve um pouquinho de magia para a brincadeira! 🐉💙",
       "valor": 29.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/ovo-de-dragao-sensorial-1.webp",
         "assets/products/ovo-de-dragao-sensorial-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "51",
       "nome": "Bailarina sensorial",
       "descricao": "🩰✨ BAILARINA SENSORIAL ✨🩰\nUma experiência encantadora para as pequenas bailarinas! 💕\nA Bailarina Sensorial une delicadeza e diversão em uma atividade que convida a criança a explorar texturas, movimentos e diferentes formas.\n💗 Estimula a percepção sensorial\n🧠 Incentiva a concentração\n🤲 Trabalha a coordenação motora fina\n🩰 E ainda proporciona uma brincadeira linda e envolvente!\nUm presente especial para quem ama ballet e atividades sensoriais. 🎀",
       "valor": 34.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/bailarina-sensorial-1.webp",
         "assets/products/bailarina-sensorial-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "53",
@@ -439,7 +590,9 @@
       ],
       "categorias": [
         "Brinquedos"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "58",
@@ -451,57 +604,76 @@
       ],
       "categorias": [
         "Utilidades"
-      ]
+      ],
+      "unidadeVenda": "unidade",
+      "quantidadeMinima": 20,
+      "personalizacoes": [
+        {
+          "id": "identidade",
+          "label": "Identidade da empresa para personalização",
+          "required": true
+        }
+      ],
+      "modalidadePreco": "consulta"
     },
     {
       "codigo": "50",
       "nome": "Pescaria surpresa",
       "descricao": "Quem será que vai fisgar o maior peixe? 👀🤭\nAqui a diversão começa antes mesmo de saber o tamanho da pescaria! 😍\n\nCada peixinho é uma surpresa e o tamanho só é revelado depois que você consegue pescar! 🎣✨\nSerá que vem um peixinho pequeno ou aquele peixão? 😱💚\n\nUma brincadeira divertida, cheia de expectativa e perfeita para desafiar a criançada! 🥰\n\n🎣 Pesque, descubra e divirta-se!\n🎁 Uma surpresa a cada pescaria!",
       "valor": 89.9,
+      "imagens": [
+        "assets/products/pescaria-surpresa-1.webp"
+      ],
       "categorias": [
         "Brinquedos",
         "Jogos"
       ],
-      "imagens": [
-        "assets/products/pescaria-surpresa-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "57",
       "nome": "Torre de Gatos",
       "descricao": "🐱💛 JOGO EQUILIBRA GATOS 💛🐱\n\nPrepare-se para um desafio que mistura diversão, concentração e muita estratégia! 😍\n\nO objetivo é simples: empilhar os gatinhos e equilibrar todos sem deixar nenhum cair! 🐱🐱🐱\nUma brincadeira super divertida que estimula o raciocínio lógico, a coordenação motora, a concentração e a paciência. 🧠✨\n\n🎁 Perfeito para presentear e garantir momentos de diversão em família!",
       "valor": 39.9,
+      "imagens": [
+        "assets/products/torre-de-gatos-1.webp"
+      ],
       "categorias": [
         "Jogos"
       ],
-      "imagens": [
-        "assets/products/torre-de-gatos-1.webp"
-      ]
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "67",
       "nome": "Casa de Hamster",
       "descricao": "🐹💙 Casinha do hamster ! 🐹💛\n\nUm cantinho completo e superfofo para a brincadeira ficar ainda mais divertida! 🥰✨\n\n🏠 Casinha para explorar\n🐾 Espaço com detalhes de patinhas\n🛏️ Cantinho de descanso\n🥣 Comedouro e bebedouro\n🐹 Hamster articulado para deixar a brincadeira ainda mais encantadora!\n\nPerfeita para estimular a imaginação, o faz de conta e a criatividade dos pequenos! 💕🎨\n\n✨ Uma brincadeira cheia de detalhes e diversão!",
       "valor": 99.9,
-      "categorias": [
-        "Brinquedos"
-      ],
       "imagens": [
         "assets/products/casa-de-hamster-1.webp",
         "assets/products/casa-de-hamster-2.webp"
-      ]
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "unidadeVenda": "unidade",
+      "modalidadePreco": "definido"
     },
     {
       "codigo": "68",
       "nome": "Kit com 10 Mini estrela sensorial",
       "descricao": "⭐ Estrela Sensorial 3D\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n✨ Estimula a percepção visual e espacial\n 👐 Incentiva a exploração sensorial e tátil\n 🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n 🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n 🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta",
       "valor": 85,
+      "imagens": [
+        "assets/products/kit-com-10-mini-estrela-sensorial-1.webp"
+      ],
       "categorias": [
         "Brinquedos"
       ],
-      "imagens": [
-        "assets/products/kit-com-10-mini-estrela-sensorial-1.webp"
-      ]
+      "unidadeVenda": "kit",
+      "pecasPorKit": 10,
+      "modalidadePreco": "definido"
     }
   ]
 }

@@ -11,7 +11,7 @@ const products: Product[] = [
 
 describe('domínio do catálogo', () => {
   it('valida e normaliza products.json', () => {
-    expect(parseProductsFile({ produtos: products }).produtos).toEqual(products);
+    expect(parseProductsFile({ produtos: products }).produtos).toEqual(products.map(p => ({ ...p, modalidadePreco: 'definido' })));
     expect(() => parseProductsFile({ items: [] })).toThrow('chave "produtos"');
     expect(() => parseProductsFile({ produtos: [{ ...products[0], categorias: ['Inválida'] }] })).toThrow('produtos inválidos');
     expect(() => parseProductsFile({ produtos: [products[0], products[0]] })).toThrow('duplicados');
@@ -49,7 +49,31 @@ describe('domínio do catálogo', () => {
       products,
     );
     expect(detailed).toContain('*Referência:* CDL-20260924-ABC');
-    expect(detailed).toContain('*Subtotal estimado: R$ 25,00*');
+    expect(detailed).toContain('*Subtotal dos produtos: R$ 25,00*');
     expect(detailed).toContain('*Observações:* Azul');
   });
+});
+
+it('modalidade explícita prevalece sobre preço positivo e migra zero legado', () => {
+  const quote = { ...products[0], modalidadePreco: 'consulta' as const };
+  expect(cartTotal([{ codigo: '1', quantity: 2 }], [quote])).toBe(0);
+  expect(parseProductsFile({ produtos: [{ ...products[0], valor: 0 }] }).produtos[0].modalidadePreco).toBe('consulta');
+  const message = buildConsultationMessage(quote, 2, { nome: 'Ana' });
+  expect(message).toContain('Solicitação de orçamento');
+  expect(message).toContain('nome: Ana');
+  expect(message).toContain('2 un.');
+  expect(message).not.toContain('R$');
+  expect(message).toContain('/produto-produto-a-1/');
+});
+
+it('valida configuração comercial e inclui kits na mensagem', () => {
+  expect(() => parseProductsFile({ produtos: [{ ...products[0], incremento: 0 }] })).toThrow();
+  expect(() => parseProductsFile({ produtos: [{ ...products[0], personalizacoes: [{ id: 'nome', label: 'Nome', maxLength: -1 }] }] })).toThrow();
+  const kit = { ...products[0], unidadeVenda: 'kit', pecasPorKit: 10 };
+  expect(buildOrderMessage('Maria', [{ codigo: '1', quantity: 2 }], [kit])).toContain('2 kits · 20 peças');
+});
+
+it('preserva campos editoriais e opções na importação/exportação', () => {
+  const product: Product = { ...products[0], modalidadePreco: 'consulta', resumo: 'Resumo fornecido', prazoProducao: 'Prazo informado pela loja', dimensoes: 'Medidas informadas', material: 'Material informado', conteudo: 'Conteúdo informado', cuidados: 'Cuidados informados', indicacaoUso: 'Uso informado', informacoesPersonalizacao: 'Informações', unidadeVenda: 'kit', pecasPorKit: 10, quantidadeMinima: 2, incremento: 2, personalizacoes: [{ id: 'nome', label: 'Nome', required: true, maxLength: 20 }] };
+  expect(parseProductsFile(JSON.parse(JSON.stringify({ produtos: [product] }))).produtos[0]).toEqual(product);
 });

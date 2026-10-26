@@ -1,5 +1,6 @@
 import { Camera, MessageCircle } from 'lucide-react';
 import { STORE_CONFIG } from '../config/store';
+import { catalogUrl } from '../lib/navigation';
 import { BRAND_LOGO_URL } from '../lib/format';
 
 interface SiteFooterProps {
@@ -14,7 +15,7 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
           <img src={BRAND_LOGO_URL} alt="Clube do Léo" className="footer__logo" />
           <div>
             <strong>Imaginação que ganha forma.</strong>
-            <p>Produtos criativos feitos com carinho em impressão 3D.</p>
+            <p>Produtos criativos feitos sob encomenda em impressão 3D.</p>
           </div>
         </div>
         {!compact ? (
@@ -30,7 +31,8 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
         <div className="footer__bottom">
           <p className="footer__copy">© {new Date().getFullYear()} Clube do Léo. Todos os direitos reservados.</p>
           <div className="footer__links">
-            {compact ? <a href="/">Página inicial</a> : <a href="/politica-de-precos/">Política de preços</a>}
+            {compact ? <a href={catalogUrl()}>Voltar ao catálogo</a> : null}
+            <a href="/politica-de-precos/">Política de preços</a>
           </div>
         </div>
       </div>

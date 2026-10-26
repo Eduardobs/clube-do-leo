@@ -3,14 +3,14 @@ import { ArrowUpRight, ShoppingCart } from 'lucide-react';
 import { formatPrice, imageFallback, productPageUrl, productThumbnailUrl } from '../../lib/format';
 import type { Product } from '../../types/product';
 
+import { isQuote } from '../../lib/products';
+
 interface ProductCardProps {
   product: Product;
   onAdd: (product: Product) => void;
 }
 
 export const ProductCard = memo(function ProductCard({ product, onAdd }: ProductCardProps) {
-  const descriptionLines = product.descricao.split('\n').map((line) => line.trim()).filter((line) => line.length > 15);
-  const summary = descriptionLines[1] ?? descriptionLines[0];
   return (
     <article className="product-card">
       <a className="product-card__details-trigger" href={productPageUrl(product.nome, product.codigo)} aria-label={`Ver detalhes de ${product.nome}`}>
@@ -21,17 +21,16 @@ export const ProductCard = memo(function ProductCard({ product, onAdd }: Product
         <div className="product-card__body">
           <h2 className="product-card__title">{product.nome}</h2>
           <p className="product-card__code">Código {product.codigo}</p>
-          {summary ? <p className="product-card__summary">{summary}</p> : null}
+          {product.pecasPorKit ? <p className="product-card__composition">{product.pecasPorKit} peças por kit</p> : null}
           <div className="product-card__buying-info">
-            <p className={`product-card__price${product.valor <= 0 ? ' product-card__price--quote' : ''}`}>{formatPrice(product.valor)}</p>
+            <p className={`product-card__price${isQuote(product) ? ' product-card__price--quote' : ''}`}>{isQuote(product) ? 'Preço sob consulta' : `${formatPrice(product.valor)} / ${product.unidadeVenda || 'un.'}`}<small className="made-to-order">Feito sob encomenda</small></p>
             <span className="product-card__details-hint">Ver detalhes <ArrowUpRight aria-hidden="true" /></span>
           </div>
         </div>
       </a>
       <div className="product-card__actions">
-        <button type="button" className="btn btn--primary" onClick={() => onAdd(product)}>
-          <ShoppingCart aria-hidden="true" /> Adicionar
-        </button>
+        {isQuote(product) || product.personalizacoes?.length ? <a className="btn btn--primary" href={productPageUrl(product.nome, product.codigo)}>{isQuote(product) ? 'Solicitar orçamento' : 'Personalizar'}</a> : <button type="button" className="btn btn--primary" onClick={() => onAdd(product)}><ShoppingCart aria-hidden="true" /> Adicionar ao carrinho</button>}
+
       </div>
     </article>
   );

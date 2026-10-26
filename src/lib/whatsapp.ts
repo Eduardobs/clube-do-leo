@@ -1,30 +1,20 @@
 import { STORE_CONFIG } from '../config/store';
 import type { CartItem, Product } from '../types/product';
-import { formatPrice } from './format';
-import { cartTotal, findProduct } from './products';
+import { formatPrice, productPageUrl } from './format';
+import { isQuote, quantityLabel, cartTotal, findProduct } from './products';
 
-export function buildConsultationMessage(product: Product): string {
-  return `Olá! Gostaria de saber o valor do produto *${product.nome}* (código ${product.codigo}).`;
+export function buildConsultationMessage(product: Product, quantity = 1, personalizacoes: Record<string, string> = {}): string {
+  return ['*Solicitação de orçamento*', itemLine(product, { codigo: product.codigo, quantity, personalizacoes }), 'Feito sob encomenda. Prazo de produção a combinar. Entrega e condições finais serão combinadas com a loja.'  ].join('\n');
 }
-
+function itemLine(p: Product, item: CartItem): string {
+  return [`- ${p.nome} (cód. ${p.codigo}): ${quantityLabel(p, item.quantity)}`,
+    `${STORE_CONFIG.siteUrl}${productPageUrl(p.nome, p.codigo)}`,
+    isQuote(p) ? 'Preço sob consulta — solicitar orçamento' : `${item.quantity} x ${formatPrice(p.valor)} = ${formatPrice(p.valor * item.quantity)}`,
+    ...Object.entries(item.personalizacoes || {}).map(([key, value]) => `${p.personalizacoes?.find(f => f.id === key)?.label || key}: ${value}`),
+].join('\n');
+}
 export function buildOrderMessage(customerName: string, cart: CartItem[], products: Product[]): string {
-  const lines = cart.flatMap((item) => {
-    const product = findProduct(products, item.codigo);
-    if (!product) return [];
-    return `- ${product.nome} (cód. ${product.codigo}): ${item.quantity} x ${formatPrice(product.valor)} = ${formatPrice(product.valor * item.quantity)}`;
-  });
-
-  return [
-    `*Novo Pedido - ${STORE_CONFIG.name}*`,
-    '',
-    '*Itens do Pedido:*',
-    ...lines,
-    '',
-    `*Total: ${formatPrice(cartTotal(cart, products))}*`,
-    '',
-    `*Cliente:* ${customerName.trim()}`,
-    `Obrigado por comprar no ${STORE_CONFIG.name}!`,
-  ].join('\n');
+  return buildDetailedOrderMessage({ orderId: '', customerName }, cart, products);
 }
 
 export interface OrderMessageDetails {
@@ -48,31 +38,29 @@ export function buildDetailedOrderMessage(
   cart: CartItem[],
   products: Product[],
 ): string {
-  const lines = cart.flatMap((item) => {
+  const lines = cart.flatMap(item => {
     const product = findProduct(products, item.codigo);
-    if (!product) return [];
-    if (product.valor <= 0) return `- ${product.nome} (cód. ${product.codigo}): ${item.quantity} un. — valor a confirmar`;
-    return `- ${product.nome} (cód. ${product.codigo}): ${item.quantity} x ${formatPrice(product.valor)} = ${formatPrice(product.valor * item.quantity)}`;
+    return product ? [itemLine(product, item)] : [];
   });
   const notes = details.notes?.trim();
 
   return [
-    `*Novo Pedido - ${STORE_CONFIG.name}*`,
+    `*${cart.every(item => { const p = findProduct(products, item.codigo); return p && isQuote(p); }) ? 'Solicitação de orçamento' : 'Solicitação de pedido'} - ${STORE_CONFIG.name}*`,
     `*Referência:* ${details.orderId}`,
     '',
-    '*Itens do Pedido:*',
+    '*Itens da solicitação:*',
     ...lines,
     '',
-    `*Subtotal estimado: ${formatPrice(cartTotal(cart, products))}*`,
-    '_O valor final, a disponibilidade e eventuais custos adicionais serão confirmados pela loja._',
+    ...(cart.some(item => { const p = findProduct(products, item.codigo); return p && !isQuote(p); }) ? [`*Subtotal dos produtos: ${formatPrice(cartTotal(cart, products))}*`] : []),
+    'Entrega a combinar, separada do prazo de produção. Itens sob consulta não integram o subtotal. Condições finais serão confirmadas pela loja.',
     '',
     `*Cliente:* ${details.customerName.trim()}`,
     ...(notes ? [`*Observações:* ${notes}`] : []),
-    `Obrigado por comprar no ${STORE_CONFIG.name}!`,
+    'Feito sob encomenda. Produzimos após a confirmação do pedido. Esta solicitação não confirma contratação, pagamento ou produção.',
   ].join('\n');
 }
 
 export function openWhatsApp(message: string): boolean {
   const url = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-  return window.open(url, '_blank', 'noopener,noreferrer') !== null;
+  try { return window.open(url, '_blank', 'noopener,noreferrer') !== null; } catch { return false; }
 }

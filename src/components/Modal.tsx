@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -20,6 +21,9 @@ export function Modal({ children, label, onClose, className = '' }: ModalProps) 
     const previouslyFocused = document.activeElement as HTMLElement | null;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const root = document.getElementById('root');
+    const previousInert = root?.inert;
+    if (root) root.inert = true;
     contentRef.current?.querySelector<HTMLElement>('button, input, textarea, a[href]')?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -31,7 +35,7 @@ export function Modal({ children, label, onClose, className = '' }: ModalProps) 
 
       const focusable = Array.from(
         contentRef.current.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href]',
+          'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href]',
         ),
       );
       if (!focusable.length) return;
@@ -50,19 +54,20 @@ export function Modal({ children, label, onClose, className = '' }: ModalProps) 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalOverflow;
+      if (root) root.inert = previousInert || false;
       previouslyFocused?.focus();
     };
   }, []);
 
-  return (
+  return createPortal(
     <div className="modal" role="dialog" aria-modal="true" aria-label={label}>
-      <button className="modal__overlay" type="button" onClick={onClose} aria-label={`Fechar ${label}`} />
+      <button className="modal__overlay" type="button" onClick={onClose} tabIndex={-1} aria-label={`Fechar ${label}`} />
       <div ref={contentRef} className={`modal__content ${className}`.trim()}>
         <button type="button" className="modal__close" onClick={onClose} aria-label="Fechar">
           <X aria-hidden="true" />
         </button>
         {children}
       </div>
-    </div>
+    </div>, document.body
   );
 }
