@@ -1,7 +1,7 @@
 {
   "produtos": [
     {
-      "codigo": 1,
+      "codigo": "1",
       "nome": "Estrela Sensorial",
       "descricao": "Estrela Sensorial 3D\n\nUma estrela diferente de tudo que você já viu! 💖\n\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n\n✨ Estimula a percepção visual e espacial\n👐 Incentiva a exploração sensorial e tátil\n🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta\n\nUm brinquedo que une diversão, criatividade e estímulos sensoriais em uma peça encantadora! 🌟\n\nDiversão que estimula. Aprendizado que acontece brincando! 💕",
       "valor": 29.9,
@@ -18,7 +18,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 2,
+      "codigo": "2",
       "nome": "Cubo infinito",
       "descricao": "🧩 Cubo Infinito 3D\n\nUm brinquedo que parece simples, mas proporciona diversão sem fim! 💛\n\nO Cubo Infinito é formado por peças articuladas que podem ser movimentadas e transformadas continuamente, criando diferentes formas e possibilidades de exploração.\n\n✨ Estimula a coordenação motora fina\n🧠 Incentiva a concentração e o raciocínio\n👐 Proporciona estímulos táteis e sensoriais\n🎯 Pode auxiliar em momentos de relaxamento e foco\n🎨 Impressão 3D com design divertido, resistente e cheio de possibilidades\n\nPerfeito para crianças e adultos que gostam de mexer, explorar e descobrir novas formas de brincar.\n\nGire, dobre, transforme e recomece! 🔄💛\n\nUm brinquedo educativo e sensorial que transforma movimento em diversão.",
       "valor": 19.9,
@@ -32,7 +32,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 3,
+      "codigo": "3",
       "nome": "Cone infinito",
       "descricao": "🌀 Cone Infinito 3D\n\nUm brinquedo que gira, transforma e surpreende! 💛\n\nO Cone Infinito é um brinquedo sensorial produzido em impressão 3D, desenvolvido para proporcionar uma experiência divertida e envolvente por meio do movimento e da exploração tátil.\n\n✨ Estimula a coordenação motora fina\n🧠 Favorece a concentração e o raciocínio\n👐 Proporciona estímulos sensoriais através do toque e movimento\n🎯 Pode ser utilizado como recurso para momentos de foco e relaxamento\n🌈 Disponível em diferentes combinações de cores\n\nSeu movimento contínuo e seu formato diferenciado tornam cada interação uma nova descoberta!\n\nGire, encaixe, explore e divirta-se! 🌀💛\n\nUm brinquedo educativo e terapêutico que transforma movimentos simples em uma experiência sensorial divertida.",
       "valor": 19.9,
@@ -47,7 +47,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 4,
+      "codigo": "4",
       "nome": "Kit Sensorial",
       "descricao": "🌈 Kit Sensorial 3D — Diversão que estimula!\n\nUm trio pensado para brincar, explorar e estimular os sentidos! 💛\n\nO Kit Sensorial 3D reúne três brinquedos educativos e terapêuticos, cada um com movimentos e formas diferentes para proporcionar experiências únicas:\n\n⭐ Estrela Sensorial — com seu formato cheio de caminhos e relevos, proporciona estímulos táteis e exploração através do toque.\n\n🧩 Cubo Infinito — peças articuladas que se movimentam e se transformam continuamente, estimulando a coordenação motora, concentração e criatividade.\n\n🌀 Cone Infinito — um brinquedo envolvente que permite explorar movimentos contínuos, proporcionando uma experiência sensorial divertida e relaxante.\n\n💛 O kit estimula:\n\n✨ Coordenação motora fina\n🧠 Concentração e raciocínio\n👐 Percepção tátil e sensorial\n🎯 Foco e exploração\n🌈 Criatividade e descobertas\n\nProduzidos em impressão 3D, com possibilidades de diferentes cores e combinações.\n\n3 brinquedos, muitas possibilidades de brincar!\nUm kit para transformar pequenos movimentos em grandes descobertas. 🥰",
       "valor": 59.9,
@@ -63,7 +63,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 5,
+      "codigo": "5",
       "nome": "Jogo Equilibra Dino",
       "descricao": "🦖⚖️ Jogo de Equilíbrio dos Dinossauros 3D\n\nPrepare-se para uma aventura jurássica cheia de desafios! 🌋🦕\n\nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os dinossauros na gangorra e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais dinossauros, maior o desafio! 😄\n\n🧠 Estimula o raciocínio e a percepção espacial\n⚖️ Trabalha equilíbrio e coordenação motora fina\n🎯 Incentiva a concentração e o planejamento\n👐 Desenvolve a habilidade de posicionar e organizar as peças\n🎨 Dinossauros coloridos que deixam a brincadeira ainda mais divertida\n\nUma brincadeira que transforma equilíbrio, estratégia e criatividade em uma divertida missão jurássica! 🦖💚\n\nSerá que você consegue colocar todos os dinossauros sem derrubar a gangorra? 😍\n\nProduzido em impressão 3D.",
       "valor": 39.9,
@@ -77,7 +77,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 6,
+      "codigo": "6",
       "nome": "Destaque e monte: T-REX",
       "descricao": "🦖🧩 Desafio Jurássico 3D — Monte seu T-Rex!\n\nPrepare-se para uma aventura jurássica! 🌋🦖\n\nNeste divertido quebra-cabeça 3D, a criança precisa destacar as peças da base e montar seu próprio T-Rex. Cada peça possui um número de identificação, que ajuda a encontrar o encaixe correto e torna a montagem mais fácil e divertida.\n\n🧠 Estimula o raciocínio lógico e a percepção espacial\n👐 Desenvolve a coordenação motora fina\n🔢 Trabalha a identificação e sequência de números\n🎯 Incentiva a atenção, concentração e resolução de problemas\n🦖 Proporciona uma experiência de construção divertida e interativa\n\nA criança aprende brincando enquanto acompanha os números, procura cada peça e vê o T-Rex ganhar vida!\n\nDestaque as peças. Siga os números. Monte o T-Rex. 🦖💚\n\n✨ Um desafio jurássico que transforma a montagem em uma grande aventura!",
       "valor": 19.9,
@@ -92,7 +92,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 7,
+      "codigo": "7",
       "nome": "Pote de recompensas",
       "descricao": "⭐ Pote de Recompensas — Estrelinhas da Conquista\n\nTransforme pequenas conquistas em grandes incentivos para a criança! 💛\n\nO Pote de Recompensas é uma ferramenta lúdica que ajuda a criança a visualizar seu progresso de forma divertida. A cada objetivo alcançado, tarefa concluída ou bom comportamento, ela ganha uma estrelinha para colocar no pote.  O conjunto vem todo com imã para que possa ser fixado a geladeira. ⭐\n\n🧠 Incentiva a autonomia e a responsabilidade\n🎯 Ajuda a criar hábitos e estabelecer objetivos\n⭐ Torna o progresso visual e motivador\n💛 Estimula a sensação de conquista e valorização\n👐 Trabalha organização e acompanhamento de metas\n\nA proposta é simples: cumpriu a tarefa? Ganhou uma estrela! ✨\n\nAo completar o pote, a criança pode receber uma recompensa combinada previamente — que pode ser um passeio, uma brincadeira especial, escolher um filme ou qualquer outra experiência significativa.\n\n🌈 Porque cada pequena conquista merece ser comemorada!",
       "valor": 39.9,
@@ -107,7 +107,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 8,
+      "codigo": "8",
       "nome": "Porta objetos: Maçã com clips de papel e chaveiro",
       "descricao": "🍎 Porta-Objetos Maçã — Presente para Professor\n\nUm presente criativo, útil e cheio de significado! ❤️🍎\n\nNosso Porta-Objetos em formato de maçã, produzido em impressão 3D, foi pensado especialmente para deixar a mesa do professor mais organizada e charmosa.\n\nO kit acompanha:\n🍎 Porta-objetos em formato de maçã\n📎 Clips de papel para facilitar a organização\n🔑 Chaveiro personalizado com nome, tornando o presente ainda mais especial\n\nAlém de funcional, é uma lembrança que combina com o universo escolar e demonstra todo o carinho por quem dedica seus dias a ensinar, inspirar e transformar vidas. ✨\n\n🎁 Uma opção diferente e personalizada para presentear professores em qualquer ocasião!",
       "valor": 25,
@@ -131,7 +131,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 9,
+      "codigo": "9",
       "nome": "Vila Natalina com 3 peças",
       "descricao": "✨🏠 Uma vila natalina para deixar o Natal ainda mais mágico! 🎄❤️\n\nProduzida em impressão 3D, essa delicada vila ganha vida com suas luzes quentinhas, criando um cenário acolhedor e cheio de encanto. ✨\n\nPerfeita para decorar aparadores, mesas, estantes e aquele cantinho especial da casa durante o Natal. 🎅🏼\n\n🎄 Vila Natalina 3D com iluminação\n✨ Um toque de magia para a sua decoração!\n🎁 Edição especial de Natal — feita com carinho em cada detalhe. ❤️",
       "valor": 69.9,
@@ -146,7 +146,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 10,
+      "codigo": "10",
       "nome": "Presépio com 3 peças (Sagrada Família)",
       "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 3 peças: Maria, José e o Menino Jesus, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 49.9,
@@ -163,7 +163,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 15,
+      "codigo": "15",
       "nome": "Kit de colorir com 10 peças",
       "descricao": "🎨 Kit de Colorir – 10 Peças\n\nUma lembrancinha criativa, divertida e personalizada para deixar qualquer momento ainda mais especial! ✨\n\nO Kit de Colorir com 10 peças é composto por desenhos prontos para a criança colorir e soltar a imaginação. E o melhor: os temas podem ser variados e personalizados de acordo com a ocasião e é embalado com um lindo cartão com o motivo da comemoração! 🌈\n\n🖍️ Podemos criar diversos temas, como:\n🦄 Unicórnios\n🦖 Dinossauros\n🦕 Mundo jurássico\n🧜‍♀️ Sereias\n🦁 Safari\n🚀 Espaço\n🐻 Animais\n🦸 Super-heróis\n🎀 Personagens e temas de festas\n💖 E muito mais!",
       "valor": 49.9,
@@ -188,7 +188,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 11,
+      "codigo": "11",
       "nome": "Presépio com 3 peças (animais)",
       "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 3 peças: vaquinha, ovelha e burrinho, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 35,
@@ -203,7 +203,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 12,
+      "codigo": "12",
       "nome": "Presépio com 3 peças (Reis)",
       "descricao": "✨ Presépio em 3D — 3 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 3 peças: 3 Reis Magos, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 49.9,
@@ -218,7 +218,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 13,
+      "codigo": "13",
       "nome": "Presépio (Casinha)",
       "descricao": "✨ Presépio em 3D — 1 Peça\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso complemento ao presépio produzido em impressão 3D é composto por 1 peça: casinha, com detalhes delicados que valorizam e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 45,
@@ -235,7 +235,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 14,
+      "codigo": "14",
       "nome": "Presépio completo com 10 peças",
       "descricao": "✨ Presépio em 3D — 10 Peças\n\nUm símbolo de fé, amor e esperança para deixar a decoração de Natal ainda mais especial. ❤️🎄\n\nNosso presépio produzido em impressão 3D é composto por 10 peças: Maria, José, Jesus, Burrinho, vaquinha, ovelha, três Reis e casinha, com detalhes delicados que valorizam cada personagem e trazem um toque artesanal à decoração.\n\n🤍 Delicado e cheio de significado\n✨ Produzido em impressão 3D\n🎄 Perfeito para decorar sua casa no Natal\n🙏 Uma linda forma de celebrar o verdadeiro sentido do Natal\n\nUm presépio para guardar no coração e fazer parte das suas tradições de Natal. ❤️✨",
       "valor": 159.9,
@@ -251,7 +251,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 16,
+      "codigo": "16",
       "nome": "Carimbo para doces",
       "descricao": "🍬✨ CARIMBOS PERSONALIZADOS PARA DOCES ✨🍬\n\nDeixe seus doces ainda mais especiais e personalizados! 💕\nVocê escolhe o tema, o desenho e a quantidade de peças que precisa.\n\n🎀 Perfeitos para:\n🍭 Festas de aniversário\n🧁 Doces personalizados\n🎂 Lembrancinhas\n🎉 Eventos especiais\n\nTudo feito especialmente para combinar com a sua festa! 💖",
       "valor": 0,
@@ -274,7 +274,7 @@
       "modalidadePreco": "consulta"
     },
     {
-      "codigo": 17,
+      "codigo": "17",
       "nome": "Squishy sensorial com caixa",
       "descricao": "As crianças estão vidradas nesse brinquedo! 🤩🧡 E o Dia das Crianças está chegando… 🎉\n\nQue tal surpreender os pequenos com um presente superdivertido, sensorial e que eles vão amar deslizar e brincar? 😍\n\n🎁 Squishy Sensorial + caixinha para guardar\nUma opção divertida para presentear e garantir muitos momentos de diversão! ✨",
       "valor": 59.9,
@@ -291,7 +291,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 18,
+      "codigo": "18",
       "nome": "Chaveiro Squishy",
       "descricao": "Claro que não íamos ficar de fora da nova sensação do momento! 🤩✨\n\nChegou o chaveiro Squishy com click! 🥰🎉 Além de super fofo, é perfeito para apertar, brincar e levar para todos os lugares! 💖🔑\n\nA nova tendência que está conquistando todo mundo agora também está por aqui! 😍\n\nGaranta já o seu! ✨🛍️",
       "valor": 30,
@@ -305,7 +305,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 19,
+      "codigo": "19",
       "nome": "Ejetor de doces",
       "descricao": "🍬✨ Mais uma novidade para as confeiteiras de plantão! ✨🍬\n\nChegou o Ejetor de Doces, perfeito para deixar suas criações ainda mais lindas e cheias de detalhes! 😍👩‍🍳 Deixe seus doces ainda mais especiais e personalizados! 💕\nVocê escolhe o tema, o desenho e a quantidade de peças que precisa.\n\n🎨 Vários temas disponíveis para você escolher e soltar a criatividade!\n\nPorque confeitar fica ainda mais divertido com os acessórios certos! 💕🍭",
       "valor": 0,
@@ -328,7 +328,7 @@
       "modalidadePreco": "consulta"
     },
     {
-      "codigo": 22,
+      "codigo": "22",
       "nome": "Placa de contagem",
       "descricao": "🔢✨ PLACA DE CONTAGEM ✨🧠\n\nAprender matemática pode ser muito mais divertido! 💛\n\nA criança precisa identificar o número na placa e, em seguida, colocar a quantidade de pinos correspondente. Assim, de forma lúdica, ela aprende a associar número e quantidade, desenvolvendo também a concentração, coordenação motora e raciocínio lógico. 🧩💡\n\n🎯 Uma atividade simples, divertida e educativa para os pequenos aprenderem brincando!\n\n📩 Entre em contato e garanta a sua!",
       "valor": 89.9,
@@ -342,7 +342,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 23,
+      "codigo": "23",
       "nome": "Jogo da memória dos pinos",
       "descricao": "🎲 Um jogo da memória diferente e cheio de diversão! 🧠✨\n\nAqui, a brincadeira começa com o dado! Cada jogador joga o dado e, de acordo com a cor sorteada, precisa encontrar no tabuleiro os pinos correspondentes. \n\n👉 Encontrou? Marca ponto e continua a diversão!\n👉 Não encontrou? É a vez do próximo jogador jogar o dado e tentar a sorte! 😄\n\nSão 6 cores diferentes, muita concentração, memória e, claro, aquela dose de diversão que as crianças adoram! 💛\n\n🧠 Brincar também é aprender!\nUm jogo que estimula a atenção, a percepção das cores, a memória e o raciocínio de forma divertida. 🎨✨",
       "valor": 89.9,
@@ -356,7 +356,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 25,
+      "codigo": "25",
       "nome": "Comidinhas sensoriais",
       "descricao": "Comidinhas sensoriais!\nDivertidas, estimulam a criatividade e proporcionam momentos de diversão!\nMonte seu kit com duas unidades da sua escolha! \nOpções: Banana 🍌\nOvo🥚\nCarne🍖\nTomate🍅\nCachorro quente🌭\nSorvete🍦",
       "valor": 40,
@@ -406,7 +406,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 27,
+      "codigo": "27",
       "nome": "Mini Jesus",
       "descricao": "Leve Jesus para estar presente em todos os momentos! 🤍✨\n\nNosso Mini Jesus em 3D foi feito para ficar sentadinho na sua tela, acompanhando você no trabalho, nos estudos e em tudo o que faz. 🙏🥰\n\nPorque quando colocamos Jesus em tudo, tudo ganha um propósito ainda mais especial! ✨✝️",
       "valor": 25,
@@ -421,7 +421,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 29,
+      "codigo": "29",
       "nome": "Ponteira de lápis - 10un",
       "descricao": "Personalize seus lápis com essa ponteira super divertida com nome.\nIdeal para lembrancinha escolar!\nPedido mínimo 10un, podendo ser com nomes variados.",
       "valor": 49.9,
@@ -446,7 +446,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 30,
+      "codigo": "30",
       "nome": "Equilibra: Arca de Noé",
       "descricao": "⚖️ Jogo de Equilíbrio Arca de Noé 3D\nPrepare-se para uma aventura cheia de desafios! \nNeste divertido jogo de equilíbrio em 3D, a missão é colocar os animais na arca e encontrar a melhor combinação para mantê-la equilibrada. Quanto mais animais, maior o desafio! 😄\n🧠 Estimula o raciocínio e a percepção espacial\n ⚖️ Trabalha equilíbrio e coordenação motora fina\n 🎯 Incentiva a concentração e o planejamento\n 👐 Desenvolve a habilidade de posicionar e organizar as peças\n 🎨 Animais coloridos que deixam a brincadeira ainda mais divertida\nSerá que você consegue colocar todos os animais sem derrubar a arca? 😍",
       "valor": 49.9,
@@ -460,7 +460,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 31,
+      "codigo": "31",
       "nome": "Ore e confie + mini Jesus",
       "descricao": "✨ Um detalhe que transforma a decoração e leva uma mensagem especial para o ambiente! ✨\n\n“Ore e confie.” 🙏🤍\nUma peça delicada, cheia de significado e fé, perfeita para decorar aquele cantinho especial da casa.\n\nPorque, às vezes, tudo o que precisamos é orar, entregar e confiar. ✨\n\n💕 Personalize o seu com suas cores preferidas e tenha uma mensagem de fé sempre por perto!",
       "valor": 59.9,
@@ -485,7 +485,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 33,
+      "codigo": "33",
       "nome": "Macarrão sensorial com tigela",
       "descricao": "Brincar de faz de conta nunca foi tão divertido!\n\nNosso kit macarrão com tigela promove momentos de diversão, imaginação e aprendizado!",
       "valor": 149.9,
@@ -501,7 +501,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 40,
+      "codigo": "40",
       "nome": "Chaveiro com apoio para celular",
       "descricao": "🎁📱 Um presente útil, personalizado e cheio de carinho!\n\nNosso chaveiro personalizado com nome também funciona como apoio para celular, perfeito para deixar o celular apoiado com praticidade no dia a dia. 💕\n\n✨ Personalizado com o nome da pessoa\n📱 Função 2 em 1: chaveiro + suporte para celular\n🎀 Uma lembrança criativa e útil para presentear\n\nPorque um presente especial fica ainda melhor quando pode ser usado todos os dias! 💖",
       "valor": 19.9,
@@ -522,7 +522,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 42,
+      "codigo": "42",
       "nome": "Quebra-cabeça animais",
       "descricao": "🧩✨ Um quebra-cabeça diferente, divertido e cheio de descobertas! 🦒🦁🐘🦍🐊🦏💛\n\nAqui, cada peça tem seu lugar! A diversão está em encontrar o encaixe perfeito e completar a moldura com esses amiguinhos super fofos. 🥰\n\nAlém de brincar, os pequenos desenvolvem a coordenação motora, o raciocínio e a percepção de formas de um jeito leve e divertido! 🌈🧠\n\nBrincar, aprender e encaixar! 🧩💚",
       "valor": 39.9,
@@ -536,7 +536,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 43,
+      "codigo": "43",
       "nome": "Rolo de massinha das emoções",
       "descricao": "🧠✨ O dia das crianças está chegando e precisamos sempre lembrar que Brincar também é aprender a sentir!\n\nNossos rolinhos de massinha com emoções tornam a brincadeira ainda mais divertida e cheia de significado! 🥰\nCada carinha ajuda a criança a reconhecer, nomear e expressar suas emoções enquanto cria, explora e se diverte. 🎨💭\n\nUma ferramenta lúdica para trabalhar a educação emocional, criatividade e coordenação motora de forma leve e divertida! 💛\n\n🎨 Porque toda emoção merece ser reconhecida e acolhida. 🥰",
       "valor": 39.9,
@@ -551,7 +551,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 49,
+      "codigo": "49",
       "nome": "Ovo de dragão sensorial",
       "descricao": "🐉✨ OVO DE DRAGÃO SENSORIAL ✨🐉\nUm brinquedo mágico e super divertido para soltar a imaginação! 💙\nCom suas escamas articuladas, o ovo pode ser movimentado e transformado, proporcionando uma experiência sensorial gostosa e divertida para as crianças. 🥰\n🎮 Perfeito para brincar, explorar movimentos e se divertir!\n🎁 Uma opção incrível para presentear no Dia das Crianças!\n📩 Garanta o seu e leve um pouquinho de magia para a brincadeira! 🐉💙",
       "valor": 29.9,
@@ -566,7 +566,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 51,
+      "codigo": "51",
       "nome": "Bailarina sensorial",
       "descricao": "🩰✨ BAILARINA SENSORIAL ✨🩰\nUma experiência encantadora para as pequenas bailarinas! 💕\nA Bailarina Sensorial une delicadeza e diversão em uma atividade que convida a criança a explorar texturas, movimentos e diferentes formas.\n💗 Estimula a percepção sensorial\n🧠 Incentiva a concentração\n🤲 Trabalha a coordenação motora fina\n🩰 E ainda proporciona uma brincadeira linda e envolvente!\nUm presente especial para quem ama ballet e atividades sensoriais. 🎀",
       "valor": 34.9,
@@ -581,7 +581,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 53,
+      "codigo": "53",
       "nome": "Apito Passarinho",
       "descricao": "🐦 Apito que imita o som dos pássaros!\nBasta adicionar um pouquinho de água e, em um passe de mágica, o som do apito se transforma em um lindo canto de passarinho! 🎶💧\n\nDiversão, curiosidade e muita imaginação para a criançada! 🥰",
       "valor": 20,
@@ -595,7 +595,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 58,
+      "codigo": "58",
       "nome": "Enfeite de chimarrão",
       "descricao": "💚❤️ Tradição que se compartilha, carinho que se leva para a vida! \n\nPresenteie seus colaboradores, clientes e amigos com um enfeite de chimarrão personalizado, unindo a identidade da empresa à tradição gaúcha. 🧉✨\n\nUm pequeno detalhe para acompanhar aquele momento especial do mate e lembrar que tradição também é feita de pessoas, histórias e carinho. 💚\n\nPedido mínimo 20un",
       "valor": 0,
@@ -617,7 +617,7 @@
       "modalidadePreco": "consulta"
     },
     {
-      "codigo": 50,
+      "codigo": "50",
       "nome": "Pescaria surpresa",
       "descricao": "Quem será que vai fisgar o maior peixe? 👀🤭\nAqui a diversão começa antes mesmo de saber o tamanho da pescaria! 😍\n\nCada peixinho é uma surpresa e o tamanho só é revelado depois que você consegue pescar! 🎣✨\nSerá que vem um peixinho pequeno ou aquele peixão? 😱💚\n\nUma brincadeira divertida, cheia de expectativa e perfeita para desafiar a criançada! 🥰\n\n🎣 Pesque, descubra e divirta-se!\n🎁 Uma surpresa a cada pescaria!",
       "valor": 89.9,
@@ -632,7 +632,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 57,
+      "codigo": "57",
       "nome": "Torre de Gatos",
       "descricao": "🐱💛 JOGO EQUILIBRA GATOS 💛🐱\n\nPrepare-se para um desafio que mistura diversão, concentração e muita estratégia! 😍\n\nO objetivo é simples: empilhar os gatinhos e equilibrar todos sem deixar nenhum cair! 🐱🐱🐱\nUma brincadeira super divertida que estimula o raciocínio lógico, a coordenação motora, a concentração e a paciência. 🧠✨\n\n🎁 Perfeito para presentear e garantir momentos de diversão em família!",
       "valor": 39.9,
@@ -646,7 +646,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 67,
+      "codigo": "67",
       "nome": "Casa de Hamster",
       "descricao": "🐹💙 Casinha do hamster ! 🐹💛\n\nUm cantinho completo e superfofo para a brincadeira ficar ainda mais divertida! 🥰✨\n\n🏠 Casinha para explorar\n🐾 Espaço com detalhes de patinhas\n🛏️ Cantinho de descanso\n🥣 Comedouro e bebedouro\n🐹 Hamster articulado para deixar a brincadeira ainda mais encantadora!\n\nPerfeita para estimular a imaginação, o faz de conta e a criatividade dos pequenos! 💕🎨\n\n✨ Uma brincadeira cheia de detalhes e diversão!",
       "valor": 99.9,
@@ -661,7 +661,7 @@
       "modalidadePreco": "definido"
     },
     {
-      "codigo": 68,
+      "codigo": "68",
       "nome": "Kit com 10 Mini estrela sensorial",
       "descricao": "⭐ Estrela Sensorial 3D\nA Estrela Sensorial 3D é um brinquedo educativo e terapêutico desenvolvido para proporcionar uma experiência divertida e envolvente através de formas, texturas e movimento.\n✨ Estimula a percepção visual e espacial\n 👐 Incentiva a exploração sensorial e tátil\n 🧠 Auxilia no desenvolvimento da coordenação motora e concentração\n 🎯 Pode ser utilizada em atividades educativas e momentos de relaxamento\n 🎨 Impressa em 3D, com detalhes que tornam cada movimento uma nova descoberta",
       "valor": 85,
@@ -673,6 +673,483 @@
       ],
       "unidadeVenda": "kit",
       "pecasPorKit": 10,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "20",
+      "nome": "Calendário do Advento Chaminé",
+      "descricao": "🎄✨ A contagem regressiva para o Natal ficou ainda mais encantadora! ❤️🎅\n\nNosso Calendário do Advento em formato de lareira é perfeito para tornar cada dia até o Natal ainda mais especial! 🏠🔥\n\nCom detalhes encantadores e o Papai Noel no topo, ele transforma a espera pelo dia mais mágico do ano em um momento cheio de carinho, alegria e tradição em família. 🎁✨\n\n🎄 Uma decoração linda e uma tradição para guardar no coração!\n\n📩 Garanta já o seu e deixe o Natal ainda mais mágico com o Clube do Léo! ❤️",
+      "valor": 149.9,
+      "imagens": [
+        "assets/products/calendario-do-advento-chamine.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "",
+      "pecasPorKit": 1,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "35",
+      "nome": "Personagem de Natal estilo tricô",
+      "descricao": "🎄🧶 Pequenos detalhes que deixam o Natal ainda mais encantador! ❤️✨\n\nNosso trio de personagens natalinos estilo tricô chegou para trazer ainda mais fofura e magia à sua decoração! 🎅🦌🐻\n\nO Papai Noel, a rena e o ursinho são vendidos individualmente, para você escolher seus favoritos ou montar uma coleção cheia de charme! 🥰\n\nPerfeitos para decorar cantinhos especiais, compor bandejas natalinas ou presentear alguém querido com muito carinho. 🎁\n\n✨ Qual deles é o seu favorito?",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/personagem-de-natal-estilo-trico.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "unidade",
+      "conteudo": "um personagem a sua escolha",
+      "pecasPorKit": 1,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "66",
+      "nome": "Bandeja com sagrada família e porta vela (acompanha vela a pilha)",
+      "descricao": "🤍✨ A delicadeza do verdadeiro sentido do Natal! ✨🎄\n\nUma peça que transmite paz, fé e amor em cada detalhe! Nossa Sagrada Família com bandeja e velinha iluminada é perfeita para compor uma decoração natalina cheia de significado e encanto. 🕊️🕯️\n\nCom seu design delicado e tons suaves, ela fica linda em aparadores, mesas ou naquele cantinho especial da sua casa. 🏡❤️\n\n🎁 Também é uma opção encantadora para presentear alguém especial neste Natal!\n\n✨ Deixe o espírito natalino iluminar seu lar com essa peça cheia de significado.\n\n📩 Encomende a sua com o Clube do Léo!",
+      "valor": 79.9,
+      "imagens": [
+        "assets/products/bandeja-com-sagrada-familia-e-porta-vela-acompanha-vela-a-pilha-1.webp",
+        "assets/products/bandeja-com-sagrada-familia-e-porta-vela-acompanha-vela-a-pilha-2.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "69",
+      "nome": "Chaveiro Forte e Corajosa",
+      "descricao": "🎀🩷 Um mimo cheio de carinho para lembrar o que realmente importa!\n\nO Outubro Rosa é um convite ao cuidado, à prevenção e ao amor pela vida! 🌸✨\n\nNossos chaveiros personalizados são uma lembrancinha especial para tornar essa campanha ainda mais significativa, levando uma mensagem de conscientização e incentivo ao autocuidado.\n\n💕 Personalizados com carinho, são perfeitos para empresas, equipes, profissionais da saúde e ações especiais do Outubro Rosa.\n\n🎀 Porque cuidar de si também é um ato de amor!\n\n📩 Entre em contato e encomende suas lembrancinhas personalizadas com o Clube do Léo.",
+      "valor": 10.5,
+      "imagens": [
+        "assets/products/chaveiro-forte-e-corajosa.webp"
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "kit",
+      "quantidadeMinima": 10,
+      "incremento": 1,
+      "pecasPorKit": 5,
+      "personalizacoes": [],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "108",
+      "nome": "Trio de personagens estilo tricô Natal com bandeja",
+      "descricao": "🎅🏻🦌🤍 Um trio de fofura para deixar o Natal ainda mais encantador! ✨🎄\n\nO Papai Noel, a rena e o ursinho chegaram para trazer aquele toque especial à sua decoração natalina! 🥰\n\nCom um visual delicado, inspirado no estilo tricô, esse conjunto é perfeito para decorar aparadores, mesas ou criar cantinhos cheios de magia e aconchego.\n\n🎁 O conjunto acompanha a bandeja e os três personagens, formando uma composição linda e pronta para encantar na sua decoração de Natal!\n\n❤️ Um detalhe especial para deixar seu lar ainda mais acolhedor nesta época tão mágica do ano.",
+      "valor": 49.9,
+      "imagens": [
+        "assets/products/trio-de-personagens-estilo-trico-natal-com-bandeja-1.webp",
+        "assets/products/trio-de-personagens-estilo-trico-natal-com-bandeja-2.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "71",
+      "nome": "Gnomos de Natal",
+      "descricao": "🎄❤️ Duplinha de gnomos para deixar seu Natal ainda mais encantador! ✨\n\nCheios de charme e personalidade, nossos gnomos natalinos são aquele detalhe especial que transforma qualquer cantinho em um cenário mágico! 🥰🎅\n\nCom suas perninhas articuladas e o visual superfofo, ficam lindos em aparadores, prateleiras, bandejas decorativas ou compondo aquele cantinho especial de Natal.\n\n❤️ O vermelho e o verde se unem para trazer ainda mais aconchego e encanto à sua decoração!\n\n🎁 Perfeitos para decorar ou presentear alguém especial neste Natal.",
+      "valor": 69.9,
+      "imagens": [
+        "assets/products/gnomos-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "72",
+      "nome": "Letreiro decorativo Hohoho",
+      "descricao": "🎄❤️ HO HO HO! O Natal está chegando cheio de encanto! 🎅✨\n\nUma peça decorativa cheia de personalidade para deixar seu cantinho natalino ainda mais especial! ❤️\n\nNosso letreiro natalino combina o charme do clássico Ho Ho Ho com detalhes fofos do Papai Noel e da rena, trazendo aquele toque divertido e aconchegante que a decoração de Natal merece. 🦌🎁\n\n✨ Perfeito para decorar aparadores, prateleiras, mesas ou compor aquele cantinho especial de Natal!\n\n🎅 Porque são os pequenos detalhes que tornam essa época ainda mais mágica!",
+      "valor": 39.9,
+      "imagens": [
+        "assets/products/letreiro-decorativo-hohoho.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "73",
+      "nome": "Par de renas estilo tricô",
+      "descricao": "🦌🤎 Elegância e aconchego em cada detalhe do Natal! ✨🎄\n\nNossas renas decorativas estilo tricô são perfeitas para quem ama uma decoração natalina delicada, charmosa e cheia de personalidade! ❤️\n\nEm tons neutros e sofisticados, elas ficam lindas em bandejas, aparadores, mesas ou naquele cantinho especial que merece um toque de magia natalina. 🏡✨\n\n🎄 Um detalhe encantador para compor sua decoração e deixar o Natal ainda mais acolhedor!\n\n🤎 O par perfeito para deixar sua casa no clima mais mágico do ano!",
+      "valor": 49.9,
+      "imagens": [
+        "assets/products/par-de-renas-estilo-trico.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "74",
+      "nome": "Par de Renas",
+      "descricao": "🦌🤍 Elegância e simplicidade para um Natal cheio de encanto! 🎄✨\n\nNosso par de renas decorativas é a escolha perfeita para quem ama uma decoração natalina moderna, delicada e sofisticada! ❤️\n\nCom design minimalista e detalhes canelados, a combinação do branco com o verde traz charme e aconchego para qualquer cantinho da casa. 🏡✨\n\n🎄 Perfeitas para decorar aparadores, mesas, bandejas ou compor aquele cantinho especial de Natal!\n\n🤍 Um toque de delicadeza que faz toda a diferença na sua decoração.",
+      "valor": 49.9,
+      "imagens": [
+        "assets/products/par-de-renas.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "76",
+      "nome": "Par de Quebra Nozes",
+      "descricao": "🎄✨ Um clássico do Natal em uma versão cheia de charme! 🎁🤎\n\nNossos soldados Quebra-Nozes chegaram para trazer elegância e aquele toque mágico que transforma qualquer decoração natalina! ❤️\n\nCom detalhes encantadores e cores sofisticadas, eles ficam lindos em aparadores, mesas, prateleiras ou compondo aquele cantinho especial de Natal. 🎅🏻✨\n\n💚 A combinação do verde com o bege traz aconchego e combina perfeitamente com uma decoração natalina clássica ou moderna.\n\n🎄 Um detalhe que faz toda a diferença e deixa sua casa ainda mais especial para receber essa época tão mágica!",
+      "valor": 69.9,
+      "imagens": [
+        "assets/products/par-de-quebra-nozes.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "77",
+      "nome": "Kit com 5 Bengalas doces para árvore de Natal",
+      "descricao": "❤️🎄 Um clássico natalino que não pode faltar na sua árvore! ✨\n\nNossos enfeites em formato de bengala doce trazem aquele charme tradicional do Natal, com a combinação perfeita de vermelho e branco! 🍬🎅\n\nDelicados e cheios de encanto, são perfeitos para decorar sua árvore e deixar cada cantinho ainda mais mágico e acolhedor. ❤️✨\n\n🎄 Um detalhe simples, mas que faz toda a diferença na decoração natalina!\n\n🎁 Kit com 5 bengalas doces para enfeitar sua árvore!",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/kit-com-5-bengalas-doces-para-arvore-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "conteudo": "5 bengala doces para árvore de natal",
+      "pecasPorKit": 5,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "78",
+      "nome": "Kit com 8 Flocos de Neve para árvore de Natal",
+      "descricao": "❄️🤍 A delicadeza dos flocos de neve para um Natal cheio de encanto! 🎄✨\n\nNossos enfeites de flocos de neve são perfeitos para quem ama uma decoração natalina elegante, delicada e cheia de detalhes! ✨\n\nEm tom neutro, eles combinam com diferentes estilos de árvore e trazem aquele toque especial que transforma a decoração em um verdadeiro cenário de Natal. ❤️🎁\n\n❄️ Ideais para decorar sua árvore, compor guirlandas ou criar combinações encantadoras com outros enfeites natalinos.\n\n🎄 Kit com 8 flocos de neve para deixar seu Natal ainda mais mágico!",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/kit-com-8-flocos-de-neve-para-arvore-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 8,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "79",
+      "nome": "Kit com 4 Enfeites com fotos",
+      "descricao": "🎄❤️ Seu Natal, suas memórias e os momentos que fazem tudo valer a pena! ✨📸\n\nQue tal deixar sua árvore de Natal ainda mais especial com enfeites personalizados com fotos de quem você ama? 🥹❤️\n\nCom detalhes delicados e acabamento com brilho, eles transformam lembranças especiais em parte da decoração natalina, tornando sua árvore única e cheia de significado. 🎁✨\n\n📸 Fotos da família, dos filhos, do casal ou de momentos inesquecíveis… cada enfeite conta uma história!\n\n❤️ Porque o Natal fica ainda mais bonito quando decorado com amor e boas memórias.\n\n🎄 Enfeites personalizados com foto — um pedacinho da sua história na árvore de Natal!",
+      "valor": 34.9,
+      "imagens": [
+        "assets/products/kit-com-4-enfeites-com-fotos.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 4,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "81",
+      "nome": "Grinch de tela",
+      "descricao": "💚🎄 Até o Grinch entrou no clima de Natal por aqui! 😏🎅\n\nEnquanto ele tenta roubar o Natal, por aqui a gente está a todo vapor, preparando cada detalhe para deixar essa época ainda mais especial! 🎁✨\n\nEntre impressões, criações e muita criatividade, o Clube do Léo está trabalhando para levar magia e encanto até vocês. 🖨️❤️\n\n🎄 Porque o Natal pode até ser rabugento para alguns, mas por aqui ele é cheio de amor, ideias e novidades!\n\n💚 Quem aí também quer ter um Grinch em casa?",
+      "valor": 25,
+      "imagens": [
+        "assets/products/grinch-de-tela.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "personalizacoes": [],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "82",
+      "nome": "Kit com 3 enfeites de árvore de Natal",
+      "descricao": "🎄❤️ HO HO HO! A magia do Natal chegou à sua árvore! ✨🎅\n\nNossos enfeites natalinos com a clássica frase Ho Ho Ho são perfeitos para deixar sua decoração ainda mais divertida, charmosa e cheia de espírito natalino! 🎁\n\nCom detalhes em vermelho, branco e preto, eles trazem aquele toque especial que combina com uma árvore cheia de personalidade e encanto. ☃️❤️\n\n✨ Perfeitos para decorar sua árvore, presentear alguém especial ou completar sua coleção de enfeites natalinos!\n\n🎄 Porque o Natal fica ainda mais bonito quando cada detalhe é escolhido com carinho.",
+      "valor": 24.9,
+      "imagens": [
+        "assets/products/kit-com-3-enfeites-de-arvore-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 1,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "83",
+      "nome": "Soldados de Chumbo",
+      "descricao": "🎄✨ A elegância dos clássicos em uma versão moderna e cheia de charme! 🤎💚\n\nNossos soldados decorativos inspirados nos tradicionais Quebra-Nozes são perfeitos para quem ama uma decoração natalina sofisticada e diferenciada! ❤️\n\nCom design moderno, detalhes canelados e tons elegantes de verde e bege, eles trazem personalidade e aconchego para qualquer cantinho da casa. 🏡✨\n\n🎁 Perfeitos para decorar aparadores, mesas, prateleiras ou compor aquele cenário natalino dos sonhos!\n\n🎄 Um toque especial para deixar seu Natal ainda mais encantador!",
+      "valor": 69.9,
+      "imagens": [
+        "assets/products/soldados-de-chumbo.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "84",
+      "nome": "Kit com 3 biscoitos de gengibre para árvore de Natal",
+      "descricao": "🍪🎄 Biscoitinhos de Natal que vão adoçar a sua decoração! ❤️✨\n\nNossos enfeites em formato de biscoito de gengibre são pura fofura! Com carinhas simpáticas e detalhes coloridos, eles trazem aquele charme divertido e aconchegante que deixa a árvore de Natal ainda mais especial. 🥰🎅\n\n❤️ Perfeitos para quem ama uma decoração criativa, cheia de personalidade e com aquele toque lúdico que encanta adultos e crianças!\n\n🎄 Um detalhe encantador para deixar seu Natal ainda mais mágico!",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/kit-com-3-biscoitos-de-gengibre-para-arvore-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 1,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "85",
+      "nome": "Kit com 6 biscoitos de gengibre para árvore de Natal",
+      "descricao": "🍪🎄 Uma família de biscoitinhos para deixar seu Natal ainda mais doce! ❤️✨\n\nNossos enfeites de biscoito de gengibre são pura fofura! Cada um com seu jeitinho e detalhes especiais, perfeitos para trazer diversão, charme e aquele toque lúdico à sua árvore de Natal. 🥰🎅\n\n🤎 Com detalhes em vermelho e branco, eles combinam perfeitamente com uma decoração natalina tradicional e cheia de aconchego.\n\n🎄 Ideais para decorar sua árvore e deixar cada cantinho ainda mais mágico!\n\n❤️ Porque são os pequenos detalhes que tornam o Natal inesquecível.'",
+      "valor": 39.9,
+      "imagens": [
+        "assets/products/kit-com-6-biscoitos-de-gengibre-para-arvore-de-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "dimensoes": "8cm",
+      "pecasPorKit": 6,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "88",
+      "nome": "Kit com 4 renas com chocolate Kinder",
+      "descricao": "🦌🍫 Um mimo delicioso com um toque de magia natalina! 🎄❤️\n\nNossos porta-chocolates em formato de rena são a combinação perfeita de fofura e sabor! ✨🎁\n\nUma lembrancinha criativa para presentear professores, colegas, amigos, familiares ou surpreender alguém especial neste Natal.\n\n❤️ Além de lindos, são uma forma carinhosa de transformar um simples chocolate em um presente cheio de encanto!\n\n🎅 O kit acompanha 4 renas com chocolates Kinder!",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/kit-com-4-renas-com-chocolate-kinder.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 3,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "92",
+      "nome": "Destaque e monte: Casa de Natal",
+      "descricao": "🏠❤️ Uma casinha cheia de encanto para decorar seu Natal! 🎄✨\n\nCom seu vermelho vibrante, detalhes branquinhos e um delicado coração na fachada, esse enfeite é puro charme! ❤️🤍\n\nInspirado nas casinhas natalinas de contos de fadas, ele traz aquele toque lúdico e acolhedor que deixa a árvore ainda mais especial.\n\n✨ Perfeito para quem ama enfeites criativos e uma decoração cheia de personalidade!\n\n🎁 Cada detalhe ajuda a transformar o Natal em uma época ainda mais mágica.",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/destaque-e-monte-casa-de-natal-1.webp",
+        "assets/products/destaque-e-monte-casa-de-natal-2.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "94",
+      "nome": "Kit desfralde",
+      "descricao": "🚽💩 O desfralde pode ser mais divertido! 💛✨\n\nTransformar o momento de sair das fraldinhas em uma experiência leve e divertida faz toda a diferença! 🥰\n\nNosso recurso lúdico para o desfralde foi pensado para despertar a curiosidade dos pequenos e tornar essa fase cheia de descobertas ainda mais interessante. 🌟\n\n🍦 Com o dispenser e as pecinhas divertidas, a criança pode acompanhar cada conquista de forma visual e participar ativamente desse processo.\n\n💛 Uma maneira criativa de incentivar a autonomia, estimular a participação e celebrar cada pequeno avanço!\n\n✨ Porque cada criança tem seu tempo, e o desfralde pode ser vivido com carinho, paciência e muita diversão!",
+      "valor": 79.9,
+      "imagens": [
+        "assets/products/kit-desfralde-1.webp",
+        "assets/products/kit-desfralde-2.webp",
+        "assets/products/kit-desfralde-3.webp"
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "95",
+      "nome": "Cortador de biscoito com carimbo de Natal",
+      "descricao": "🎄🍪 O cheirinho de biscoitos de Natal já está no ar! ❤️✨\n\nQue tal reunir a família para preparar biscoitos deliciosos e entrar de vez no clima natalino? 🎅🎁\n\nNosso kit com 4 cortadores de biscoitos com carimbo é perfeito para criar bolachinhas temáticas cheias de charme, com desenhos de Papai Noel, boneco de neve, pinheirinho e biscoitinho de gengibre! 😍\n\n🍪 Ideal para fazer com as crianças, preparar lembrancinhas comestíveis ou deixar a mesa de Natal ainda mais especial!\n\n❤️ Porque criar memórias na cozinha também faz parte da magia do Natal!",
+      "valor": 29.9,
+      "imagens": [
+        "assets/products/cortador-de-biscoito-com-carimbo-de-natal.webp"
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "kit",
+      "pecasPorKit": 4,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "96",
+      "nome": "Endre Dragon",
+      "descricao": "🐉🖤 Atenção, fãs de Minecraft! O Ender Dragon chegou ao Clube do Léo! 🎮✨\n\nDiretamente do universo de Minecraft para as mãos dos pequenos aventureiros! ⛏️💜\n\nNosso Ender Dragon articulado é perfeito para quem ama explorar, criar histórias e levar a diversão para além das telas! 🐲\n\n✨ Com partes articuladas, ele permite criar diferentes posições e soltar a imaginação nas brincadeiras.\n\n🎁 Um presente incrível para surpreender os fãs de Minecraft!\n\n💚 Garanta o seu com o Clube do Léo e prepare-se para novas aventuras!",
+      "valor": 35,
+      "imagens": [
+        "assets/products/endre-dragon-1.webp",
+        "assets/products/endre-dragon-2.webp"
+      ],
+      "categorias": [
+        "Brinquedos"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "97",
+      "nome": "Porta Batom",
+      "descricao": "💄🌸 Seu batom sempre à mão, com muito charme e personalidade! 💗✨\n\nOlha que mimo mais lindo! 😍 Nosso porta-batom personalizado com nome é perfeito para quem ama praticidade sem abrir mão de um acessório fofo e exclusivo!\n\n🌷 Com textura delicada de florzinhas, acabamento em tons de rosa e chaveiro com nome personalizado, ele é ideal para levar na bolsa, pendurar na mochila ou ter sempre pertinho para retocar o batom.\n\n🎁 Também é uma ótima opção para presentear ou criar lembrancinhas personalizadas para eventos!\n\n💕 Um acessório útil, delicado e feito para encantar!",
+      "valor": 8,
+      "imagens": [
+        "assets/products/porta-batom-1.webp",
+        "assets/products/porta-batom-2.webp"
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "kit",
+      "quantidadeMinima": 10,
+      "incremento": 1,
+      "pecasPorKit": 10,
+      "personalizacoes": [],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "99",
+      "nome": "Letreiro Feliz Natal",
+      "descricao": "❤️🎄 Um toque de vermelho e muita magia natalina! ✨\n\nNosso letreiro decorativo Feliz Natal é perfeito para deixar sua casa ainda mais encantadora nesta época tão especial! 🎅❤️\n\nCom um design moderno, acabamento em vermelho vibrante e um delicado floco de neve, ele fica lindo em aparadores, mesas, prateleiras e cantinhos especiais da decoração.\n\n✨ Um detalhe que transforma qualquer ambiente e ajuda a criar aquela atmosfera acolhedora que tanto amamos no Natal!\n\n🎁 Para decorar sua casa ou presentear alguém especial, essa peça é puro encanto!",
+      "valor": 19.9,
+      "imagens": [
+        "assets/products/letreiro-feliz-natal.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "100",
+      "nome": "Bandeja com Sagrada Família e pinheiro",
+      "descricao": "✨🎄 Um encanto de Natal em cada detalhe! 🤍\n\nA delicadeza da Sagrada Família unida à beleza do pinheirinho cria uma peça cheia de significado para deixar sua decoração natalina ainda mais especial. 🌟\n\nUma representação do verdadeiro sentido do Natal: o amor, a fé, a união e a esperança que renovam nossos corações. ❤️\n\nPerfeita para decorar um cantinho especial da casa ou presentear alguém querido com muito carinho!\n\n🎁 Garanta a sua e leve para o seu lar a magia e a essência do Natal!",
+      "valor": 89.9,
+      "imagens": [
+        "assets/products/bandeja-com-sagrada-familia-e-pinheiro.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "101",
+      "nome": "Bandeja com 2 personagens estilo tricô e letreiro",
+      "descricao": "🎄✨ Um trio que é pura magia natalina! ❤️\n\nPapai Noel, sua rena companheira e o letreiro Feliz Natal juntos em uma composição encantadora para deixar qualquer cantinho ainda mais especial! 🎅🦌\n\nA bandeja completa a decoração com charme e delicadeza, criando aquele cenário aconchegante que faz a gente sentir a magia do Natal em cada detalhe. ✨\n\nPerfeita para decorar aparadores, mesas, estantes ou presentear alguém especial!\n\n🎁 Deixe seu Natal ainda mais encantador com as peças do Clube do Léo!",
+      "valor": 59.9,
+      "imagens": [
+        "assets/products/bandeja-com-2-personagens-estilo-trico-e-letreiro.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "102",
+      "nome": "Bandeja com pinheiro e personagem estilo tricô",
+      "descricao": "🎄❤️ Um pedacinho da magia do Natal para encantar sua casa! ✨\n\nA combinação perfeita entre o pinheirinho verde, o charme do Papai Noel e uma bandeja delicada que transforma qualquer cantinho em um cenário cheio de encanto! 🎅🎄\n\nUma decoração que transmite aconchego, alegria e aquele sentimento gostoso de Natal chegando. Perfeita para enfeitar aparadores, mesas e estantes, deixando cada detalhe ainda mais especial. ✨\n\n🎁 Prepare sua casa para viver a magia dessa época tão linda!",
+      "valor": 49.9,
+      "imagens": [
+        "assets/products/bandeja-com-pinheiro-e-personagem-estilo-trico.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "103",
+      "nome": "Bandeja Sagrada Família com letreiro",
+      "descricao": "❤️🎄 O verdadeiro sentido do Natal em uma decoração cheia de significado! ✨\n\nA Sagrada Família, acompanhada do letreiro Feliz Natal, forma uma composição delicada e especial para celebrar o nascimento de Jesus e levar ainda mais amor, fé e esperança ao seu lar. 🤍🙏\n\nCom uma bandeja elegante e tons neutros que combinam com diferentes estilos de decoração, essa peça é perfeita para transformar qualquer cantinho em um espaço de paz e aconchego.\n\n✨ Mais do que decorar, é uma forma de manter viva a essência do Natal!",
+      "valor": 79.9,
+      "imagens": [
+        "assets/products/bandeja-sagrada-familia-com-letreiro.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "104",
+      "nome": "Bandeja com letreiro e personagem estilo tricô",
+      "descricao": "🎅❤️ Um toque de magia natalina para encantar qualquer cantinho! ✨\n\nO bom velhinho chegou para deixar sua decoração ainda mais especial! 🎄❤️ A combinação do Papai Noel com o letreiro Feliz Natal e a delicada bandeja cria uma composição cheia de charme, aconchego e espírito natalino.\n\nPerfeita para decorar aparadores, mesas de centro ou aquele cantinho especial da casa que merece um toque de magia! ✨\n\n🎁 Porque são os pequenos detalhes que tornam o Natal ainda mais encantador!",
+      "valor": 49.9,
+      "imagens": [
+        "assets/products/bandeja-com-letreiro-e-personagem-estilo-trico.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "105",
+      "nome": "Kit com 10 pinheiros porta presente",
+      "descricao": "🎄🍬 Um pinheirinho cheio de encanto e docinhos para adoçar o Natal! ❤️✨\n\nJá imaginou deixar os presentes ainda mais especiais com esse lindo porta-doces em formato de árvore de Natal? 🌲💚\n\nAlém de ser uma peça criativa e charmosa, ele transforma os docinhos em parte da decoração.\n\n🎁 Perfeito para surpreender a família, encantar os convidados e dar um toque especial à sua decoração de Natal.\n\n🍬 Porque no Natal, cada detalhe merece ser doce e encantador!",
+      "valor": 4.5,
+      "imagens": [
+        "assets/products/kit-com-10-pinheiros-porta-presente-1.webp",
+        "assets/products/kit-com-10-pinheiros-porta-presente-2.webp"
+      ],
+      "categorias": [
+        "Utilidades"
+      ],
+      "unidadeVenda": "kit",
+      "quantidadeMinima": 10,
+      "incremento": 1,
+      "pecasPorKit": 10,
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "107",
+      "nome": "Porta doces chaminé",
+      "descricao": "🎅🎄 O bom velhinho chegou trazendo organização e encanto! ❤️✨\n\nQuem disse que o Papai Noel só aparece no Natal? Por aqui, ele também ajuda a deixar tudo organizadinho! 🎁😍\n\nNosso porta-trecos em formato de chaminé, com o Papai Noel de cabeça para baixo, é uma peça criativa e divertida para guardar pequenos objetos e decorar seu cantinho com muito espírito natalino.\n\n❤️ Funcionalidade e fofura em uma peça que é a cara do Natal!\n\n🎁 Perfeito para decorar, organizar e presentear!",
+      "valor": 45.9,
+      "imagens": [
+        "assets/products/porta-doces-chamine.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
+      "modalidadePreco": "definido"
+    },
+    {
+      "codigo": "109",
+      "nome": "Bandeja com 2 personagens estilo tricô e pinheiro",
+      "descricao": "🎄✨ Um cantinho de Natal cheio de encanto e fofura! ❤️\n\nA combinação perfeita de um pinheirinho delicado com dois personagens natalinos estilo tricô: o querido Papai Noel e seu ursinho companheiro! 🎅🏻🧸\n\nA bandeja verde completa essa composição charmosa, ideal para decorar aparadores, mesas de centro, estantes ou aquele cantinho especial que merece um toque de magia natalina. 🌟\n\n🎁 Uma decoração encantadora para quem ama os pequenos detalhes e quer deixar a casa ainda mais acolhedora neste Natal!",
+      "valor": 59.9,
+      "imagens": [
+        "assets/products/bandeja-com-2-personagens-estilo-trico-e-pinheiro.webp"
+      ],
+      "categorias": [
+        "Decorações"
+      ],
       "modalidadePreco": "definido"
     }
   ]
