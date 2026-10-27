@@ -7,11 +7,21 @@ export function isCategory(value: unknown): value is Category {
   return typeof value === 'string' && categorySet.has(value);
 }
 
+export function normalizeProductCode(value: unknown): string | null {
+  const code = typeof value === 'number' ? String(value) : typeof value === 'string' ? value.trim() : '';
+  if (!/^\d+$/.test(code) || !Number.isSafeInteger(Number(code))) return null;
+  return String(Number(code));
+}
+
+export function serializeProducts(products: Product[]): string {
+  return JSON.stringify({ produtos: products.map(product => ({ ...product, codigo: Number(product.codigo) })) }, null, 2);
+}
+
 export function normalizeProduct(value: unknown): Product | null {
   if (!value || typeof value !== 'object') return null;
 
   const candidate = value as Record<string, unknown>;
-  const codigo = typeof candidate.codigo === 'string' ? candidate.codigo.trim() : '';
+  const codigo = normalizeProductCode(candidate.codigo);
   const nome = typeof candidate.nome === 'string' ? candidate.nome.trim() : '';
   const descricao = typeof candidate.descricao === 'string' ? candidate.descricao : '';
   const valor = typeof candidate.valor === 'number' ? candidate.valor : Number.NaN;

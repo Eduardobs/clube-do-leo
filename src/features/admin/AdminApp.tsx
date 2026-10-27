@@ -4,7 +4,7 @@ import { Modal } from '../../components/Modal';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
 import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset } from '../../lib/format';
-import { fetchProducts, parseProductsFile, normalizeProduct, isQuote } from '../../lib/products';
+import { fetchProducts, parseProductsFile, normalizeProduct, normalizeProductCode, serializeProducts, isQuote } from '../../lib/products';
 import type { Category, Product } from '../../types/product';
 
 const DRAFT_KEY = 'clubeDoLeo.admin.draft';
@@ -58,7 +58,7 @@ function readDraft(): Product[] | null {
 
 function saveDraft(products: Product[]): boolean {
   try {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(products));
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(products.map(product => ({ ...product, codigo: Number(product.codigo) }))));
     return true;
   } catch (reason) {
     console.warn('Não foi possível salvar o rascunho local:', reason);
@@ -114,9 +114,10 @@ export function AdminApp() {
 
   const filteredProducts = useMemo(() => {
     const term = search.trim().toLocaleLowerCase('pt-BR');
-    return term
+    const filtered = term
       ? products.filter((product) => product.nome.toLocaleLowerCase('pt-BR').includes(term) || product.codigo.toLocaleLowerCase('pt-BR').includes(term))
       : products;
+    return [...filtered].sort((a, b) => Number(a.codigo) - Number(b.codigo));
   }, [products, search]);
 
   const commitProducts = (next: Product[], message: string) => {
@@ -153,10 +154,11 @@ export function AdminApp() {
   const submitProduct = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!form) return;
-    const codigo = form.codigo.trim();
+    const codigo = normalizeProductCode(form.codigo);
     const nome = form.nome.trim();
     const valor = form.details.modalidadePreco === 'consulta' ? 0 : form.valor.trim() === '' ? 0 : Number(form.valor);
-    if (!codigo || !nome) return setFormError('Código e nome são obrigatórios.');
+    if (!form.codigo || !nome) return setFormError('Código e nome são obrigatórios.');
+    if (codigo === null) return setFormError('Informe um código inteiro, apenas com dígitos, entre 0 e 9007199254740991.');
     if (!Number.isFinite(valor) || valor < 0) return setFormError('Informe um valor numérico válido (0 ou maior).');
     if (!form.categorias.length) return setFormError('Selecione ao menos uma categoria.');
     if (products.some((product) => product.codigo === codigo && product.codigo !== editingCode)) {
@@ -187,7 +189,7 @@ export function AdminApp() {
   };
 
   const exportJson = () => {
-    const blob = new Blob([`${JSON.stringify({ produtos: products }, null, 2)}\n`], { type: 'application/json' });
+    const blob = new Blob([`${serializeProducts(products)}\n`], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -268,7 +270,7 @@ export function AdminApp() {
           <h2>{editingCode ? `Editar produto: ${form.nome}` : 'Novo produto'}</h2>
           {formError ? <p className="error-message" role="alert">{formError}</p> : null}
           <form onSubmit={submitProduct}>
-            <div className="form-group"><label htmlFor="field-codigo">Código</label><input id="field-codigo" type="text" value={form.codigo} onChange={(event) => setForm({ ...form, codigo: event.target.value })} placeholder="Ex: LEM-014" required /></div>
+            <div className="form-group"><label htmlFor="field-codigo">Código</label><input id="field-codigo" type="text" inputMode="numeric" pattern="[0-9]+" value={form.codigo} onChange={(event) => { if (/^\d*$/.test(event.target.value)) setForm({ ...form, codigo: event.target.value }); }} placeholder="Ex: 14" required /></div>
             <div className="form-group"><label htmlFor="field-nome">Nome</label><input id="field-nome" type="text" value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} placeholder="Nome do produto" required /></div>
             <div className="form-group"><label htmlFor="field-descricao">Descrição</label><textarea id="field-descricao" value={form.descricao} onChange={(event) => setForm({ ...form, descricao: event.target.value })} placeholder="Descrição, tamanho, conteúdo..." /></div>
             <div className="form-group"><label htmlFor="field-valor">Valor (R$)</label><input id="field-valor" disabled={form.details.modalidadePreco === 'consulta'} type="number" min="0" step="0.01" value={form.valor} onChange={(event) => setForm({ ...form, valor: event.target.value })} placeholder="0,00" /></div>
