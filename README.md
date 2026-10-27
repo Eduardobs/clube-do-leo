@@ -55,6 +55,9 @@ O workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages
 
 ## Segurança e métricas
 
+As medidas de proteção, a mitigação contra iframes e os cabeçalhos necessários
+no proxy/CDN estão descritos em [Segurança](docs/seguranca.md).
+
 - Nunca coloque tokens em variáveis `VITE_*` ou no JavaScript gerado. O fechamento atual usa somente `wa.me` e não requer segredo.
 - As páginas usam CSP e política de referência via HTML. Cabeçalhos que dependem da resposta HTTP, como `X-Content-Type-Options`, `Permissions-Policy` e `frame-ancestors`, exigem um proxy/CDN configurável, pois o GitHub Pages não oferece configuração de cabeçalhos por projeto.
 - Ative **Secret scanning** e **Push protection** nas configurações do repositório. O Dependabot já acompanha npm e GitHub Actions.
