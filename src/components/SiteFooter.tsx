@@ -9,7 +9,7 @@ interface SiteFooterProps {
 
 export function SiteFooter({ compact = false }: SiteFooterProps) {
   return (
-    <footer className="site-footer">
+    <footer className={`site-footer${compact ? ' site-footer--compact' : ''}`}>
       <div className="container footer__inner">
         <div className="footer__brand">
           <img src={BRAND_LOGO_URL} alt="Clube do Léo" className="footer__logo" />

@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, MessageCircle, ShoppingCart } from 'lucide-react';
+import { PageHeader } from '../../components/PageHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
 import { useCart } from '../../hooks/useCart';
 import { trackStoreEvent } from '../../lib/analytics';
-import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset, slugify } from '../../lib/format';
+import { formatPrice, imageFallback, productThumbnailUrl, resolveAsset, slugify } from '../../lib/format';
 import { fetchProducts, isQuote, minimum, increment, normalizeQuantity, quantityLabel, configurationError } from '../../lib/products';
 import { buildConsultationMessage, openWhatsApp } from '../../lib/whatsapp';
 import type { Product } from '../../types/product';
@@ -83,19 +84,17 @@ export function ProductPageApp() {
   return (
     <div className="product-page">
       <a className="skip-link" href="#produto">Pular para o produto</a>
-      <header className="institutional-header">
-        <div className="container institutional-header__inner">
-          <a href={catalogUrl()} className="brand" aria-label="Clube do Léo, página inicial"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
-          <a href={catalogUrl()} className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar aos produtos</a>
-        </div>
-      </header>
+      <PageHeader>
+        <a href={catalogUrl()} className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar aos produtos</a>
+        <a href={catalogUrl(true)} className="page-header__cart" aria-label={`Abrir carrinho com ${cart.count} itens`}><ShoppingCart aria-hidden="true" /><span>{cart.count}</span></a>
+      </PageHeader>
       <main id="produto" className="container product-page__main" aria-busy={loading}>
         {loading ? <div className="spinner" aria-label="Carregando produto" /> : null}
         {error || (!loading && !product) ? <div className="error-message" role="alert">{error || 'Produto não encontrado.'} {error ? <button type="button" onClick={() => setRetry(r => r + 1)}>Tentar novamente</button> : null} <a href={catalogUrl()}>Voltar à loja</a></div> : null}
         {product ? (
           <article className="product-page__content">
             <div className="product-detail__gallery product-page__gallery">
-              <button type="button" className="gallery-enlarge" aria-label="Ampliar imagem" onClick={() => setZoom(true)}><img id="detail-main-image" src={resolveAsset(selectedImage)} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} /></button>
+              <button type="button" className="gallery-enlarge" aria-label="Ampliar imagem" onClick={() => setZoom(true)}><img id="detail-main-image" src={resolveAsset(selectedImage || product.imagens[0])} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} /></button>
               {product.imagens.length > 1 ? <div className="product-detail__thumbs" aria-label="Galeria de imagens">{product.imagens.map((image, index) => (
                 <button key={`${image}-${index}`} type="button" className={`product-detail__thumb${selectedImage === image ? ' is-active' : ''}`} aria-pressed={selectedImage === image} onClick={() => setSelectedImage(image)} aria-label={`Ver imagem ${index + 1} de ${product.nome}`}>
                   <img src={productThumbnailUrl(image)} alt="" loading="lazy" decoding="async" width="80" height="80" onError={imageFallback} />
@@ -110,9 +109,7 @@ export function ProductPageApp() {
               </div>
               <form id="purchase" className="product-page__purchase" onSubmit={event => { event.preventDefault(); addToCart(); }}>
                 <p className="product-detail__price">{isQuote(product) ? 'Preço sob consulta' : `${formatPrice(product.valor)} / ${product.unidadeVenda || 'unidade'}`}</p>
-                <strong>Feito sob encomenda</strong>
-                <p>Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
-                <small>Entrega e eventuais personalizações combinadas com a loja.</small>
+                <p className="purchase-note"><strong>Feito sob encomenda.</strong> Prazo de produção, entrega e personalizações combinados pelo WhatsApp antes da produção.</p>
                 <ProductOptions product={product} values={options} onChange={values => { if (!Object.keys(options).length) trackStoreEvent('personalization_started', { product_code: product.codigo }); setOptions(values); }} />
                 {formError ? <p role="alert">{formError}</p> : null}
                 <p>{quantityLabel(product, quantity)} · Mínimo {minimum(product)}</p>
@@ -123,7 +120,7 @@ export function ProductPageApp() {
                 </div>
                 <button type="submit" className="btn btn--primary btn--block">{isQuote(product) ? <MessageCircle aria-hidden="true" /> : <ShoppingCart aria-hidden="true" />}{isQuote(product) ? 'Solicitar orçamento pelo WhatsApp' : 'Adicionar ao carrinho'}</button>
                 <a className="btn btn--ghost btn--block" href={catalogUrl(true)}>Ver carrinho ({cart.count})</a>
-                <small>Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou produção.</small>
+                <small className="purchase-disclaimer">Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou produção.</small>
                 {message ? <WhatsAppRecovery message={message} kind="orcamento" /> : null}
               </form>
             </div>

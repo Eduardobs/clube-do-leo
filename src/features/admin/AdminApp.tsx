@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { ArrowLeft, Download, FileUp, ImagePlus, Pencil, Plus, Search, Trash2, Upload, X } from 'lucide-react';
+import { PageHeader } from '../../components/PageHeader';
 import { Modal } from '../../components/Modal';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
-import { BRAND_LOGO_URL, formatPrice, imageFallback, productThumbnailUrl, resolveAsset } from '../../lib/format';
+import { formatPrice, imageFallback, productThumbnailUrl, resolveAsset } from '../../lib/format';
 import { fetchProducts, parseProductsFile, normalizeProduct, normalizeProductCode, serializeProducts, isQuote } from '../../lib/products';
 import type { Category, Product } from '../../types/product';
 
@@ -216,14 +217,11 @@ export function AdminApp() {
   return (
     <>
       <a className="skip-link" href="#editor-produtos">Pular para o editor</a>
-      <header className="admin-header">
-        <div className="container admin-header__inner">
-          <a href="/" className="brand"><img src={BRAND_LOGO_URL} alt="Clube do Léo" className="brand__logo" /></a>
-          <h1 className="admin-header__title">Editor local do catálogo</h1>
-          <a href="/" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
-        </div>
-      </header>
+      <PageHeader>
+        <a href="/" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
+      </PageHeader>
       <main id="editor-produtos" className="container admin-main">
+        <div className="admin-heading"><div><h1>Editor do catálogo</h1><p>Organize produtos, imagens e opções de personalização.</p></div><span>{products.length} produtos</span></div>
         <aside className="admin-notice" role="note">
           <strong>Editor local — alterações não são publicadas automaticamente.</strong>
           <span>Baixe o arquivo ao terminar, substitua <code>data/products.json</code> no repositório e publique manualmente.</span>
@@ -244,16 +242,17 @@ export function AdminApp() {
         {loadError ? <p className="error-message" role="alert">{loadError}</p> : null}
         <div className="admin-table-wrap">
           <table className="admin-table">
+            <caption className="sr-only">Produtos do catálogo local</caption>
             <thead><tr><th>Imagem</th><th>Código</th><th>Nome</th><th>Categorias</th><th>Valor</th><th>Ações</th></tr></thead>
             <tbody>
               {filteredProducts.map((product) => (
                 <tr key={product.codigo}>
-                  <td><img className="admin-table__thumb" src={productThumbnailUrl(product.imagens[0])} alt={product.nome} onError={imageFallback} /></td>
-                  <td>{product.codigo}</td>
+                  <td className="admin-table__image"><img className="admin-table__thumb" src={productThumbnailUrl(product.imagens[0])} alt="" width="56" height="56" loading="lazy" decoding="async" onError={imageFallback} /></td>
+                  <td className="admin-table__code">{product.codigo}</td>
                   <td className="admin-table__name"><strong>{product.nome}</strong><span>{product.descricao}</span></td>
-                  <td><div className="badge-list">{product.categorias.map((category) => <span className="badge" key={category}>{category}</span>)}</div></td>
-                  <td>{isQuote(product) ? 'Preço sob consulta' : formatPrice(product.valor)}</td>
-                  <td><div className="admin-table__actions">
+                  <td className="admin-table__categories"><div className="badge-list">{product.categorias.map((category) => <span className="badge" key={category}>{category}</span>)}</div></td>
+                  <td className="admin-table__price">{isQuote(product) ? 'Preço sob consulta' : formatPrice(product.valor)}</td>
+                  <td className="admin-table__actions-cell"><div className="admin-table__actions">
                     <button type="button" className="icon-btn" onClick={() => openForm(product)} title="Editar" aria-label={`Editar ${product.nome}`}><Pencil aria-hidden="true" /></button>
                     <button type="button" className="icon-btn icon-btn--danger" onClick={() => deleteProduct(product)} title="Excluir" aria-label={`Excluir ${product.nome}`}><Trash2 aria-hidden="true" /></button>
                   </div></td>

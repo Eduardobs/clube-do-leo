@@ -25,7 +25,7 @@ export function CheckoutModal({ itemCount, total, hasUnpricedItems, onClose, onS
   };
 
   return (
-    <Modal label="Enviar pedido" onClose={onClose}>
+    <Modal label="Enviar pedido" onClose={onClose} className="modal__content--checkout">
       <h2>Enviar pedido</h2>
       <p className="checkout__intro">Revise o resumo e informe seu nome. O carrinho será mantido até você decidir limpá-lo.</p>
       <div className="checkout__summary" aria-label="Resumo do pedido">
@@ -33,7 +33,7 @@ export function CheckoutModal({ itemCount, total, hasUnpricedItems, onClose, onS
         {items.some(item => { const p = findProduct(products, item.codigo); return p && !isQuote(p); }) ? <strong>Subtotal dos produtos: {formatPrice(total)}</strong> : <strong>Orçamento a combinar — sem subtotal definido</strong>}
         {hasUnpricedItems ? <small>Há solicitação de orçamento fora do subtotal.</small> : null}
       </div>
-      <ul>{items.map((item, index) => { const p = findProduct(products, item.codigo); return p ? <li key={item.id || index}><strong>{p.nome} · Código {p.codigo}</strong><p>{quantityLabel(p, item.quantity)} · {isQuote(p) ? 'Solicitação de orçamento' : formatPrice(p.valor * item.quantity)}</p>{Object.entries(item.personalizacoes || {}).map(([key, value]) => <p key={key}>{p.personalizacoes?.find(f => f.id === key)?.label || key}: {value}</p>)}</li> : null; })}</ul>
+      <ul className="checkout-items">{items.map((item, index) => { const p = findProduct(products, item.codigo); return p ? <li key={item.id || index}><strong>{p.nome} · Código {p.codigo}</strong><p>{quantityLabel(p, item.quantity)} · {isQuote(p) ? 'Solicitação de orçamento' : formatPrice(p.valor * item.quantity)}</p>{Object.entries(item.personalizacoes || {}).map(([key, value]) => <p key={key}>{p.personalizacoes?.find(f => f.id === key)?.label || key}: {value}</p>)}</li> : null; })}</ul>
       <p>Feito sob encomenda. Entrega a combinar, separada do prazo de produção. Condições finais combinadas com a loja.</p>
       <button type="button" className="btn btn--ghost" onClick={onEdit}>Voltar à edição do carrinho</button>
       <form id="checkout-form" onSubmit={handleSubmit}>

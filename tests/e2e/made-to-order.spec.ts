@@ -98,6 +98,7 @@ test('mobile aproxima ação, mantém categorias legíveis e suporta teclado e z
   await page.goto('/');
   expect(await page.locator('.header-pill').first().evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
   expect(await page.locator('.header-pills').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  await page.locator('.header-pills').scrollIntoViewIfNeeded();
   for (const category of ['Todos', 'Jogos', 'Brinquedos', 'Decorações', 'Utilidades']) await expect(page.getByRole('button', { name: category, exact: true })).toBeInViewport();
   await page.goto('/produto-cubo-infinito-2/');
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
@@ -143,6 +144,7 @@ test('revisão acessível, foco contido e capturas de celular', async ({ page },
   await page.screenshot({ path: `/tmp/clube-catalog-${testInfo.project.name}.png` });
   await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
   await page.getByRole('button', { name: /^Abrir carrinho/i }).click();
+  await expect(page.locator('.toast-group')).toBeHidden();
   await page.getByRole('button', { name: 'Revisar pedido' }).click();
   await expect(page.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
   await page.keyboard.press('Shift+Tab');

@@ -13,7 +13,7 @@ import type { Category, Product } from '../../types/product';
 import { CartModal } from './CartModal';
 import { CheckoutModal } from './CheckoutModal';
 import { ProductCard } from './ProductCard';
-import { StoreHeader } from './StoreHeader';
+import { CatalogCategories, StoreHeader } from './StoreHeader';
 
 const PAGE_SIZE = 12;
 const params = () => new URLSearchParams(window.location.search);
@@ -39,7 +39,6 @@ export function StorefrontApp() {
   const [customerName, setCustomerName] = useState('');
   const [notes, setNotes] = useState('');
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const trustStripRef = useRef<HTMLDivElement>(null);
   const cart = useCart(products);
 
   useEffect(() => {
@@ -163,45 +162,48 @@ export function StorefrontApp() {
   return (
     <>
       <a className="skip-link" href="#produtos">Pular para os produtos</a>
-      <StoreHeader activeCategory={category} cartCount={cart.count} onCategoryChange={setCategory} onOpenCart={() => setCartOpen(true)} />
+      <StoreHeader cartCount={cart.count} onOpenCart={() => setCartOpen(true)} />
       <main>
-        <section className="trust-strip" aria-label="Diferenciais da loja">
-          <div ref={trustStripRef} className="container trust-strip__inner" tabIndex={0} aria-label="Deslize para conhecer os diferenciais da loja">
-            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito sob encomenda</span></p>
-            <p><BadgeCheck aria-hidden="true" /><span><strong>Confirmação pelo WhatsApp</strong>Combine as condições antes da produção</span></p>
-            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Envie sua solicitação pelo WhatsApp</span></p>
-          </div>
-        </section>
         <section id="produtos" className="catalog container" aria-busy={loading}>
+          <div className="catalog__heading">
+            <h1>Produtos em impressão 3D</h1>
+            <p>Feitos sob encomenda. Pedido pelo WhatsApp.</p>
+          </div>
           <div className="catalog__toolbar" role="search" aria-label="Buscar e ordenar produtos">
             <div className="search-box">
               <Search aria-hidden="true" />
               <label className="sr-only" htmlFor="catalog-search">Buscar produto</label>
-              <input id="catalog-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="O que você está procurando?" />
+              <input id="catalog-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar produtos" />
               {search ? <button type="button" className="search-box__clear" onClick={() => setSearch('')} aria-label="Limpar busca"><X aria-hidden="true" /></button> : null}
             </div>
             <label className="sort-control">
               <span><ArrowUpDown aria-hidden="true" /> Ordenar por</span>
               <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
-                <option value="catalog">Ordem do catálogo</option>
+                <option value="catalog">Destaques</option>
                 <option value="name">Nome</option>
                 <option value="price-asc">Menor preço</option>
                 <option value="price-desc">Maior preço</option>
               </select>
             </label>
           </div>
-          <div className="catalog-filters">
-            <label>Modalidade de preço<select value={mode} onChange={e => setMode(e.target.value)}><option value="todos">Todos</option><option value="definido">Preço definido</option><option value="consulta">Sob consulta</option></select></label>
-            <label>Preço definido até (R$)<input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} /></label>
-            {search || category || mode !== 'todos' || maxPrice || sort !== 'catalog' ? <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); setSort('catalog'); setMode('todos'); setMaxPrice(''); }}>Limpar filtros</button> : null}
+          <CatalogCategories activeCategory={category} onCategoryChange={setCategory} />
+          <div className="catalog__options">
+            <details className="catalog-filter-panel" open={mode !== 'todos' || !!maxPrice || undefined}>
+              <summary>Filtrar por preço</summary>
+              <div className="catalog-filters">
+                <label>Modalidade de preço<select value={mode} onChange={e => setMode(e.target.value)}><option value="todos">Todos</option><option value="definido">Preço definido</option><option value="consulta">Sob consulta</option></select></label>
+                <label>Preço definido até (R$)<input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} /></label>
+                {search || category || mode !== 'todos' || maxPrice || sort !== 'catalog' ? <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); setSort('catalog'); setMode('todos'); setMaxPrice(''); }}>Limpar filtros</button> : null}
+              </div>
+            </details>
+            {sort.startsWith('price') ? <p>Produtos sob consulta aparecem após os produtos com preço definido.</p> : null}
+            {!loading && !error ? (
+              <div className="catalog__meta">
+                <p className="catalog__count" aria-live="polite"><strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'produto encontrado' : 'produtos encontrados'}</p>
+                {category ? <button type="button" className="active-filter" onClick={() => setCategory(null)}>Categoria: {category}<X aria-hidden="true" /></button> : null}
+              </div>
+            ) : null}
           </div>
-          {sort.startsWith('price') ? <p>Produtos sob consulta aparecem após os produtos com preço definido.</p> : null}
-          {!loading && !error ? (
-            <div className="catalog__meta">
-              <p className="catalog__count" aria-live="polite"><strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'produto encontrado' : 'produtos encontrados'}</p>
-              {category ? <button type="button" className="active-filter" onClick={() => setCategory(null)}>Categoria: {category}<X aria-hidden="true" /></button> : null}
-            </div>
-          ) : null}
           {loading ? (
             <div className="product-grid product-grid--loading" aria-label="Carregando produtos">
               {Array.from({ length: 8 }, (_, index) => <div key={index} className="product-skeleton" aria-hidden="true"><span /><i /><i /></div>)}
@@ -210,20 +212,27 @@ export function StorefrontApp() {
           {error ? <p className="error-message" role="alert">{error} <button type="button" onClick={() => setRetry(r => r + 1)}>Tentar novamente</button></p> : null}
           {!loading && !error ? (
             <div className="product-grid">
-              {filteredProducts.length ? filteredProducts.slice(0, visibleCount).map((product) => (
-                <ProductCard key={product.codigo} product={product} onAdd={addToCart} />
+              {filteredProducts.length ? filteredProducts.slice(0, visibleCount).map((product, index) => (
+                <ProductCard key={product.codigo} product={product} priority={index < 2} onAdd={addToCart} />
               )) : (
                 <div className="empty-state">
                   <span className="empty-state__icon"><SearchX aria-hidden="true" /></span>
                   <h3>Nenhum produto por aqui</h3>
                   <p>Tente buscar outro termo ou volte a ver todo o nosso catálogo.</p>
-                  <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); }}>Limpar filtros</button>
+                  <button type="button" className="btn btn--ghost" onClick={() => { setSearch(''); setCategory(null); setSort('catalog'); setMode('todos'); setMaxPrice(''); }}>Limpar filtros</button>
                 </div>
               )}
             </div>
           ) : null}
           {visibleCount < filteredProducts.length ? <button type="button" className="btn btn--ghost" onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>Carregar mais</button> : null}
           <div ref={sentinelRef} className="load-more-sentinel" aria-hidden="true" />
+        </section>
+        <section className="trust-strip" aria-label="Diferenciais da loja">
+          <div className="container trust-strip__inner">
+            <p><Factory aria-hidden="true" /><span><strong>Produção própria</strong>Feito sob encomenda</span></p>
+            <p><BadgeCheck aria-hidden="true" /><span><strong>Confirmação pelo WhatsApp</strong>Combine as condições antes da produção</span></p>
+            <p><MessageCircle aria-hidden="true" /><span><strong>Atendimento próximo</strong>Envie sua solicitação pelo WhatsApp</span></p>
+          </div>
         </section>
         <section className="how-it-works" aria-labelledby="como-comprar">
           <div className="container">

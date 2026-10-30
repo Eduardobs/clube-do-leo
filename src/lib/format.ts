@@ -1,5 +1,4 @@
 import brandLogoUrl from '../../assets/brand/header-logo-medallion.webp';
-import headerToysUrl from '../../assets/brand/header-toys.webp';
 
 const currencyFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -49,7 +48,6 @@ export function productThumbnailUrl(path: string | undefined): string {
 }
 
 export const BRAND_LOGO_URL = brandLogoUrl;
-export const HEADER_TOYS_URL = headerToysUrl;
 
 export function imageFallback(event: React.SyntheticEvent<HTMLImageElement>): void {
   const fallback = resolveAsset(undefined);
