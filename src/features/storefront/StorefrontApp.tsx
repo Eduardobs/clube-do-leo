@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, PackageCheck, Search, SearchX, ShoppingCart, Store, X } from 'lucide-react';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
@@ -38,7 +38,6 @@ export function StorefrontApp() {
   const [preparedMessage, setPreparedMessage] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [notes, setNotes] = useState('');
-  const sentinelRef = useRef<HTMLDivElement>(null);
   const cart = useCart(products);
 
   useEffect(() => {
@@ -111,23 +110,6 @@ export function StorefrontApp() {
     setCartOpen(true);
     const next = params(); next.delete('carrinho'); window.history.replaceState({}, '', `/${next.size ? `?${next}` : ''}#produtos`); saveCatalog(next.toString());
   }, [loading]);
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel || visibleCount >= filteredProducts.length) return;
-    if (!('IntersectionObserver' in window)) {
-      setVisibleCount(filteredProducts.length);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisibleCount((current) => Math.min(current + PAGE_SIZE, filteredProducts.length));
-      },
-      { rootMargin: '300px' },
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [filteredProducts.length, visibleCount]);
 
   const dismissToast = useCallback(() => setToast(''), []);
 
@@ -224,8 +206,7 @@ export function StorefrontApp() {
               )}
             </div>
           ) : null}
-          {visibleCount < filteredProducts.length ? <button type="button" className="btn btn--ghost" onClick={() => setVisibleCount(c => c + PAGE_SIZE)}>Carregar mais</button> : null}
-          <div ref={sentinelRef} className="load-more-sentinel" aria-hidden="true" />
+          {!loading && !error && visibleCount < filteredProducts.length ? <button type="button" className="btn catalog__load-more" onClick={() => setVisibleCount(c => Math.min(c + PAGE_SIZE, filteredProducts.length))}>Exibir mais produtos</button> : null}
         </section>
         <section className="trust-strip" aria-label="Diferenciais da loja">
           <div className="container trust-strip__inner">

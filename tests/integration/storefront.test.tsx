@@ -17,6 +17,27 @@ describe('vitrine', () => {
     });
   });
 
+  it('exibe grupos de 12 produtos somente ao clicar e reinicia a listagem ao filtrar', async () => {
+    const user = userEvent.setup();
+    const catalog = Array.from({ length: 25 }, (_, index) => ({
+      ...products[0], codigo: String(index + 1), nome: `Produto ${index + 1}`,
+    }));
+    vi.stubGlobal('IntersectionObserver', undefined);
+    vi.mocked(fetch).mockResolvedValueOnce({ ok: true, json: async () => ({ produtos: catalog }) } as Response);
+    render(<StorefrontApp />);
+    await screen.findByRole('heading', { name: 'Produto 1' });
+    expect(screen.getAllByRole('heading', { name: /^Produto \d+$/ })).toHaveLength(12);
+    expect(screen.queryByRole('heading', { name: 'Produto 13' })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Exibir mais produtos' }));
+    expect(screen.getAllByRole('heading', { name: /^Produto \d+$/ })).toHaveLength(24);
+    await user.click(screen.getByRole('button', { name: 'Exibir mais produtos' }));
+    expect(screen.getAllByRole('heading', { name: /^Produto \d+$/ })).toHaveLength(25);
+    expect(screen.queryByRole('button', { name: 'Exibir mais produtos' })).not.toBeInTheDocument();
+    await user.selectOptions(screen.getByRole('combobox', { name: /Ordenar por/ }), 'name');
+    expect(screen.getAllByRole('heading', { name: /^Produto \d+$/ })).toHaveLength(12);
+    expect(screen.getByRole('button', { name: 'Exibir mais produtos' })).toBeInTheDocument();
+  });
+
   it('carrega, busca e filtra produtos', async () => {
     const user = userEvent.setup();
     render(<StorefrontApp />);
