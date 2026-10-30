@@ -36,8 +36,8 @@ jobs:
       - name: Validar tipos e testes
         run: npm run typecheck && npm test
 
-      - name: Gerar site
-        run: npm run build
+      - name: Gerar site e validar SEO
+        run: npm run test:seo
 
       - name: Instalar Chromium para testes E2E
         run: npx playwright install --with-deps chromium

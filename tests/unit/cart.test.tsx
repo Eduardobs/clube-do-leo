@@ -16,7 +16,7 @@ const product: Product = {
 describe('carrinho', () => {
   it('limita quantidades adicionadas', () => {
     const { result } = renderHook(() => useCart([product]));
-    act(() => result.current.add(product.codigo, 1000));
+    act(() => result.current.add(product.codigo, 10000));
     expect(result.current.items).toMatchObject([{ codigo: '1', quantity: STORE_CONFIG.maxQuantityPerProduct }]);
   });
 

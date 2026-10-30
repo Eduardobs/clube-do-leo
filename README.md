@@ -38,6 +38,7 @@ O editor local funciona inteiramente no navegador e não publica alterações. O
 npm run typecheck
 npm test
 npm run build
+npm run test:seo
 npm run test:e2e
 ```
 
@@ -48,6 +49,16 @@ npm run check
 ```
 
 O build é gerado em `dist/`. Além das três entradas principais, ele gera uma rota limpa e indexável para cada produto, `sitemap.xml` e `robots.txt`. Cada rota é publicada como um diretório com `index.html`, formato compatível com GitHub Pages, e os recursos usam caminhos a partir da raiz do domínio. O build também copia as imagens WebP publicadas, `data/products.json`, `CNAME` e `.nojekyll`.
+
+## SEO
+
+O build inclui o catálogo completo e links para todos os produtos no HTML inicial da vitrine. As páginas de produto incluem nome, descrição completa, imagem, preço ou indicação de consulta e navegação de retorno antes da montagem do React. Os metadados de descrição usam uma versão curta da descrição; não confundir com o texto completo do produto.
+
+Os dados estruturados JSON-LD descrevem a organização, o site, o catálogo, os produtos e a navegação estrutural. Ofertas são incluídas somente para produtos com preço definido. Os hashes da CSP acompanham o conteúdo JSON-LD gerado. As páginas públicas incluem canonical e metadados Open Graph e Twitter; o editor permanece com `noindex` e fora do sitemap.
+
+Execute `npm run test:seo` para compilar e verificar todas as URLs do sitemap, links do catálogo, metadados, imagens sociais, dados estruturados, hashes da CSP e exclusão do editor. O workflow executa essa verificação antes da publicação.
+
+A proteção contra iframes continua exigindo JavaScript para tornar o corpo da página visível, mesmo com conteúdo presente no HTML inicial. A política de preços continua sendo montada pelo React. Após a publicação, envie `https://clubedoleo.com.br/sitemap.xml` no Google Search Console e inspecione as URLs com a ferramenta de inspeção. A implementação segue as [orientações do Google para sites JavaScript](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics); indexação e posicionamento dependem do buscador.
 
 ## Publicação
 

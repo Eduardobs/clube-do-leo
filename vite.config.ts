@@ -1,8 +1,8 @@
-import { createHash } from 'node:crypto';
 import { copyFileSync, cpSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
+import { catalogContent, catalogStructuredData, escapeHtml, metaDescription, productContent, productImages, productRoute, productStructuredData, SITE_URL, type SeoProduct } from './scripts/seo.ts';
 
 function copyStaticFiles(): Plugin {
   let outputDirectory = 'dist';
@@ -17,6 +17,8 @@ function copyStaticFiles(): Plugin {
       const output = resolve(import.meta.dirname, outputDirectory);
       mkdirSync(resolve(output, 'data'), { recursive: true });
       mkdirSync(resolve(output, 'assets/products'), { recursive: true });
+      mkdirSync(resolve(output, 'assets/brand'), { recursive: true });
+      copyFileSync(resolve(import.meta.dirname, 'assets/brand/header-logo-medallion.webp'), resolve(output, 'assets/brand/header-logo-medallion.webp'));
       const productsDirectory = resolve(import.meta.dirname, 'assets/products');
       for (const filename of readdirSync(productsDirectory)) {
         if (filename.endsWith('.webp')) copyFileSync(resolve(productsDirectory, filename), resolve(output, 'assets/products', filename));
@@ -27,26 +29,6 @@ function copyStaticFiles(): Plugin {
       cpSync(resolve(import.meta.dirname, '.nojekyll'), resolve(output, '.nojekyll'));
     },
   };
-}
-
-interface CatalogProduct {
-  modalidadePreco?: string;
-  codigo: string;
-  nome: string;
-  descricao: string;
-  valor: number;
-  imagens: string[];
-  categorias: string[];
-}
-
-const SITE_URL = 'https://clubedoleo.com.br';
-
-function slugify(value: string): string {
-  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-function escapeHtml(value: string): string {
-  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 }
 
 function generateProductPages(): Plugin {
@@ -61,50 +43,36 @@ function generateProductPages(): Plugin {
       const output = resolve(import.meta.dirname, outputDirectory);
       const templatePath = resolve(output, 'product.html');
       const template = readFileSync(templatePath, 'utf8');
-      const { produtos } = JSON.parse(readFileSync(resolve(import.meta.dirname, 'data/products.json'), 'utf8')) as { produtos: CatalogProduct[] };
+      const { produtos } = JSON.parse(readFileSync(resolve(import.meta.dirname, 'data/products.json'), 'utf8')) as { produtos: SeoProduct[] };
       const urls = [`${SITE_URL}/`, `${SITE_URL}/politica-de-precos/`];
 
       for (const product of produtos) {
-        const slug = slugify(`${product.nome}-${product.codigo}`);
-        const route = `produto-${slug}`;
+        const route = productRoute(product).slice(1, -1);
         const url = `${SITE_URL}/${route}/`;
-        const compactDescription = product.descricao.replace(/\s+/g, ' ').trim();
-        const description = compactDescription.length > 155
-          ? `${compactDescription.slice(0, 152).replace(/\s+\S*$/, '')}…`
-          : compactDescription;
-        const images = product.imagens.map((image) => `${SITE_URL}/${image.replace(/^\.?\//, '')}`);
-        const jsonLd = JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: product.nome,
-          description,
-          sku: product.codigo,
-          category: product.categorias.join(', '),
-          image: images,
-          ...(product.valor > 0 && product.modalidadePreco !== 'consulta' ? {
-            offers: {
-              '@type': 'Offer',
-              url,
-              priceCurrency: 'BRL',
-              price: product.valor.toFixed(2),
-            },
-          } : {}),
-        }).replaceAll('<', '\\u003c');
-        const jsonHash = createHash('sha256').update(jsonLd).digest('base64');
-        const fallback = `<article><h1>${escapeHtml(product.nome)}</h1><p>${escapeHtml(description)}</p><p><a href="/#produtos">Voltar aos produtos</a></p></article>`;
+        const description = metaDescription(product);
+        const images = productImages(product);
+        const { json: jsonLd, hash: jsonHash } = productStructuredData(product);
+        const fallback = productContent(product);
         const page = template
-          .replaceAll('__PRODUCT_TITLE__', escapeHtml(product.nome))
-          .replaceAll('__PRODUCT_DESCRIPTION__', escapeHtml(description))
-          .replaceAll('__PRODUCT_IMAGE__', escapeHtml(images[0] ?? `${SITE_URL}/assets/brand/header-logo-medallion.webp`))
-          .replaceAll('__PRODUCT_URL__', url)
-          .replaceAll('__PRODUCT_JSON_HASH__', `sha256-${jsonHash}`)
-          .replace('__PRODUCT_JSON_LD__', jsonLd)
-          .replace('__PRODUCT_FALLBACK__', fallback);
+          .replaceAll('__PRODUCT_TITLE__', () => escapeHtml(product.nome))
+          .replaceAll('__PRODUCT_DESCRIPTION__', () => escapeHtml(description))
+          .replaceAll('__PRODUCT_IMAGE__', () => escapeHtml(images[0] ?? `${SITE_URL}/assets/brand/header-logo-medallion.webp`))
+          .replaceAll('__PRODUCT_URL__', () => url)
+          .replaceAll('__PRODUCT_JSON_HASH__', () => jsonHash)
+          .replace('__PRODUCT_JSON_LD__', () => jsonLd)
+          .replace('__PRODUCT_FALLBACK__', () => fallback);
         const routeDirectory = resolve(output, route);
         mkdirSync(routeDirectory, { recursive: true });
         writeFileSync(resolve(routeDirectory, 'index.html'), page);
         urls.push(url);
       }
+
+      const catalogPath = resolve(output, 'index.html');
+      const catalogSchema = catalogStructuredData(produtos);
+      writeFileSync(catalogPath, readFileSync(catalogPath, 'utf8')
+        .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, () => `<script type="application/ld+json">${catalogSchema.json}</script>`)
+        .replace("sha256-J/NbQMXd0JUay1Gtn5URyHhkrk/vujxjNuk5NikunWs=", catalogSchema.hash)
+        .replace('<div id="root"></div>', () => `<div id="root">${catalogContent(produtos)}</div>`));
 
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`;
       writeFileSync(resolve(output, 'sitemap.xml'), sitemap);
