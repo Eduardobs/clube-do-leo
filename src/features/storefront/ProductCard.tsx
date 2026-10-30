@@ -13,9 +13,9 @@ interface ProductCardProps {
 export const ProductCard = memo(function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
     <article className="product-card">
-      <a className="product-card__details-trigger" href={productPageUrl(product.nome, product.codigo)} aria-label={`Ver detalhes de ${product.nome}`}>
+      <a className="product-card__details-trigger" href={productPageUrl(product.nome, product.codigo)}>
         <div className="product-card__media">
-          <img src={productThumbnailUrl(product.imagens[0])} alt={product.nome} loading="lazy" decoding="async" width="480" height="480" onError={imageFallback} />
+          <img src={productThumbnailUrl(product.imagens[0])} alt="" loading="lazy" decoding="async" width="480" height="480" onError={imageFallback} />
           <span className="product-card__badge" data-category={product.categorias[0]}>{product.categorias[0]}</span>
         </div>
         <div className="product-card__body">

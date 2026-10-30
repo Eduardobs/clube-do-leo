@@ -41,7 +41,7 @@ test('mantém o carrinho da vitrine ao abrir uma página de produto', async ({ p
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity }))))
     .toEqual([{ codigo: '1', quantity: 1 }]);
 
-  await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
+  await page.getByRole('link').filter({ has: page.getByRole('heading', { name: 'Cubo infinito' }) }).click();
 
   await expect(page).toHaveURL(/\/produto-cubo-infinito-2\/$/);
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
@@ -57,7 +57,7 @@ test('não apaga o carrinho se o catálogo falhar na troca de página', async ({
     .toEqual([{ codigo: '1', quantity: 1 }]);
   await page.route('**/data/products.json', (route) => route.abort());
 
-  await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
+  await page.getByRole('link').filter({ has: page.getByRole('heading', { name: 'Cubo infinito' }) }).click();
 
   await expect(page.getByRole('alert')).toContainText('Não foi possível carregar este produto.');
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity }))))

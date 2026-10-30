@@ -53,7 +53,7 @@ test('kits e duas personalizações persistem separados, editáveis e na revisã
 
 test('retorno e histórico preservam busca, categoria e ordenação', async ({ page }) => {
   await page.goto('/?busca=cubo&categoria=Brinquedos&ordem=price-desc');
-  await page.getByRole('link', { name: 'Ver detalhes de Cubo infinito' }).click();
+  await page.getByRole('link').filter({ has: page.getByRole('heading', { name: 'Cubo infinito' }) }).click();
   await page.getByRole('link', { name: 'Voltar aos produtos' }).click();
   await expect(page.getByRole('searchbox')).toHaveValue('cubo');
   await expect(page.locator('.sort-control select')).toHaveValue('price-desc');
