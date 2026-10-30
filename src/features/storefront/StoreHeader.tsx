@@ -50,7 +50,7 @@ export function StoreHeader({ cartCount, onOpenCart }: StoreHeaderProps) {
   return (
     <header id="top" className="store-header">
       <div className="container store-topbar">
-        <a href="#top" className="store-brand" aria-label="Clube do Léo, início">
+        <a href="#top" className="store-brand" aria-label="Clube do Léo, CRIAÇÕES EM IMPRESSÃO 3D, início">
           <img src={BRAND_LOGO_URL} alt="Clube do Léo" width="44" height="44" />
           <span>Clube do Léo<small>CRIAÇÕES EM IMPRESSÃO 3D</small></span>
         </a>
@@ -60,7 +60,7 @@ export function StoreHeader({ cartCount, onOpenCart }: StoreHeaderProps) {
           <a href={STORE_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Camera aria-hidden="true" /></a>
         </nav>
         <div className="store-actions">
-          <a className="store-contact" aria-label="Conversar pelo WhatsApp" href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /><span>Vamos conversar</span></a>
+          <a className="store-contact" aria-label="Vamos conversar pelo WhatsApp" href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /><span>Vamos conversar</span></a>
           <button type="button" className="store-cart" onClick={onOpenCart} aria-label={`Abrir carrinho, ${cartCount} ${cartCount === 1 ? 'item' : 'itens'}`}>
             <ShoppingCart aria-hidden="true" /><span className="store-cart__count">{cartCount}</span>
           </button>
