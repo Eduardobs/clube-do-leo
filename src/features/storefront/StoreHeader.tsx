@@ -50,9 +50,9 @@ export function StoreHeader({ cartCount, onOpenCart }: StoreHeaderProps) {
   return (
     <header id="top" className="store-header">
       <div className="container store-topbar">
-        <a href="#top" className="store-brand" aria-label="Clube do Léo, CRIAÇÕES EM IMPRESSÃO 3D, início">
-          <img src={BRAND_LOGO_URL} alt="Clube do Léo" width="44" height="44" />
-          <span>Clube do Léo<small>CRIAÇÕES EM IMPRESSÃO 3D</small></span>
+        <a href="#top" className="store-brand">
+          <img src={BRAND_LOGO_URL} alt="" width="44" height="44" />
+          <span>Clube do Léo{' '}<small>CRIAÇÕES EM IMPRESSÃO 3D</small></span>
         </a>
         <nav className="store-links" aria-label="Navegação principal">
           <a href="#produtos">Catálogo</a>

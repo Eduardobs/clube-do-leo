@@ -75,6 +75,7 @@ test('mantém o produto no carrinho ao voltar da página de detalhes', async ({ 
 test('página inicial não apresenta violações sérias de acessibilidade', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
+  await expect(page.locator('.store-brand')).toHaveAccessibleName('Clube do Léo CRIAÇÕES EM IMPRESSÃO 3D');
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))).toEqual([]);
 });
