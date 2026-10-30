@@ -247,8 +247,8 @@ export function StorefrontApp() {
 
       <nav className="mobile-nav" aria-label="Ações rápidas">
         <a href="#produtos" className="mobile-nav__item"><Store aria-hidden="true" /><span>Produtos</span></a>
-        <button type="button" className="mobile-nav__item mobile-nav__cart" onClick={() => setCartOpen(true)} aria-label="Abrir carrinho">
-          <ShoppingCart aria-hidden="true" /><span>Carrinho</span>
+        <button type="button" className="mobile-nav__item mobile-nav__cart" onClick={() => setCartOpen(true)}>
+          <ShoppingCart aria-hidden="true" /><span><span className="sr-only">Abrir </span>Carrinho</span>
           <small>{cart.count ? `${cart.count} ${cart.count === 1 ? 'item' : 'itens'}` : 'Carrinho vazio'}</small>
         </button>
         <a href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="mobile-nav__item mobile-nav__whatsapp" onClick={() => trackStoreEvent('click_whatsapp', { source: 'mobile_navigation' })}>

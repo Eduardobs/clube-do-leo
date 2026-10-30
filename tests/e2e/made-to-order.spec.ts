@@ -142,7 +142,7 @@ test('revisão acessível, foco contido e capturas de celular', async ({ page },
   await expect(page.getByRole('heading', { name: 'Cubo infinito' })).toBeVisible();
   await page.screenshot({ path: `/tmp/clube-catalog-${testInfo.project.name}.png` });
   await page.getByRole('button', { name: 'Adicionar ao carrinho' }).first().click();
-  await page.getByRole('button', { name: 'Abrir carrinho', exact: true }).click();
+  await page.getByRole('button', { name: /^Abrir carrinho/i }).click();
   await page.getByRole('button', { name: 'Revisar pedido' }).click();
   await expect(page.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
   await page.keyboard.press('Shift+Tab');
