@@ -4,7 +4,6 @@ import { BRAND_LOGO_URL } from '../../lib/format';
 import type { Category } from '../../types/product';
 
 const categoryIcons = { Jogos: Puzzle, Brinquedos: PawPrint, Decorações: House, Utilidades: Coffee } satisfies Record<Category, typeof Puzzle>;
-const categoryClass = { Jogos: 'sage', Brinquedos: 'coral', Decorações: 'blue', Utilidades: 'gold' } satisfies Record<Category, string>;
 
 interface CategoryProps {
   activeCategory: Category | null;
@@ -28,8 +27,9 @@ export function CatalogCategories({ activeCategory, onCategoryChange }: Category
         return (
           <button
             key={category}
+            data-category={category}
             type="button"
-            className={`header-pill header-pill--${categoryClass[category]}${isActive ? ' is-active' : ''}`}
+            className={`header-pill${isActive ? ' is-active' : ''}`}
             aria-pressed={isActive}
             onClick={() => onCategoryChange(isActive ? null : category)}
           >

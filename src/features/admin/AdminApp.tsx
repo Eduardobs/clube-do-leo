@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
-import { ArrowLeft, Download, FileUp, ImagePlus, Pencil, Plus, Search, Trash2, Upload, X } from 'lucide-react';
+import { ArrowLeft, Download, FileUp, HardDrive, ImagePlus, Pencil, Plus, Search, Trash2, Upload, X } from 'lucide-react';
 import { PageHeader } from '../../components/PageHeader';
 import { Modal } from '../../components/Modal';
 import { Toast } from '../../components/Toast';
@@ -221,10 +221,13 @@ export function AdminApp() {
         <a href="/" className="btn btn--ghost btn--small"><ArrowLeft aria-hidden="true" /> Voltar à loja</a>
       </PageHeader>
       <main id="editor-produtos" className="container admin-main">
-        <div className="admin-heading"><div><h1>Editor do catálogo</h1><p>Organize produtos, imagens e opções de personalização.</p></div><span>{products.length} produtos</span></div>
+        <div className="admin-heading">
+          <div><h1>Editor do catálogo</h1><p>Organize produtos, imagens e opções de personalização.</p></div>
+          <button type="button" className="btn btn--primary" onClick={() => openForm()}><Plus aria-hidden="true" /> Novo produto</button>
+        </div>
         <aside className="admin-notice" role="note">
-          <strong>Editor local — alterações não são publicadas automaticamente.</strong>
-          <span>Baixe o arquivo ao terminar, substitua <code>data/products.json</code> no repositório e publique manualmente.</span>
+          <HardDrive aria-hidden="true" /><div><strong>Rascunho local</strong>
+          <p>As alterações ficam neste navegador. Para publicá-las, baixe o arquivo e substitua <code>data/products.json</code> no repositório.</p></div>
         </aside>
         <div className="admin-toolbar">
           <label className="search-box">
@@ -235,22 +238,22 @@ export function AdminApp() {
             <button type="button" className="btn btn--ghost" onClick={() => importInputRef.current?.click()}><FileUp aria-hidden="true" /> Importar JSON</button>
             <input ref={importInputRef} type="file" accept="application/json,.json" className="hidden" onChange={importJson} />
             <button type="button" className="btn btn--ghost" onClick={exportJson}><Download aria-hidden="true" /> Baixar products.json</button>
-            <button type="button" className="btn btn--primary" onClick={() => openForm()}><Plus aria-hidden="true" /> Novo produto</button>
           </div>
         </div>
         {loading ? <div className="spinner" aria-label="Carregando produtos" /> : null}
         {loadError ? <p className="error-message" role="alert">{loadError}</p> : null}
+        <p className="admin-count" aria-live="polite">{search ? `${filteredProducts.length} de ` : ''}{products.length} {products.length === 1 ? 'produto' : 'produtos'}</p>
         <div className="admin-table-wrap">
           <table className="admin-table">
             <caption className="sr-only">Produtos do catálogo local</caption>
             <thead><tr><th>Imagem</th><th>Código</th><th>Nome</th><th>Categorias</th><th>Valor</th><th>Ações</th></tr></thead>
             <tbody>
               {filteredProducts.map((product) => (
-                <tr key={product.codigo}>
+                <tr key={product.codigo} data-category={product.categorias[0]}>
                   <td className="admin-table__image"><img className="admin-table__thumb" src={productThumbnailUrl(product.imagens[0])} alt="" width="56" height="56" loading="lazy" decoding="async" onError={imageFallback} /></td>
                   <td className="admin-table__code">{product.codigo}</td>
                   <td className="admin-table__name"><strong>{product.nome}</strong><span>{product.descricao}</span></td>
-                  <td className="admin-table__categories"><div className="badge-list">{product.categorias.map((category) => <span className="badge" key={category}>{category}</span>)}</div></td>
+                  <td className="admin-table__categories"><div className="badge-list">{product.categorias.map((category) => <span className="badge category-label" data-category={category} key={category}>{category}</span>)}</div></td>
                   <td className="admin-table__price">{isQuote(product) ? 'Preço sob consulta' : formatPrice(product.valor)}</td>
                   <td className="admin-table__actions-cell"><div className="admin-table__actions">
                     <button type="button" className="icon-btn" onClick={() => openForm(product)} title="Editar" aria-label={`Editar ${product.nome}`}><Pencil aria-hidden="true" /></button>
@@ -267,37 +270,51 @@ export function AdminApp() {
       {form ? (
         <Modal label={editingCode ? `Editar produto: ${form.nome}` : 'Novo produto'} onClose={() => setForm(null)} className="modal__content--admin-form">
           <h2>{editingCode ? `Editar produto: ${form.nome}` : 'Novo produto'}</h2>
-          {formError ? <p className="error-message" role="alert">{formError}</p> : null}
-          <form onSubmit={submitProduct}>
-            <div className="form-group"><label htmlFor="field-codigo">Código</label><input id="field-codigo" type="text" inputMode="numeric" pattern="[0-9]+" value={form.codigo} onChange={(event) => { if (/^\d*$/.test(event.target.value)) setForm({ ...form, codigo: event.target.value }); }} placeholder="Ex: 14" required /></div>
-            <div className="form-group"><label htmlFor="field-nome">Nome</label><input id="field-nome" type="text" value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} placeholder="Nome do produto" required /></div>
-            <div className="form-group"><label htmlFor="field-descricao">Descrição</label><textarea id="field-descricao" value={form.descricao} onChange={(event) => setForm({ ...form, descricao: event.target.value })} placeholder="Descrição, tamanho, conteúdo..." /></div>
-            <div className="form-group"><label htmlFor="field-valor">Valor (R$)</label><input id="field-valor" disabled={form.details.modalidadePreco === 'consulta'} type="number" min="0" step="0.01" value={form.valor} onChange={(event) => setForm({ ...form, valor: event.target.value })} placeholder="0,00" /></div>
-            <label className="option-field">Modalidade de preço<select value={form.details.modalidadePreco} onChange={e => setForm({ ...form, details: { ...form.details, modalidadePreco: e.target.value as Product['modalidadePreco'] } })}><option value="definido">Preço definido</option><option value="consulta">Preço sob consulta</option></select></label>
-            {([['unidadeVenda', 'Unidade de venda (ex.: unidade, kit)'], ['dimensoes', 'Dimensões'], ['conteudo', 'Conteúdo do conjunto']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input value={form.details[key] || ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value } })} /></label>)}
-            {([['quantidadeMinima', 'Quantidade mínima'], ['incremento', 'Incremento'], ['pecasPorKit', 'Peças por kit']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input type="number" min="1" max="99" step="1" value={form.details[key] ?? ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value ? Number(e.target.value) : undefined } })} /></label>)}
-            <fieldset><legend>Campos de personalização</legend><p>Cadastre somente opções oferecidas pela loja. Limites de texto são opcionais.</p>
+          <form onSubmit={submitProduct} className="product-editor">
+            <fieldset className="editor-section">
+              <legend>Identificação</legend>
+              <div className="editor-grid editor-grid--identity">
+                <div className="form-group"><label htmlFor="field-codigo">Código</label><input id="field-codigo" type="text" inputMode="numeric" pattern="[0-9]+" value={form.codigo} onChange={(event) => { if (/^\d*$/.test(event.target.value)) setForm({ ...form, codigo: event.target.value }); }} placeholder="Ex: 14" required /></div>
+                <div className="form-group"><label htmlFor="field-nome">Nome</label><input id="field-nome" type="text" value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} placeholder="Nome do produto" required /></div>
+                <div className="form-group editor-wide"><label htmlFor="field-descricao">Descrição</label><textarea id="field-descricao" value={form.descricao} onChange={(event) => setForm({ ...form, descricao: event.target.value })} placeholder="Descrição, tamanho, conteúdo..." /></div>
+              </div>
+              <fieldset className="form-group"><legend>Categorias</legend><div className="checkbox-group">{STORE_CONFIG.categories.map((category) => (
+                <label key={category}><input type="checkbox" checked={form.categorias.includes(category)} onChange={(event) => setForm({ ...form, categorias: event.target.checked ? [...form.categorias, category] : form.categorias.filter((current) => current !== category) })} />{category}</label>
+              ))}</div></fieldset>
+            </fieldset>
+            <fieldset className="editor-section">
+              <legend>Preço e venda</legend>
+              <div className="editor-grid">
+                <label className="option-field">Modalidade de preço<select value={form.details.modalidadePreco} onChange={e => setForm({ ...form, details: { ...form.details, modalidadePreco: e.target.value as Product['modalidadePreco'] } })}><option value="definido">Preço definido</option><option value="consulta">Preço sob consulta</option></select></label>
+                <div className="form-group"><label htmlFor="field-valor">Valor (R$)</label><input id="field-valor" disabled={form.details.modalidadePreco === 'consulta'} type="number" min="0" step="0.01" value={form.valor} onChange={(event) => setForm({ ...form, valor: event.target.value })} placeholder="0,00" /></div>
+                {([['unidadeVenda', 'Unidade de venda (ex.: unidade, kit)'], ['dimensoes', 'Dimensões'], ['conteudo', 'Conteúdo do conjunto']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input value={form.details[key] || ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value } })} /></label>)}
+                {([['quantidadeMinima', 'Quantidade mínima'], ['incremento', 'Incremento'], ['pecasPorKit', 'Peças por kit']] as const).map(([key, label]) => <label className="option-field" key={key}>{label}<input type="number" min="1" max="99" step="1" value={form.details[key] ?? ''} onChange={e => setForm({ ...form, details: { ...form.details, [key]: e.target.value ? Number(e.target.value) : undefined } })} /></label>)}
+              </div>
+            </fieldset>
+            <fieldset className="editor-section"><legend>Imagens</legend><p>A primeira imagem é a capa do produto.</p><div className="image-list">{form.imagens.map((image, index) => (
+              <div className="image-row" key={index}>
+                <span className="image-label">{index === 0 ? 'Capa do produto' : `Imagem ${index + 1}`}</span>
+                <input type="text" value={image} onChange={(event) => updateImage(index, event.target.value)} placeholder="assets/products/arquivo.jpg" aria-label={`Caminho da imagem ${index + 1}`} />
+                <img src={resolveAsset(image)} alt="" onError={imageFallback} />
+                <label className="icon-btn" title="Selecionar imagem do computador"><Upload aria-hidden="true" /><span className="sr-only">Selecionar arquivo para a imagem {index + 1}</span><input type="file" accept="image/*" multiple className="sr-only" onChange={(event) => void uploadImages(index, event.target.files)} /></label>
+                <button type="button" className="icon-btn icon-btn--danger" onClick={() => setForm({ ...form, imagens: form.imagens.length === 1 ? [''] : form.imagens.filter((_, current) => current !== index) })} title="Remover imagem" aria-label={`Remover imagem ${index + 1}`}><X aria-hidden="true" /></button>
+              </div>
+            ))}</div><button type="button" className="btn btn--ghost btn--small" onClick={() => setForm({ ...form, imagens: [...form.imagens, ''] })}><ImagePlus aria-hidden="true" /> Adicionar imagem</button></fieldset>
+            <fieldset className="editor-section"><legend>Campos de personalização</legend><p>Cadastre somente opções oferecidas pela loja. Limites de texto são opcionais.</p>
               {(form.details.personalizacoes || []).map((field, index) => <div className="admin-personalization" key={index}>
                 {(['id', 'label'] as const).map(key => <label className="option-field" key={key}>{key === 'id' ? 'Identificador' : 'Rótulo'}<input required value={field[key]} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, [key]: e.target.value } : f) } })} /></label>)}
                 <label><input type="checkbox" checked={field.required || false} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, required: e.target.checked } : f) } })} /> Obrigatório</label>
                 <label className="option-field">Limite de caracteres<input type="number" min="1" step="1" value={field.maxLength || ''} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, maxLength: e.target.value ? Number(e.target.value) : undefined } : f) } })} /></label>
                 <label className="option-field">Opções (uma por linha; vazio para texto livre)<textarea value={field.options?.join('\n') || ''} onChange={e => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.map((f, i) => i === index ? { ...f, options: e.target.value ? e.target.value.split('\n') : undefined } : f) } })} /></label>
-                <button type="button" onClick={() => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.filter((_, i) => i !== index) } })}>Remover campo</button>
+                <button type="button" className="btn btn--ghost" onClick={() => setForm({ ...form, details: { ...form.details, personalizacoes: form.details.personalizacoes?.filter((_, i) => i !== index) } })}>Remover campo</button>
               </div>)}
               <button type="button" className="btn btn--ghost" onClick={() => setForm({ ...form, details: { ...form.details, personalizacoes: [...(form.details.personalizacoes || []), { id: '', label: '' }] } })}>Adicionar campo de personalização</button>
             </fieldset>
-            <fieldset className="form-group"><legend>Categorias</legend><div className="checkbox-group">{STORE_CONFIG.categories.map((category) => (
-              <label key={category}><input type="checkbox" checked={form.categorias.includes(category)} onChange={(event) => setForm({ ...form, categorias: event.target.checked ? [...form.categorias, category] : form.categorias.filter((current) => current !== category) })} />{category}</label>
-            ))}</div></fieldset>
-            <fieldset className="form-group"><legend>Imagens</legend><div className="image-list">{form.imagens.map((image, index) => (
-              <div className="image-row" key={index}>
-                <input type="text" value={image} onChange={(event) => updateImage(index, event.target.value)} placeholder="assets/products/arquivo.jpg" aria-label={`Caminho da imagem ${index + 1}`} />
-                <img src={resolveAsset(image)} alt="" onError={imageFallback} />
-                <label className="icon-btn" title="Selecionar imagem do computador"><Upload aria-hidden="true" /><span className="sr-only">Selecionar imagem</span><input type="file" accept="image/*" multiple className="hidden" onChange={(event) => void uploadImages(index, event.target.files)} /></label>
-                <button type="button" className="icon-btn icon-btn--danger" onClick={() => setForm({ ...form, imagens: form.imagens.length === 1 ? [''] : form.imagens.filter((_, current) => current !== index) })} title="Remover imagem" aria-label={`Remover imagem ${index + 1}`}><X aria-hidden="true" /></button>
-              </div>
-            ))}</div><button type="button" className="btn btn--ghost btn--small" onClick={() => setForm({ ...form, imagens: [...form.imagens, ''] })}><ImagePlus aria-hidden="true" /> Adicionar imagem</button></fieldset>
-            <div className="form-actions"><button type="button" className="btn btn--ghost" onClick={() => setForm(null)}>Cancelar</button><button type="submit" className="btn btn--primary">Salvar produto</button></div>
+            <div className="form-actions">
+              {formError ? <p className="error-message" role="alert">{formError}</p> : null}
+              <button type="button" className="btn btn--ghost" onClick={() => setForm(null)}>Cancelar</button>
+              <button type="submit" className="btn btn--primary">Salvar produto</button>
+            </div>
           </form>
         </Modal>
       ) : null}

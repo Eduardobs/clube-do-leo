@@ -17,11 +17,11 @@ export const ProductCard = memo(function ProductCard({ product, onAdd, priority 
       <a className="product-card__details-trigger" href={productPageUrl(product.nome, product.codigo)}>
         <div className="product-card__media">
           <img src={productThumbnailUrl(product.imagens[0])} alt="" loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'auto'} decoding="async" width="480" height="480" onError={imageFallback} />
-          <span className="product-card__badge" data-category={product.categorias[0]}>{product.categorias[0]}</span>
+          <span className="product-card__code">Código {product.codigo}</span>
         </div>
         <div className="product-card__body">
+          <span className="product-card__badge category-label" data-category={product.categorias[0]}>{product.categorias[0]}</span>
           <h2 className="product-card__title">{product.nome}</h2>
-          <p className="product-card__code">Código {product.codigo}</p>
           {product.pecasPorKit ? <p className="product-card__composition">{product.pecasPorKit} peças por kit</p> : null}
           <div className="product-card__buying-info">
             <p className={`product-card__price${isQuote(product) ? ' product-card__price--quote' : ''}`}>{isQuote(product) ? 'Preço sob consulta' : <>{formatPrice(product.valor)}<span className="product-card__unit"> / {product.unidadeVenda || 'un.'}</span></>}<small className="made-to-order">Feito sob encomenda</small></p>

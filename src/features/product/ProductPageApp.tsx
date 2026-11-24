@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, MessageCircle, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, MessageCircle, ZoomIn, ShoppingCart } from 'lucide-react';
 import { PageHeader } from '../../components/PageHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
@@ -94,7 +94,7 @@ export function ProductPageApp() {
         {product ? (
           <article className="product-page__content">
             <div className="product-detail__gallery product-page__gallery">
-              <button type="button" className="gallery-enlarge" aria-label="Ampliar imagem" onClick={() => setZoom(true)}><img id="detail-main-image" src={resolveAsset(selectedImage || product.imagens[0])} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} /></button>
+              <button type="button" className="gallery-enlarge" aria-label="Ampliar imagem" onClick={() => setZoom(true)}><img id="detail-main-image" src={resolveAsset(selectedImage || product.imagens[0])} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} />{product.imagens.length > 1 && <span className="gallery-count" aria-hidden="true">{Math.max(1, product.imagens.indexOf(selectedImage) + 1)} / {product.imagens.length}</span>}<span className="gallery-zoom-icon"><ZoomIn aria-hidden="true" /></span></button>
               {product.imagens.length > 1 ? <div className="product-detail__thumbs" aria-label="Galeria de imagens">{product.imagens.map((image, index) => (
                 <button key={`${image}-${index}`} type="button" className={`product-detail__thumb${selectedImage === image ? ' is-active' : ''}`} aria-pressed={selectedImage === image} onClick={() => setSelectedImage(image)} aria-label={`Ver imagem ${index + 1} de ${product.nome}`}>
                   <img src={productThumbnailUrl(image)} alt="" loading="lazy" decoding="async" width="80" height="80" onError={imageFallback} />
@@ -103,7 +103,7 @@ export function ProductPageApp() {
             </div>
             <div className="product-page__summary">
               <div className="product-page__info">
-                <span className="tag">{product.categorias.join(', ')}</span>
+                <div className="product-tags">{product.categorias.map(category => <span className="category-label" data-category={category} key={category}>{category}</span>)}</div>
                 <h1>{product.nome}</h1>
                 <p className="product-detail__code">Código {product.codigo}</p>
               </div>
@@ -133,7 +133,7 @@ export function ProductPageApp() {
           </article>
         ) : null}
       </main>
-      {zoom && product ? <Modal label="Imagem ampliada" onClose={() => setZoom(false)}><div onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (e.key === 'ArrowRight' ? 1 : product.imagens.length - 1)) % product.imagens.length]); } }} onTouchStart={e => { e.currentTarget.dataset.start = String(e.touches[0].clientX); }} onTouchEnd={e => { const delta = e.changedTouches[0].clientX - Number(e.currentTarget.dataset.start); if (Math.abs(delta) > 40) setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (delta < 0 ? 1 : product.imagens.length - 1)) % product.imagens.length]); }}>
+      {zoom && product ? <Modal className="modal__content--gallery" label="Imagem ampliada" onClose={() => setZoom(false)}><div onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (e.key === 'ArrowRight' ? 1 : product.imagens.length - 1)) % product.imagens.length]); } }} onTouchStart={e => { e.currentTarget.dataset.start = String(e.touches[0].clientX); }} onTouchEnd={e => { const delta = e.changedTouches[0].clientX - Number(e.currentTarget.dataset.start); if (Math.abs(delta) > 40) setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (delta < 0 ? 1 : product.imagens.length - 1)) % product.imagens.length]); }}>
         <img className="zoom-image" src={resolveAsset(selectedImage)} alt={product.nome} />
         <div className="gallery-navigation">
         <button type="button" className="btn btn--ghost gallery-navigation__arrow" aria-label="Imagem anterior" onClick={() => setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + product.imagens.length - 1) % product.imagens.length])}><ChevronLeft aria-hidden="true" /></button>

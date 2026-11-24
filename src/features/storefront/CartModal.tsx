@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ShoppingBasket } from 'lucide-react';
 import { Modal } from '../../components/Modal';
 import { ProductOptions } from '../../components/ProductOptions';
 import { formatPrice, imageFallback, productPageUrl, productThumbnailUrl } from '../../lib/format';
@@ -20,7 +21,7 @@ export function CartModal({ items, products, total, onClose, onClear, onRemove, 
     <h2>Carrinho de compras</h2>
     <p className="cart-intro">Confira seus itens. Produção sob encomenda, com prazo e entrega combinados pelo WhatsApp.</p>
     <div className="cart-items" aria-live="polite">
-      {!items.length ? <p>Seu carrinho está vazio.</p> : items.map(item => {
+      {!items.length ? <div className="cart-empty"><ShoppingBasket aria-hidden="true" /><p>Seu carrinho está vazio.</p><button type="button" className="btn btn--primary" onClick={onClose}>Continuar no catálogo</button></div> : items.map(item => {
         const p = findProduct(products, item.codigo); const key = itemKey(item);
         if (!p) return <div key={key} className="cart-item"><p role="alert">Produto {item.codigo} removido do catálogo. Não integra a contagem nem o subtotal. Remova-o para continuar.</p><button onClick={() => onRemove(key)}>Remover item {item.codigo}</button></div>;
         const issue = itemIssue(p, item);
@@ -48,10 +49,10 @@ export function CartModal({ items, products, total, onClose, onClear, onRemove, 
         </article>;
       })}
     </div>
-    <div className="cart-footer"><button className="btn btn--ghost" onClick={() => { if (window.confirm('Deseja remover todos os produtos do carrinho?')) { onClear(); setEditing(''); setError(''); } }} disabled={!items.length}>Limpar</button>
+    {items.length > 0 && <div className="cart-footer"><button className="btn btn--ghost" onClick={() => { if (window.confirm('Deseja remover todos os produtos do carrinho?')) { onClear(); setEditing(''); setError(''); } }} disabled={!items.length}>Limpar</button>
       <p className="cart-total">{items.length && !items.some(item => { const p = findProduct(products, item.codigo); return p && !isQuote(p); }) ? <strong>Orçamento a combinar — sem subtotal definido</strong> : <>Subtotal dos produtos: <strong>{total ? formatPrice(total) : 'R$ 0,00'}</strong></>}<small>Entrega a combinar. Itens sob consulta não integram o subtotal.</small></p>
       {blocked ? <p role="status">Corrija os itens sinalizados antes de revisar.</p> : null}
       <button className="btn btn--primary" onClick={onCheckout} disabled={!items.length || blocked || Boolean(editing)}>Revisar pedido</button>
-    </div>
+    </div>}
   </Modal>;
 }

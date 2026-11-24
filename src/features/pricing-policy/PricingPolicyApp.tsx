@@ -4,6 +4,14 @@ import { PageHeader } from '../../components/PageHeader';
 
 import { catalogUrl } from '../../lib/navigation';
 
+const sections = [
+  { id: 'precos', title: 'Preços do catálogo', text: 'Os preços dos produtos apresentados neste site podem sofrer alterações sem aviso prévio.' },
+  { id: 'producao', title: 'Produção sob encomenda', text: 'Todos os produtos são feitos sob encomenda. Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.' },
+  { id: 'orcamentos', title: 'Valores e orçamentos', text: 'Produtos com preço definido exibem o valor por unidade de venda. Produtos com preço sob consulta exigem orçamento e não integram o subtotal dos produtos com preço definido.' },
+  { id: 'entrega', title: 'Entrega e personalização', text: 'Entrega e eventuais personalizações são combinadas separadamente com a loja. O prazo de produção é diferente do prazo de transporte.' },
+  { id: 'confirmacao', title: 'Confirmação do pedido', text: 'Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou início da produção. Envie a solicitação e combine as condições finais com a loja.' },
+];
+
 export function PricingPolicyApp() {
   return (
     <div className="institutional-page">
@@ -13,29 +21,22 @@ export function PricingPolicyApp() {
       </PageHeader>
       <main id="politica-precos" className="container institutional-main">
         <article className="institutional-card">
-          <p className="institutional-card__eyebrow"><Tag aria-hidden="true" /> Compra transparente</p>
-          <h1>Política de preços</h1>
-          <section>
-            <h2>Preços do catálogo</h2>
-            <p>Os preços dos produtos apresentados neste site podem sofrer alterações sem aviso prévio.</p>
-          </section>
-          <section>
-            <h2>Produção sob encomenda</h2>
-            <p>Todos os produtos são feitos sob encomenda. Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
-          </section>
-          <section>
-            <h2>Valores e orçamentos</h2>
-            <p>Produtos com preço definido exibem o valor por unidade de venda. Produtos com preço sob consulta exigem orçamento e não integram o subtotal dos produtos com preço definido.</p>
-          </section>
-          <section>
-            <h2>Entrega e personalização</h2>
-            <p>Entrega e eventuais personalizações são combinadas separadamente com a loja. O prazo de produção é diferente do prazo de transporte.</p>
-          </section>
-          <section>
-            <h2>Confirmação do pedido</h2>
-            <p>Adicionar ao carrinho ou abrir o WhatsApp não confirma contratação, pagamento ou início da produção. Envie a solicitação e combine as condições finais com a loja.</p>
-          </section>
-          <a href={catalogUrl()} className="btn btn--primary">Ver produtos</a>
+          <div className="policy-heading">
+            <Tag aria-hidden="true" />
+            <h1>Política de preços</h1>
+          </div>
+          <nav className="policy-nav" aria-label="Tópicos da política">
+            {sections.map(section => <a key={section.id} href={`#${section.id}`}>{section.title}</a>)}
+          </nav>
+          <div className="policy-sections">
+            {sections.map(section => (
+              <section key={section.id} id={section.id}>
+                <h2>{section.title}</h2>
+                <p>{section.text}</p>
+              </section>
+            ))}
+            <a href={catalogUrl()} className="btn btn--primary">Ver produtos</a>
+          </div>
         </article>
       </main>
       <SiteFooter compact />

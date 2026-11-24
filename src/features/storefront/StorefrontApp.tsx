@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, PackageCheck, Search, SearchX, ShoppingCart, Store, X } from 'lucide-react';
+import { ArrowRight, ArrowUpDown, BadgeCheck, Factory, MessageCircle, SlidersHorizontal, Search, SearchX, ShoppingCart, Store, X } from 'lucide-react';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
 import { STORE_CONFIG } from '../../config/store';
@@ -148,7 +148,7 @@ export function StorefrontApp() {
       <main>
         <section id="produtos" className="catalog container" aria-busy={loading}>
           <div className="catalog__heading">
-            <h1>Produtos em impressão 3D</h1>
+            <h1>Produtos em <em>impressão 3D</em></h1>
             <p>Feitos sob encomenda. Pedido pelo WhatsApp.</p>
           </div>
           <div className="catalog__toolbar" role="search" aria-label="Buscar e ordenar produtos">
@@ -171,7 +171,7 @@ export function StorefrontApp() {
           <CatalogCategories activeCategory={category} onCategoryChange={setCategory} />
           <div className="catalog__options">
             <details className="catalog-filter-panel" open={mode !== 'todos' || !!maxPrice || undefined}>
-              <summary>Filtrar por preço</summary>
+              <summary><SlidersHorizontal aria-hidden="true" />Filtrar por preço</summary>
               <div className="catalog-filters">
                 <label>Modalidade de preço<select value={mode} onChange={e => setMode(e.target.value)}><option value="todos">Todos</option><option value="definido">Preço definido</option><option value="consulta">Sob consulta</option></select></label>
                 <label>Preço definido até (R$)<input type="number" min="0" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} /></label>
@@ -218,7 +218,6 @@ export function StorefrontApp() {
         <section className="how-it-works" aria-labelledby="como-comprar">
           <div className="container">
             <div className="how-it-works__heading">
-              <p className="section-eyebrow"><PackageCheck aria-hidden="true" /> Simples e seguro</p>
               <h2 id="como-comprar">Seu pedido em três passos</h2>
               <p>Produzimos após a confirmação do pedido. Prazo de produção e entrega combinados pelo WhatsApp.</p>
             </div>

@@ -33,10 +33,11 @@ export function CheckoutModal({ itemCount, total, hasUnpricedItems, onClose, onS
         {items.some(item => { const p = findProduct(products, item.codigo); return p && !isQuote(p); }) ? <strong>Subtotal dos produtos: {formatPrice(total)}</strong> : <strong>Orçamento a combinar — sem subtotal definido</strong>}
         {hasUnpricedItems ? <small>Há solicitação de orçamento fora do subtotal.</small> : null}
       </div>
-      <ul className="checkout-items">{items.map((item, index) => { const p = findProduct(products, item.codigo); return p ? <li key={item.id || index}><strong>{p.nome} · Código {p.codigo}</strong><p>{quantityLabel(p, item.quantity)} · {isQuote(p) ? 'Solicitação de orçamento' : formatPrice(p.valor * item.quantity)}</p>{Object.entries(item.personalizacoes || {}).map(([key, value]) => <p key={key}>{p.personalizacoes?.find(f => f.id === key)?.label || key}: {value}</p>)}</li> : null; })}</ul>
+      <ul className="checkout-items" aria-label="Itens do pedido">{items.map((item, index) => { const p = findProduct(products, item.codigo); return p ? <li key={item.id || index}><strong>{p.nome} · Código {p.codigo}</strong><p>{quantityLabel(p, item.quantity)} · {isQuote(p) ? 'Solicitação de orçamento' : formatPrice(p.valor * item.quantity)}</p>{Object.entries(item.personalizacoes || {}).map(([key, value]) => <p key={key}>{p.personalizacoes?.find(f => f.id === key)?.label || key}: {value}</p>)}</li> : null; })}</ul>
       <p>Feito sob encomenda. Entrega a combinar, separada do prazo de produção. Condições finais combinadas com a loja.</p>
       <button type="button" className="btn btn--ghost" onClick={onEdit}>Voltar à edição do carrinho</button>
       <form id="checkout-form" onSubmit={handleSubmit}>
+        <h3>Seus dados</h3>
         <label htmlFor="customer-name">Seu nome</label>
         <input id="customer-name" type="text" value={name} onChange={(event) => setName(event.target.value)} placeholder="Digite seu nome" required minLength={2} maxLength={80} autoComplete="name" />
         <label htmlFor="customer-notes">Observações <small>(opcional)</small></label>
