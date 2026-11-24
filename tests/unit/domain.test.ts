@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { formatPrice, normalizeSearchText, productThumbnailUrl, slugify } from '../../src/lib/format';
-import { cartItemCount, cartTotal, parseProductsFile } from '../../src/lib/products';
+import { parseProductsFile } from '../../src/lib/products';
+import { indexProducts, summarizeCart } from '../../src/features/cart/summary';
 import { buildConsultationMessage, buildDetailedOrderMessage, buildOrderMessage } from '../../src/lib/whatsapp';
 import type { Product } from '../../src/types/product';
 
@@ -34,8 +35,11 @@ describe('domínio do catálogo', () => {
 
   it('calcula total e quantidade ignorando produtos removidos do catálogo', () => {
     const cart = [{ codigo: '1', quantity: 2 }, { codigo: 'ausente', quantity: 4 }];
-    expect(cartTotal(cart, products)).toBe(25);
-    expect(cartItemCount(cart)).toBe(6);
+    const summary = summarizeCart(cart, indexProducts(products));
+    expect(summary.total).toBe(25);
+    expect(summary.count).toBe(2);
+    expect(summary.canCheckout).toBe(false);
+    expect(summary.lines.map(line => line.item)).toEqual(cart);
   });
 
   it('gera mensagens de consulta e pedido para WhatsApp', () => {
@@ -56,7 +60,7 @@ describe('domínio do catálogo', () => {
 
 it('modalidade explícita prevalece sobre preço positivo e migra zero legado', () => {
   const quote = { ...products[0], modalidadePreco: 'consulta' as const };
-  expect(cartTotal([{ codigo: '1', quantity: 2 }], [quote])).toBe(0);
+  expect(summarizeCart([{ codigo: '1', quantity: 2 }], indexProducts([quote])).total).toBe(0);
   expect(parseProductsFile({ produtos: [{ ...products[0], valor: 0 }] }).produtos[0].modalidadePreco).toBe('consulta');
   const message = buildConsultationMessage(quote, 2, { nome: 'Ana' });
   expect(message).toContain('Solicitação de orçamento');

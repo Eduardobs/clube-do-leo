@@ -1,0 +1,15 @@
+.institutional-card { max-width: 62rem; margin-inline: auto; }
+.policy-heading { display: flex; align-items: center; gap: .75rem; padding-block: .75rem 1.25rem; }
+.policy-heading > svg { flex: none; width: 2.5rem; height: 2.5rem; padding: .65rem; border-radius: 50%; color: var(--ochre); background: var(--cream); }
+.policy-nav { display: flex; flex-wrap: wrap; gap: .15rem .85rem; margin-bottom: 1rem; }
+.policy-nav a { display: flex; align-items: center; min-height: 44px; font-size: .875rem; color: var(--ochre); }
+.policy-sections { padding: 0 clamp(1rem, 3vw, 2.25rem) 1.5rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--paper); }
+.policy-sections section { padding-block: 1.25rem; scroll-margin-top: 1rem; }
+.policy-sections section + section { border-top: 1px solid var(--line); }
+.policy-sections p { margin-top: .55rem; color: var(--muted); line-height: 1.7; }
+
+@media (min-width: 769px) {
+  .institutional-card { display: grid; grid-template-columns: 13rem 1fr; column-gap: 2rem; align-items: start; }
+  .policy-heading { grid-column: 1 / -1; padding-bottom: 2rem; }
+  .policy-nav { position: sticky; top: 1rem; flex-direction: column; gap: .2rem; border-left: 2px solid var(--honey); padding-left: 1rem; }
+}

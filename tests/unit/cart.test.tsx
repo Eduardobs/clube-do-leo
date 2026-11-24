@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { STORE_CONFIG } from '../../src/config/store';
-import { useCart } from '../../src/hooks/useCart';
+import { useCart } from '../../src/features/cart/useCart';
 import type { Product } from '../../src/types/product';
 
 const product: Product = {
@@ -80,4 +80,30 @@ it('recalcula a contagem após carregar o catálogo e exclui produtos removidos'
   rerender({ products: [product] });
   expect(result.current.count).toBe(2);
   expect(result.current.items).toHaveLength(2);
+});
+
+it('agrupa configurações equivalentes mesmo quando as chaves chegam em outra ordem', () => {
+  const products = [{
+    ...product,
+    personalizacoes: [{ id: 'cor', label: 'Cor' }, { id: 'nome', label: 'Nome' }],
+  }];
+  const { result } = renderHook(() => useCart(products));
+  act(() => {
+    result.current.add('1', 2, { nome: 'Ana', cor: 'Azul' });
+    result.current.add('1', 1, { cor: 'Azul', nome: 'Ana' });
+  });
+  expect(result.current.items).toHaveLength(1);
+  expect(result.current.summary).toMatchObject({ count: 3, total: 30, canCheckout: true });
+});
+
+it('usa os itens sincronizados de outra aba como base para a próxima alteração', () => {
+  const products = [product];
+  const { result } = renderHook(() => useCart(products));
+  act(() => {
+    localStorage.setItem('clubeDoLeo.cart', JSON.stringify([{ codigo: '1', quantity: 4 }]));
+    window.dispatchEvent(new StorageEvent('storage', { key: 'clubeDoLeo.cart' }));
+    result.current.add('1', 2);
+  });
+  expect(result.current.summary.count).toBe(6);
+  expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart')!)).toMatchObject([{ codigo: '1', quantity: 6 }]);
 });

@@ -119,7 +119,7 @@ body:has(.mobile-nav) { padding-bottom: calc(68px + env(safe-area-inset-bottom))
   .store-actions { gap: 1rem; padding-left: 1rem; margin-left: .5rem; border-left: 1px solid var(--line); }
   .store-cart { align-items: center; justify-content: center; gap: .5rem; min-height: 44px; min-width: 68px; border: 0; border-radius: 999px; background: var(--brown); color: white; }
   .catalog { padding-top: 1.5rem; }
-  .catalog__heading { padding-block: .25rem .5rem; background: url('../assets/brand/header-toys.webp') right center / auto 130% no-repeat; }
+  .catalog__heading { padding-block: .25rem .5rem; background: url('../../../assets/brand/header-toys.webp') right center / auto 130% no-repeat; }
   .catalog__heading p { font-size: 1rem; }
   .catalog__toolbar { grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; }
   .sort-control > span { position: static; display: flex; align-items: center; gap: .35rem; width: auto; height: auto; clip-path: none; }

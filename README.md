@@ -26,6 +26,16 @@ O Vite disponibiliza as três rotas do projeto sem expor a extensão dos arquivo
 - `/admin/`: editor local de produtos (não vinculado na vitrine);
 - `/politica-de-precos/`: política de preços.
 
+## Organização do código
+
+As páginas entram por `src/entries/`. Em `src/features/`, cada área reúne seus componentes e estilos específicos.
+
+- `storefront/catalog/` cuida da busca, dos filtros na URL e da paginação da vitrine.
+- `cart/` reúne a persistência do carrinho, o cálculo do resumo e as telas de revisão do pedido.
+- `product/` contém a página de detalhes e a galeria. `admin/` contém o editor do catálogo e os rascunhos locais.
+
+Os componentes de uso comum ficam em `src/components/` e os estilos compartilhados em `src/styles/`. Em `src/lib/`, `products.ts` lê e valida o catálogo e `product-rules.ts` calcula quantidades e valida personalizações.
+
 ## Catálogo
 
 O arquivo [`data/products.json`](data/products.json) continua sendo a fonte de dados. As imagens ficam em `assets/products/` e seus caminhos são registrados no JSON.

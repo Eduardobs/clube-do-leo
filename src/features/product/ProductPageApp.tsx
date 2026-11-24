@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, MessageCircle, ZoomIn, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, MessageCircle, ShoppingCart } from 'lucide-react';
 import { PageHeader } from '../../components/PageHeader';
 import { SiteFooter } from '../../components/SiteFooter';
 import { Toast } from '../../components/Toast';
-import { useCart } from '../../hooks/useCart';
+import { useCart } from '../cart/useCart';
 import { trackStoreEvent } from '../../lib/analytics';
-import { formatPrice, imageFallback, productThumbnailUrl, resolveAsset, slugify } from '../../lib/format';
-import { fetchProducts, isQuote, minimum, increment, normalizeQuantity, quantityLabel, configurationError } from '../../lib/products';
+import { formatPrice, slugify } from '../../lib/format';
+import { isQuote, minimum, increment, normalizeQuantity, quantityLabel, configurationError } from '../../lib/product-rules';
 import { buildConsultationMessage, openWhatsApp } from '../../lib/whatsapp';
-import type { Product } from '../../types/product';
+import { useProducts } from '../../hooks/useProducts';
 
-import { Modal } from '../../components/Modal';
+import { ProductGallery } from './ProductGallery';
 import { ProductOptions } from '../../components/ProductOptions';
 import { WhatsAppRecovery } from '../../components/WhatsAppRecovery';
 import { catalogUrl } from '../../lib/navigation';
@@ -21,43 +21,26 @@ function pageSlug(): string {
 }
 
 export function ProductPageApp() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [selectedImage, setSelectedImage] = useState('');
+  const { products, loading, failed, retry } = useProducts();
   const [quantity, setQuantity] = useState(1);
   const [options, setOptions] = useState<Record<string, string>>({});
   const [message, setMessage] = useState('');
-  const [zoom, setZoom] = useState(false);
-  const [retry, setRetry] = useState(0);
   const [formError, setFormError] = useState('');
   const [toast, setToast] = useState('');
   const cart = useCart(products);
-  const product = useMemo(
-    () => products.find((item) => slugify(`${item.nome}-${item.codigo}`) === pageSlug()),
-    [products],
-  );
+  const product = useMemo(() => {
+    const slug = pageSlug();
+    const code = slug.split('-').at(-1);
+    const match = products.find(item => item.codigo === code);
+    return match && slugify(`${match.nome}-${match.codigo}`) === slug ? match : undefined;
+  }, [products]);
 
   useEffect(() => {
-    setLoading(true); setError('');
-    const controller = new AbortController();
-    fetchProducts(controller.signal)
-      .then(setProducts)
-      .catch((reason: unknown) => {
-        if (reason instanceof DOMException && reason.name === 'AbortError') return;
-        setError('Não foi possível carregar este produto.');
-      })
-      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
-  }, [retry]);
-
-  useEffect(() => {
-    document.title = `${product ? product.nome : loading ? 'Produto' : error ? 'Erro ao carregar produto' : 'Produto não encontrado'} | Clube do Léo`;
-  }, [product, loading, error]);
+    document.title = `${product ? product.nome : loading ? 'Produto' : failed ? 'Erro ao carregar produto' : 'Produto não encontrado'} | Clube do Léo`;
+  }, [product, loading, failed]);
 
   useEffect(() => {
     if (product) {
-      setSelectedImage(product.imagens[0] ?? '');
       setQuantity(minimum(product));
       trackStoreEvent('view_item', { product_code: product.codigo, value: product.valor });
     }
@@ -90,17 +73,10 @@ export function ProductPageApp() {
       </PageHeader>
       <main id="produto" className="container product-page__main" aria-busy={loading}>
         {loading ? <div className="spinner" aria-label="Carregando produto" /> : null}
-        {error || (!loading && !product) ? <div className="error-message" role="alert">{error || 'Produto não encontrado.'} {error ? <button type="button" onClick={() => setRetry(r => r + 1)}>Tentar novamente</button> : null} <a href={catalogUrl()}>Voltar à loja</a></div> : null}
+        {failed || (!loading && !product) ? <div className="error-message" role="alert">{failed ? 'Não foi possível carregar este produto.' : 'Produto não encontrado.'} {failed ? <button type="button" onClick={retry}>Tentar novamente</button> : null} <a href={catalogUrl()}>Voltar à loja</a></div> : null}
         {product ? (
           <article className="product-page__content">
-            <div className="product-detail__gallery product-page__gallery">
-              <button type="button" className="gallery-enlarge" aria-label="Ampliar imagem" onClick={() => setZoom(true)}><img id="detail-main-image" src={resolveAsset(selectedImage || product.imagens[0])} alt={product.nome} width="800" height="800" decoding="async" fetchPriority="high" onError={imageFallback} />{product.imagens.length > 1 && <span className="gallery-count" aria-hidden="true">{Math.max(1, product.imagens.indexOf(selectedImage) + 1)} / {product.imagens.length}</span>}<span className="gallery-zoom-icon"><ZoomIn aria-hidden="true" /></span></button>
-              {product.imagens.length > 1 ? <div className="product-detail__thumbs" aria-label="Galeria de imagens">{product.imagens.map((image, index) => (
-                <button key={`${image}-${index}`} type="button" className={`product-detail__thumb${selectedImage === image ? ' is-active' : ''}`} aria-pressed={selectedImage === image} onClick={() => setSelectedImage(image)} aria-label={`Ver imagem ${index + 1} de ${product.nome}`}>
-                  <img src={productThumbnailUrl(image)} alt="" loading="lazy" decoding="async" width="80" height="80" onError={imageFallback} />
-                </button>
-              ))}</div> : null}
-            </div>
+            <ProductGallery key={product.codigo} product={product} />
             <div className="product-page__summary">
               <div className="product-page__info">
                 <div className="product-tags">{product.categorias.map(category => <span className="category-label" data-category={category} key={category}>{category}</span>)}</div>
@@ -133,14 +109,6 @@ export function ProductPageApp() {
           </article>
         ) : null}
       </main>
-      {zoom && product ? <Modal className="modal__content--gallery" label="Imagem ampliada" onClose={() => setZoom(false)}><div onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (e.key === 'ArrowRight' ? 1 : product.imagens.length - 1)) % product.imagens.length]); } }} onTouchStart={e => { e.currentTarget.dataset.start = String(e.touches[0].clientX); }} onTouchEnd={e => { const delta = e.changedTouches[0].clientX - Number(e.currentTarget.dataset.start); if (Math.abs(delta) > 40) setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + (delta < 0 ? 1 : product.imagens.length - 1)) % product.imagens.length]); }}>
-        <img className="zoom-image" src={resolveAsset(selectedImage)} alt={product.nome} />
-        <div className="gallery-navigation">
-        <button type="button" className="btn btn--ghost gallery-navigation__arrow" aria-label="Imagem anterior" onClick={() => setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + product.imagens.length - 1) % product.imagens.length])}><ChevronLeft aria-hidden="true" /></button>
-        <span aria-live="polite"> Imagem {product.imagens.indexOf(selectedImage) + 1} de {product.imagens.length} </span>
-        <button type="button" className="btn btn--ghost gallery-navigation__arrow" aria-label="Próxima imagem" onClick={() => setSelectedImage(product.imagens[(product.imagens.indexOf(selectedImage) + 1) % product.imagens.length])}><ChevronRight aria-hidden="true" /></button>
-        </div>
-      </div></Modal> : null}
       <SiteFooter compact />
       <Toast message={toast} onDismiss={() => setToast('')} actionLabel={cart.count ? 'Ver carrinho' : undefined} onAction={() => { window.location.href = catalogUrl(true); }} />
     </div>

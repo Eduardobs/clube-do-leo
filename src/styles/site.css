@@ -1,0 +1,35 @@
+/* Public and administrative pages share the same masthead and wordmark. */
+.store-header, .institutional-header { background: var(--paper); border-bottom: 1px solid var(--line); }
+.store-topbar, .institutional-header__inner { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.store-brand, .page-brand { display: inline-flex; align-items: center; gap: .55rem; line-height: 1; text-decoration: none; }
+.store-brand img, .page-brand img { width: 38px; height: 38px; border-radius: 50%; }
+.store-brand > span, .page-brand span { font: 400 1.25rem/1 var(--display); color: var(--brown); }
+.store-brand small { display: block; margin-top: .3rem; letter-spacing: .12em; font: 600 .57rem/1 var(--sans); }
+.page-header__actions { display: flex; align-items: center; gap: .4rem; }
+.page-header__actions .btn { padding-inline: .6rem; background: transparent; border: 0; }
+.page-header__cart { display: flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; min-width: 50px; border-radius: 999px; text-decoration: none; background: var(--cream); color: var(--brown); font-size: .875rem; }
+.page-header__cart svg { width: 1.1rem; }
+.site-footer { background: var(--ink); color: #fff8ef; }
+.footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: 2rem; }
+.footer__brand { display: flex; align-items: center; gap: .85rem; }
+.footer__logo { width: 48px; height: 48px; border-radius: 50%; }
+.footer__brand strong { font: 400 1.3rem var(--display); }
+.footer__brand p, .footer__bottom { color: #eadbc7; font-size: .8125rem; }
+.footer__social, .footer__links { display: flex; flex-wrap: wrap; gap: 1rem; }
+.footer__social a, .footer__links a { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; }
+.footer__social a { text-decoration: none; }
+.footer__social svg { width: 1rem; }
+.footer__bottom { display: flex; width: 100%; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem 1rem; border-top: 1px solid #685744; padding-top: .75rem; }
+.site-footer--compact .footer__inner { padding-block: .75rem; }
+.site-footer--compact .footer__bottom { padding: 0; border: 0; }
+.site-footer--compact .footer__brand { display: none; }
+.product-page, .institutional-page { display: flex; flex-direction: column; min-height: 100dvh; }
+.product-page__main, .institutional-main { flex: 1; padding-block: 1.25rem 2rem; }
+.product-page__info h1, .institutional-card h1, .admin-heading h1 { font: 400 clamp(2rem, 4vw, 3.25rem)/1.07 var(--display); letter-spacing: -.035em; color: var(--brown); }
+.product-page__description h2, .policy-sections h2 { font: 400 1.55rem/1.2 var(--display); color: var(--brown); }
+
+@media (min-width: 769px) {
+  .store-topbar, .institutional-header__inner { min-height: 64px; }
+  .store-brand > span, .page-brand span { font-size: 1.4rem; }
+  .product-page__main, .institutional-main { padding-block: 2.5rem 4rem; }
+}

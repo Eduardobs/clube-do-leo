@@ -1,7 +1,8 @@
 import { STORE_CONFIG } from '../config/store';
 import type { CartItem, Product } from '../types/product';
 import { formatPrice, productPageUrl } from './format';
-import { isQuote, quantityLabel, cartTotal, findProduct } from './products';
+import { isQuote, quantityLabel } from './product-rules';
+import { indexProducts, summarizeCart, type CartSummary } from '../features/cart/summary';
 
 export function buildConsultationMessage(product: Product, quantity = 1, personalizacoes: Record<string, string> = {}): string {
   return ['*Solicitação de orçamento*', itemLine(product, { codigo: product.codigo, quantity, personalizacoes }), 'Feito sob encomenda. Prazo de produção a combinar. Entrega e condições finais serão combinadas com a loja.'  ].join('\n');
@@ -38,20 +39,22 @@ export function buildDetailedOrderMessage(
   cart: CartItem[],
   products: Product[],
 ): string {
-  const lines = cart.flatMap(item => {
-    const product = findProduct(products, item.codigo);
-    return product ? [itemLine(product, item)] : [];
-  });
+  return formatOrderMessage(details, summarizeCart(cart, indexProducts(products)));
+}
+
+export function formatOrderMessage(details: OrderMessageDetails, summary: CartSummary): string {
+  const lines = summary.lines.flatMap(({ item, product }) => product ? [itemLine(product, item)] : []);
+  const quoteOnly = !summary.hasPricedItems && summary.lines.every(line => line.product);
   const notes = details.notes?.trim();
 
   return [
-    `*${cart.every(item => { const p = findProduct(products, item.codigo); return p && isQuote(p); }) ? 'Solicitação de orçamento' : 'Solicitação de pedido'} - ${STORE_CONFIG.name}*`,
+    `*${quoteOnly ? 'Solicitação de orçamento' : 'Solicitação de pedido'} - ${STORE_CONFIG.name}*`,
     `*Referência:* ${details.orderId}`,
     '',
     '*Itens da solicitação:*',
     ...lines,
     '',
-    ...(cart.some(item => { const p = findProduct(products, item.codigo); return p && !isQuote(p); }) ? [`*Subtotal dos produtos: ${formatPrice(cartTotal(cart, products))}*`] : []),
+    ...(summary.hasPricedItems ? [`*Subtotal dos produtos: ${formatPrice(summary.total)}*`] : []),
     'Entrega a combinar, separada do prazo de produção. Itens sob consulta não integram o subtotal. Condições finais serão confirmadas pela loja.',
     '',
     `*Cliente:* ${details.customerName.trim()}`,

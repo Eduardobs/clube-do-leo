@@ -2,9 +2,9 @@ import { standaloneRoot } from '../lib/standalone-root';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AdminApp } from '../features/admin/AdminApp';
-import '../../styles/global.css';
-import '../../styles/site.css';
-import '../../styles/admin.css';
+import '../styles/global.css';
+import '../styles/site.css';
+import '../features/admin/admin.css';
 
 const root = standaloneRoot();
 
