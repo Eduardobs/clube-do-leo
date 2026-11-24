@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatPrice, normalizeSearchText, productThumbnailUrl, slugify } from '../../src/lib/format';
+import { BRAND_LOGO_URL, formatPrice, normalizeSearchText, productThumbnailUrl, resolveAsset, slugify } from '../../src/lib/format';
 import { parseProductsFile } from '../../src/lib/products';
 import { indexProducts, summarizeCart } from '../../src/features/cart/summary';
 import { buildConsultationMessage, buildDetailedOrderMessage, buildOrderMessage } from '../../src/lib/whatsapp';
@@ -31,6 +31,19 @@ describe('domínio do catálogo', () => {
 
   it('usa a versão reduzida das imagens nas miniaturas', () => {
     expect(productThumbnailUrl('assets/products/produto.webp')).toBe('/assets/products/thumbs/produto.webp');
+  });
+
+  it('aceita imagens locais e uploads raster tanto na galeria como nas miniaturas', () => {
+    const upload = 'data:image/png;base64,QUJD';
+    expect(resolveAsset('./assets/products/peça azul.webp')).toBe('/assets/products/peça azul.webp');
+    for (const resolveImage of [resolveAsset, productThumbnailUrl]) {
+      expect(resolveImage(upload)).toBe(upload);
+      for (const path of ['//example.invalid/img.webp', '/admin/', 'assets/../other.webp',
+        'assets/%2e%2e/other.webp', 'assets/products/a.webp?label=b.webp', 'assets\\other.webp',
+        'blob:example', 'data:image/svg+xml;base64,QUJD']) {
+        expect(resolveImage(path)).toBe(BRAND_LOGO_URL);
+      }
+    }
   });
 
   it('calcula total e quantidade ignorando produtos removidos do catálogo', () => {

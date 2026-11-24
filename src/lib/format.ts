@@ -1,4 +1,5 @@
 import brandLogoUrl from '../../assets/brand/header-logo-medallion.webp';
+import { catalogImagePath, isUploadedImage } from './catalog-image';
 
 const currencyFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -13,9 +14,9 @@ export function formatPrice(value: number | null | undefined): string {
 export function resolveAsset(path: string | undefined): string {
   const value = path?.trim();
   if (!value) return brandLogoUrl;
-  if (/^data:image\/(?:avif|gif|jpeg|png|webp);base64,/i.test(value) || /^blob:/i.test(value)) return value;
-  if (/^(?:[a-z]+:|\/\/)/i.test(value)) return brandLogoUrl;
-  return `${import.meta.env.BASE_URL}${value.replace(/^\.?\//, '')}`;
+  if (isUploadedImage(value)) return value;
+  const asset = catalogImagePath(value);
+  return asset ? `${import.meta.env.BASE_URL}${asset}` : brandLogoUrl;
 }
 
 export function normalizeSearchText(value: string): string {
@@ -37,14 +38,10 @@ export function productPageUrl(name: string, code: string): string {
 }
 
 export function productThumbnailUrl(path: string | undefined): string {
-  const value = path?.trim();
-  if (!value || /^(?:data:|blob:)/i.test(value)) return resolveAsset(value);
-  if (/^(?:[a-z]+:|\/\/)/i.test(value)) return resolveAsset(undefined);
-  const cleanPath = value.replace(/^\.?\//, '');
-  const slash = cleanPath.lastIndexOf('/');
-  const directory = slash >= 0 ? cleanPath.slice(0, slash) : '';
-  const filename = slash >= 0 ? cleanPath.slice(slash + 1) : cleanPath;
-  return resolveAsset(`${directory}/thumbs/${filename}`);
+  const asset = catalogImagePath(path ?? '');
+  if (!asset) return resolveAsset(path);
+  const slash = asset.lastIndexOf('/');
+  return `${import.meta.env.BASE_URL}${asset.slice(0, slash)}/thumbs/${asset.slice(slash + 1)}`;
 }
 
 export const BRAND_LOGO_URL = brandLogoUrl;

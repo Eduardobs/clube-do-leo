@@ -26,7 +26,7 @@ export function CheckoutModal({ summary, onClose, onSubmit, message, name, notes
   return (
     <Modal label="Enviar pedido" onClose={onClose} className="modal__content--checkout">
       <h2>Enviar pedido</h2>
-      <p className="checkout__intro">Revise o resumo e informe seu nome. O carrinho será mantido até você decidir limpá-lo.</p>
+      <p className="checkout__intro">Ao abrir o WhatsApp, você compartilha com o serviço os itens, seu nome e as observações. Confira a mensagem antes de enviá-la à loja.</p>
       <div className="checkout__summary" aria-label="Resumo do pedido">
         <span>{itemCount} {itemCount === 1 ? 'item' : 'itens'}</span>
         {hasPricedItems ? <strong>Subtotal dos produtos: {formatPrice(total)}</strong> : <strong>Orçamento a combinar — sem subtotal definido</strong>}
@@ -51,7 +51,7 @@ export function CheckoutModal({ summary, onClose, onSubmit, message, name, notes
         <input id="customer-name" type="text" value={name} onChange={(event) => setName(event.target.value)} placeholder="Digite seu nome" required minLength={2} maxLength={80} autoComplete="name" />
         <label htmlFor="customer-notes">Observações <small>(opcional)</small></label>
         <textarea id="customer-notes" value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Alguma dúvida para a loja?" maxLength={500} rows={4} />
-        <button type="submit" className="btn btn--primary btn--block"><MessageCircle aria-hidden="true" /> Preparar pedido no WhatsApp</button>
+        <button type="submit" disabled={!summary.canCheckout} className="btn btn--primary btn--block"><MessageCircle aria-hidden="true" /> Preparar pedido no WhatsApp</button>
       </form>
       {message ? <WhatsAppRecovery message={message} kind="pedido" /> : null}
     </Modal>

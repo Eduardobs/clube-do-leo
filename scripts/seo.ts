@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { STORE_CONFIG } from '../src/config/store.ts';
+import { catalogImagePath } from '../src/lib/catalog-image.ts';
 
 export const SITE_URL = STORE_CONFIG.siteUrl;
 export interface SeoProduct {
@@ -33,7 +34,10 @@ export function metaDescription(product: SeoProduct): string {
 
 export function productImages(product: SeoProduct): string[] {
   // Uploaded Data URLs and external URLs are not public catalog image routes.
-  return product.imagens.filter(image => /^(?:\.\/|\/)?assets\//.test(image)).map(image => `${SITE_URL}/${image.replace(/^\.?\//, '')}`);
+  return product.imagens.flatMap(image => {
+    const path = catalogImagePath(image);
+    return path ? [`${SITE_URL}/${path}`] : [];
+  });
 }
 
 export function structuredData(data: unknown): { json: string; hash: string } {
@@ -82,10 +86,25 @@ function priceText(product: SeoProduct): string {
 }
 
 export function productContent(product: SeoProduct): string {
-  const image = productImages(product)[0];
+  const image = productImages(product)[0]?.slice(SITE_URL.length);
   return `<main class="container"><nav aria-label="Navegação estrutural"><a href="/">Produtos</a> / ${escapeHtml(product.nome)}</nav><article><h1>${escapeHtml(product.nome)}</h1>${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.nome)}" width="480" height="480" />` : ''}<p>${escapeHtml(productDescription(product))}</p><p>${escapeHtml(priceText(product))}</p><p>Feito sob encomenda. Condições e prazos combinados pelo WhatsApp.</p><p>Código ${escapeHtml(String(product.codigo))}</p><a href="/#produtos">Voltar aos produtos</a></article></main>`;
 }
 
 export function catalogContent(products: SeoProduct[]): string {
   return `<main id="produtos" class="container"><h1>Produtos em impressão 3D</h1><p>Brinquedos, jogos, decorações e presentes criativos feitos sob encomenda. Pedido pelo WhatsApp.</p><div class="product-grid">${products.map(product => `<article class="product-card"><h2><a href="${productRoute(product)}">${escapeHtml(product.nome)}</a></h2><p>${escapeHtml(metaDescription(product))}</p><p>${escapeHtml(priceText(product))}</p></article>`).join('')}</div><a href="/politica-de-precos/">Política de preços</a></main>`;
+}
+
+export function renderProductPage(template: string, product: SeoProduct): string {
+  const schema = productStructuredData(product);
+  const slots: Record<string, string> = {
+    __PRODUCT_TITLE__: escapeHtml(product.nome),
+    __PRODUCT_DESCRIPTION__: escapeHtml(metaDescription(product)),
+    __PRODUCT_IMAGE__: escapeHtml(productImages(product)[0] ?? `${SITE_URL}/assets/brand/header-logo-medallion.webp`),
+    __PRODUCT_URL__: `${SITE_URL}${productRoute(product)}`,
+    __PRODUCT_JSON_HASH__: schema.hash,
+    __PRODUCT_JSON_LD__: schema.json,
+    __PRODUCT_FALLBACK__: productContent(product),
+  };
+  // Only interpret markers in the template. Catalog text can contain literal markers.
+  return template.replace(/__PRODUCT_\w+?__/g, marker => slots[marker] ?? marker);
 }

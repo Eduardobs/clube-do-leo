@@ -1,8 +1,9 @@
+import { randomBytes } from 'node:crypto';
 import { copyFileSync, cpSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
-import { catalogContent, catalogStructuredData, escapeHtml, metaDescription, productContent, productImages, productRoute, productStructuredData, SITE_URL, type SeoProduct } from './scripts/seo.ts';
+import { catalogContent, catalogStructuredData, productRoute, renderProductPage, SITE_URL, type SeoProduct } from './scripts/seo.ts';
 
 function copyStaticFiles(): Plugin {
   let outputDirectory = 'dist';
@@ -16,14 +17,18 @@ function copyStaticFiles(): Plugin {
     writeBundle() {
       const output = resolve(import.meta.dirname, outputDirectory);
       mkdirSync(resolve(output, 'data'), { recursive: true });
-      mkdirSync(resolve(output, 'assets/products'), { recursive: true });
       mkdirSync(resolve(output, 'assets/brand'), { recursive: true });
       copyFileSync(resolve(import.meta.dirname, 'assets/brand/header-logo-medallion.webp'), resolve(output, 'assets/brand/header-logo-medallion.webp'));
-      const productsDirectory = resolve(import.meta.dirname, 'assets/products');
-      for (const filename of readdirSync(productsDirectory)) {
-        if (filename.endsWith('.webp')) copyFileSync(resolve(productsDirectory, filename), resolve(output, 'assets/products', filename));
+      for (const directory of ['assets/products', 'assets/products/thumbs']) {
+        const source = resolve(import.meta.dirname, directory);
+        mkdirSync(resolve(output, directory), { recursive: true });
+        for (const entry of readdirSync(source, { withFileTypes: true })) {
+          if (entry.isFile() && entry.name.endsWith('.webp')) copyFileSync(resolve(source, entry.name), resolve(output, directory, entry.name));
+        }
       }
-      cpSync(resolve(productsDirectory, 'thumbs'), resolve(output, 'assets/products/thumbs'), { recursive: true });
+      for (const font of ['dm-serif-display', 'poppins']) {
+        copyFileSync(resolve(import.meta.dirname, 'node_modules/@fontsource', font, 'LICENSE'), resolve(output, 'assets', `${font}-LICENSE.txt`));
+      }
       cpSync(resolve(import.meta.dirname, 'data/products.json'), resolve(output, 'data/products.json'));
       cpSync(resolve(import.meta.dirname, 'CNAME'), resolve(output, 'CNAME'));
       cpSync(resolve(import.meta.dirname, '.nojekyll'), resolve(output, '.nojekyll'));
@@ -49,18 +54,7 @@ function generateProductPages(): Plugin {
       for (const product of produtos) {
         const route = productRoute(product).slice(1, -1);
         const url = `${SITE_URL}/${route}/`;
-        const description = metaDescription(product);
-        const images = productImages(product);
-        const { json: jsonLd, hash: jsonHash } = productStructuredData(product);
-        const fallback = productContent(product);
-        const page = template
-          .replaceAll('__PRODUCT_TITLE__', () => escapeHtml(product.nome))
-          .replaceAll('__PRODUCT_DESCRIPTION__', () => escapeHtml(description))
-          .replaceAll('__PRODUCT_IMAGE__', () => escapeHtml(images[0] ?? `${SITE_URL}/assets/brand/header-logo-medallion.webp`))
-          .replaceAll('__PRODUCT_URL__', () => url)
-          .replaceAll('__PRODUCT_JSON_HASH__', () => jsonHash)
-          .replace('__PRODUCT_JSON_LD__', () => jsonLd)
-          .replace('__PRODUCT_FALLBACK__', () => fallback);
+        const page = renderProductPage(template, product);
         const routeDirectory = resolve(output, route);
         mkdirSync(routeDirectory, { recursive: true });
         writeFileSync(resolve(routeDirectory, 'index.html'), page);
@@ -92,6 +86,19 @@ function serveCleanRoutesInDevelopment(): Plugin {
   return {
     name: 'serve-clean-routes-in-development',
     apply: 'serve',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        // React Refresh injects a module and Vite injects styles during development.
+        const nonce = randomBytes(18).toString('base64');
+        return html
+          .replace('<head>', `<head><meta property="csp-nonce" nonce="${nonce}">`)
+          .replace(" '__PRODUCT_JSON_HASH__'", '')
+          .replace("script-src 'self'", `script-src 'self' 'nonce-${nonce}'`)
+          .replace("style-src 'self'", `style-src 'self' 'nonce-${nonce}'`)
+          .replaceAll('<script type="module">', `<script type="module" nonce="${nonce}">`);
+      },
+    },
     configureServer(server) {
       server.middlewares.use((request, _response, next) => {
         const url = new URL(request.url ?? '/', 'http://localhost');

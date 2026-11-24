@@ -48,6 +48,20 @@ describe('carrinho', () => {
     expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 2 }]);
     expect(JSON.parse(sessionStorage.getItem('clubeDoLeo.cart') ?? '[]')).toEqual([{ codigo: '1', quantity: 2 }]);
   });
+
+  it('migra somente campos de carrinho e remove cópias legadas após salvar', () => {
+    const legacy = JSON.stringify([{ codigo: ' 1 ', quantity: 2, id: {}, catalogSignature: 12,
+      cliente: 'Nome de teste', personalizacoes: { nome: 'Léo', cor: [] } }]);
+    localStorage.setItem('cart', legacy);
+    sessionStorage.setItem('cart', legacy);
+    const { result } = renderHook(() => useCart([product]));
+    const expected = [{ codigo: '1', quantity: 2, personalizacoes: { nome: 'Léo' } }];
+    expect(result.current.items).toEqual(expected);
+    for (const storage of [localStorage, sessionStorage]) {
+      expect(JSON.parse(storage.getItem('clubeDoLeo.cart')!)).toEqual(expected);
+      expect(storage.getItem('cart')).toBeNull();
+    }
+  });
 });
 
 it('separa personalizações, respeita incrementos e permite editar somente uma linha', () => {
@@ -106,4 +120,16 @@ it('usa os itens sincronizados de outra aba como base para a próxima alteraçã
   });
   expect(result.current.summary.count).toBe(6);
   expect(JSON.parse(localStorage.getItem('clubeDoLeo.cart')!)).toMatchObject([{ codigo: '1', quantity: 6 }]);
+});
+
+it('descarta a cópia da sessão quando os dados do site são apagados em outra aba', () => {
+  const { result } = renderHook(() => useCart([product]));
+  act(() => result.current.add('1', 2));
+  act(() => {
+    localStorage.clear();
+    window.dispatchEvent(new StorageEvent('storage', { key: null, storageArea: localStorage }));
+  });
+  expect(result.current.items).toEqual([]);
+  expect(sessionStorage.getItem('clubeDoLeo.cart')).toBeNull();
+  expect(localStorage.getItem('clubeDoLeo.cart')).toBeNull();
 });

@@ -15,6 +15,7 @@ function readStoredValue(storage: 'localStorage' | 'sessionStorage', key: string
 function writeStoredValue(storage: 'localStorage' | 'sessionStorage', serialized: string): boolean {
   try {
     window[storage].setItem(STORAGE_KEY, serialized);
+    window[storage].removeItem(LEGACY_STORAGE_KEY);
     return true;
   } catch {
     return false;
@@ -24,10 +25,10 @@ function writeStoredValue(storage: 'localStorage' | 'sessionStorage', serialized
 export function readCart(): CartItem[] {
   try {
     const localCart = readStoredValue('localStorage', STORAGE_KEY);
-    const stored = localCart
-      ?? readStoredValue('sessionStorage', STORAGE_KEY)
-      ?? readStoredValue('sessionStorage', LEGACY_STORAGE_KEY)
-      ?? readStoredValue('localStorage', LEGACY_STORAGE_KEY);
+    const sessionCart = readStoredValue('sessionStorage', STORAGE_KEY);
+    const legacySession = readStoredValue('sessionStorage', LEGACY_STORAGE_KEY);
+    const legacyLocal = readStoredValue('localStorage', LEGACY_STORAGE_KEY);
+    const stored = localCart ?? sessionCart ?? legacySession ?? legacyLocal;
     if (!stored) return [];
     const value: unknown = JSON.parse(stored);
     if (!Array.isArray(value)) return [];
@@ -39,16 +40,30 @@ export function readCart(): CartItem[] {
         Number.isInteger((item as CartItem).quantity) &&
         (item as CartItem).quantity > 0,
     ).map((item) => ({
-      ...item,
-      personalizacoes: item.personalizacoes && typeof item.personalizacoes === 'object' ? Object.fromEntries(Object.entries(item.personalizacoes).filter(([,v]) => typeof v === 'string')) : undefined,
       codigo: item.codigo.trim(),
       quantity: Math.min(item.quantity, STORE_CONFIG.maxQuantityPerProduct),
-    }));
-    if (localCart === null) writeStoredValue('localStorage', JSON.stringify(items));
+      id: typeof item.id === 'string' ? item.id : undefined,
+      personalizacoes: item.personalizacoes && typeof item.personalizacoes === 'object' && !Array.isArray(item.personalizacoes)
+        ? Object.fromEntries(Object.entries(item.personalizacoes).filter(([, value]) => typeof value === 'string'))
+        : undefined,
+      catalogSignature: typeof item.catalogSignature === 'string' ? item.catalogSignature : undefined,
+    })).filter(item => item.codigo);
+    const serialized = JSON.stringify(items);
+    if (localCart !== serialized || legacyLocal !== null) writeStoredValue('localStorage', serialized);
+    if ((sessionCart === stored && sessionCart !== serialized) || legacySession !== null) {
+      writeStoredValue('sessionStorage', serialized);
+    }
     return items;
   } catch {
     return [];
   }
+}
+
+export function discardSessionCart(): void {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(LEGACY_STORAGE_KEY);
+  } catch { /* O carrinho também funciona só em memória. */ }
 }
 
 export function saveCart(items: CartItem[]): void {

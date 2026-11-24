@@ -90,6 +90,9 @@ export function parseProductsFile(value: unknown): ProductsFile {
 export async function fetchProducts(signal?: AbortSignal): Promise<Product[]> {
   const response = await fetch(`${import.meta.env.BASE_URL}data/products.json`, {
     headers: { Accept: 'application/json' },
+    mode: 'same-origin',
+    credentials: 'omit',
+    redirect: 'error',
     signal,
   });
   if (!response.ok) throw new Error(`Erro HTTP ${response.status}: ${response.statusText}`);

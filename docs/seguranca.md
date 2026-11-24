@@ -7,6 +7,26 @@ no Git local. Somente o job de deploy recebe `pages: write` e `id-token: write`,
 e usa o ambiente `github-pages`. Configure as regras desse ambiente no GitHub
 conforme a política de publicação do repositório.
 
+Na montagem de `dist/`, a cópia de fotos e miniaturas seleciona arquivos
+regulares com extensão `.webp`. As fontes Poppins e DM Serif Display e suas
+licenças acompanham o site.
+
+## Rede e dados do cliente
+
+As quatro páginas carregam os recursos do próprio site. A leitura de
+`/data/products.json` omite credenciais e recusa redirecionamentos. A CSP de
+produção permite scripts e estilos do site, hashes do JSON-LD e imagens locais
+ou incorporadas. A política de referência é `no-referrer`.
+
+O navegador guarda os cinco filtros do catálogo na sessão para restaurar a
+lista. O carrinho persiste os itens e os textos de personalização para a
+próxima visita. Em um dispositivo compartilhado, o botão **Limpar** apaga esses
+dados. O editor guarda seus rascunhos no navegador onde foram criados.
+
+Nome, observações e mensagem preparada ficam na memória durante a revisão.
+Fechar o fluxo descarta esses dados. Abrir o WhatsApp transmite a mensagem ao
+serviço na URL de `wa.me`. O cliente confirma o envio à loja na conversa.
+
 ## Proteção contra clickjacking
 
 As quatro entradas HTML ocultam o corpo da página até que a aplicação confirme

@@ -8,5 +8,6 @@ export function standaloneRoot(): HTMLElement {
   const root = document.getElementById('root');
   if (!root) throw new Error('Elemento #root não encontrado.');
   document.documentElement.setAttribute('data-standalone', '');
+  document.body.hidden = false;
   return root;
 }

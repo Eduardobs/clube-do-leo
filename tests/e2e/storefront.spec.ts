@@ -22,7 +22,16 @@ test('monta o pedido no WhatsApp sem apagar o carrinho', async ({ page }) => {
   const whatsappUrl = await page.evaluate(() => (window as typeof window & { __lastWhatsAppUrl?: string }).__lastWhatsAppUrl);
   expect(whatsappUrl).toContain('https://wa.me/');
   expect(decodeURIComponent(whatsappUrl ?? '')).toContain('Prefiro a cor azul');
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]').map(({ codigo, quantity }: { codigo: string; quantity: number }) => ({ codigo, quantity })))).not.toBe('[]');
+  const storage = await page.evaluate(() => JSON.stringify([localStorage, sessionStorage]));
+  expect(storage).not.toContain('Maria');
+  expect(storage).not.toContain('Prefiro a cor azul');
+  await page.getByRole('button', { name: 'Fechar', exact: true }).click();
+  await page.getByRole('button', { name: /^abrir carrinho/i }).click();
+  await page.getByRole('button', { name: 'Revisar pedido' }).click();
+  await expect(page.getByLabel('Seu nome')).toBeEmpty();
+  await expect(page.getByLabel(/Observações/)).toBeEmpty();
+  await expect(page.getByLabel('Mensagem para copiar')).toHaveCount(0);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('clubeDoLeo.cart') || '[]'))).toMatchObject([{ codigo: '1', quantity: 1 }]);
 });
 
 test('mantém o carrinho ao visitar a política de preços e voltar à loja', async ({ page }) => {

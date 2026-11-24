@@ -23,12 +23,35 @@ for (const route of routes) {
     await expect(frame.locator('html')).not.toHaveAttribute('data-standalone');
   });
 
-  test(`abre normalmente fora de iframe: ${route}`, async ({ page }) => {
+  test(`carrega apenas recursos locais e respeita a CSP: ${route}`, async ({ page, baseURL }) => {
+    const external: string[] = [];
+    page.on('request', request => {
+      const url = new URL(request.url());
+      if (url.protocol.startsWith('http') && url.origin !== new URL(baseURL!).origin) external.push(url.href);
+    });
+    await page.addInitScript(() => {
+      document.addEventListener('securitypolicyviolation', event => {
+        document.documentElement.dataset.cspViolation = event.effectiveDirective;
+      });
+    });
     await page.goto(route);
     await expect(page.locator('html')).toHaveAttribute('data-standalone', '');
-    await expect(page.locator('#root')).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator('html')).not.toHaveAttribute('data-csp-violation');
+    expect(external).toEqual([]);
   });
 }
+
+test('guarda apenas filtros no retorno e na posição de rolagem', async ({ page }) => {
+  await page.goto('/?busca=cubo&origem=visita-privada');
+  await page.getByRole('link').filter({ has: page.getByRole('heading', { name: 'Cubo infinito' }) }).click();
+  const back = page.getByRole('link', { name: 'Voltar aos produtos' });
+  await expect(back).toHaveAttribute('href', '/?busca=cubo#produtos');
+  const stored = await page.evaluate(() => JSON.stringify(sessionStorage));
+  expect(stored).toContain('catalog-position:');
+  expect(stored).not.toContain('visita-privada');
+});
 
 test('mantém o conteúdo oculto em iframe sem JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });

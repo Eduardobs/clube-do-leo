@@ -20,7 +20,7 @@ export function CartModal({ summary, onClose, onClear, onRemove, onUpdate, onCon
   const { lines, total, hasPricedItems, canCheckout } = summary;
   return <Modal label="Carrinho de compras" onClose={onClose} className="modal__content--cart">
     <h2>Carrinho de compras</h2>
-    <p className="cart-intro">Confira seus itens. Produção sob encomenda, com prazo e entrega combinados pelo WhatsApp.</p>
+    <p className="cart-intro">Os itens e suas personalizações ficam salvos neste navegador. Use “Limpar” para apagar o carrinho.</p>
     <div className="cart-items" aria-live="polite">
       {!lines.length ? <div className="cart-empty"><ShoppingBasket aria-hidden="true" /><p>Seu carrinho está vazio.</p><button type="button" className="btn btn--primary" onClick={onClose}>Continuar no catálogo</button></div> : lines.map(({ item, product: p, issue }) => {
         const key = itemKey(item);

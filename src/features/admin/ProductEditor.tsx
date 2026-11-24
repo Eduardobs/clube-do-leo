@@ -3,6 +3,7 @@ import { ImagePlus, Upload, X } from 'lucide-react';
 import { Modal } from '../../components/Modal';
 import { STORE_CONFIG } from '../../config/store';
 import { imageFallback, resolveAsset } from '../../lib/format';
+import { catalogImagePath, isUploadedImage } from '../../lib/catalog-image';
 import { normalizeProduct, normalizeProductCode } from '../../lib/products';
 import { isQuote } from '../../lib/product-rules';
 import type { Category, Product } from '../../types/product';
@@ -94,6 +95,10 @@ export function ProductEditor({ initialProduct, products, onSave, onClose }: Pro
     }
 
     if (form.details.modalidadePreco === 'definido' && valor <= 0) return setFormError('Informe um preço maior que zero ou selecione sob consulta.');
+    const imagens = form.imagens.map(image => image.trim()).filter(Boolean);
+    if (imagens.some(image => !catalogImagePath(image) && !isUploadedImage(image))) {
+      return setFormError('Use uma imagem em assets/ ou selecione um arquivo AVIF, GIF, JPEG, PNG ou WebP.');
+    }
     const product = normalizeProduct({
       ...form.details,
       codigo,
@@ -101,7 +106,7 @@ export function ProductEditor({ initialProduct, products, onSave, onClose }: Pro
       descricao: form.descricao.trim(),
       valor,
       categorias: form.categorias,
-      imagens: form.imagens.map((image) => image.trim()).filter(Boolean),
+      imagens,
     });
     if (!product) return setFormError('Revise os campos: quantidades devem ser inteiras entre 1 e 99; personalizações precisam de identificadores únicos e limites positivos.');
     onSave(product);
@@ -136,7 +141,7 @@ export function ProductEditor({ initialProduct, products, onSave, onClose }: Pro
             <span className="image-label">{index === 0 ? 'Capa do produto' : `Imagem ${index + 1}`}</span>
             <input type="text" value={image} onChange={(event) => updateImage(index, event.target.value)} placeholder="assets/products/arquivo.jpg" aria-label={`Caminho da imagem ${index + 1}`} />
             <img src={resolveAsset(image)} alt="" onError={imageFallback} />
-            <label className="icon-btn" title="Selecionar imagem do computador"><Upload aria-hidden="true" /><span className="sr-only">Selecionar arquivo para a imagem {index + 1}</span><input type="file" accept="image/*" multiple className="sr-only" onChange={(event) => void uploadImages(index, event.target.files)} /></label>
+            <label className="icon-btn" title="Selecionar imagem do computador"><Upload aria-hidden="true" /><span className="sr-only">Selecionar arquivo para a imagem {index + 1}</span><input type="file" accept="image/avif,image/gif,image/jpeg,image/png,image/webp" multiple className="sr-only" onChange={(event) => void uploadImages(index, event.target.files)} /></label>
             <button type="button" className="icon-btn icon-btn--danger" onClick={() => setForm({ ...form, imagens: form.imagens.length === 1 ? [''] : form.imagens.filter((_, current) => current !== index) })} title="Remover imagem" aria-label={`Remover imagem ${index + 1}`}><X aria-hidden="true" /></button>
           </div>
         ))}</div><button type="button" className="btn btn--ghost btn--small" onClick={() => setForm({ ...form, imagens: [...form.imagens, ''] })}><ImagePlus aria-hidden="true" /> Adicionar imagem</button></fieldset>

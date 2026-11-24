@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CartItem, Product } from '../../types/product';
 import { configurationError, isQuote, normalizeQuantity, productSignature } from '../../lib/product-rules';
 import { indexProducts, itemKey, summarizeCart } from './summary';
-import { readCart, saveCart, STORAGE_KEY } from './storage';
+import { discardSessionCart, readCart, saveCart, STORAGE_KEY } from './storage';
 
 export function useCart(products: Product[]) {
   const [items, setItemsState] = useState<CartItem[]>(readCart);
@@ -19,7 +19,10 @@ export function useCart(products: Product[]) {
 
   useEffect(() => {
     const syncCart = (event: StorageEvent) => {
-      if (event.key !== STORAGE_KEY) return;
+      if (event.key !== STORAGE_KEY && event.key !== null) return;
+      if ((event.newValue === null || event.newValue === '[]') && event.storageArea === window.localStorage) {
+        discardSessionCart();
+      }
       const next = readCart();
       currentItems.current = next;
       setItemsState(next);

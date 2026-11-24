@@ -17,7 +17,11 @@ import { catalogUrl } from '../../lib/navigation';
 
 function pageSlug(): string {
   const route = window.location.pathname.split('/').filter(Boolean).at(-1) ?? '';
-  return decodeURIComponent(route.replace(/^produto-/, '').replace(/\.html$/, ''));
+  try {
+    return decodeURIComponent(route.replace(/^produto-/, '').replace(/\.html$/, ''));
+  } catch {
+    return '';
+  }
 }
 
 export function ProductPageApp() {

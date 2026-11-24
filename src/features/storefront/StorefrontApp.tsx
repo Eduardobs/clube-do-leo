@@ -8,7 +8,7 @@ import { trackStoreEvent } from '../../lib/analytics';
 import { useProducts } from '../../hooks/useProducts';
 import { normalizeQuantity } from '../../lib/product-rules';
 import { formatOrderMessage, createOrderId, openWhatsApp } from '../../lib/whatsapp';
-import { saveCatalog } from '../../lib/navigation';
+import { catalogParams, saveCatalog } from '../../lib/navigation';
 import type { Product } from '../../types/product';
 import { CartModal } from '../cart/CartModal';
 import { CheckoutModal } from '../cart/CheckoutModal';
@@ -26,13 +26,28 @@ export function StorefrontApp() {
   const cart = useCart(products);
 
   useEffect(() => {
-    const next = new URLSearchParams(window.location.search);
-    if (loading || next.get('carrinho') !== '1') return;
+    if (loading || new URLSearchParams(window.location.search).get('carrinho') !== '1') return;
+    const next = catalogParams(window.location.search);
     setCartOpen(true);
-    next.delete('carrinho');
     window.history.replaceState({}, '', `/${next.size ? `?${next}` : ''}#produtos`);
     saveCatalog(next.toString());
   }, [loading]);
+
+  useEffect(() => {
+    setPreparedMessage('');
+  }, [customerName, notes, cart.items]);
+
+  const clearCheckoutDetails = () => {
+    setPreparedMessage('');
+    setCustomerName('');
+    setNotes('');
+  };
+
+  const closeOrder = () => {
+    setCartOpen(false);
+    setCheckoutOpen(false);
+    clearCheckoutDetails();
+  };
 
   const dismissToast = useCallback(() => setToast(''), []);
 
@@ -54,8 +69,9 @@ export function StorefrontApp() {
   };
 
   const sendOrder = (customerName: string, notes: string) => {
+    if (!cart.summary.canCheckout) return;
     const orderId = createOrderId();
-    trackStoreEvent('click_whatsapp', { kind: !cart.summary.hasPricedItems ? 'orcamento' : 'pedido', order_id: orderId, item_count: cart.count, value: cart.total });
+    trackStoreEvent('click_whatsapp', { kind: !cart.summary.hasPricedItems ? 'orcamento' : 'pedido', item_count: cart.count, value: cart.total });
     const message = formatOrderMessage({ orderId, customerName, notes }, cart.summary);
     setPreparedMessage(message);
     openWhatsApp(message);
@@ -105,8 +121,8 @@ export function StorefrontApp() {
         </a>
       </nav>
 
-      {cartOpen ? <CartModal summary={cart.summary} onClose={() => setCartOpen(false)} onClear={cart.clear} onRemove={cart.remove} onUpdate={cart.updateQuantity} onConfigure={cart.configure} onCheckout={startCheckout} /> : null}
-      {checkoutOpen ? <CheckoutModal summary={cart.summary} message={preparedMessage} name={customerName} notes={notes} onNameChange={setCustomerName} onNotesChange={setNotes} onEdit={() => { setCheckoutOpen(false); setCartOpen(true); }} onClose={() => setCheckoutOpen(false)} onSubmit={sendOrder} /> : null}
+      {cartOpen ? <CartModal summary={cart.summary} onClose={closeOrder} onClear={() => { cart.clear(); clearCheckoutDetails(); }} onRemove={cart.remove} onUpdate={cart.updateQuantity} onConfigure={cart.configure} onCheckout={startCheckout} /> : null}
+      {checkoutOpen ? <CheckoutModal summary={cart.summary} message={preparedMessage} name={customerName} notes={notes} onNameChange={setCustomerName} onNotesChange={setNotes} onEdit={() => { setCheckoutOpen(false); setCartOpen(true); }} onClose={closeOrder} onSubmit={sendOrder} /> : null}
       <Toast message={toast} onDismiss={dismissToast} actionLabel={cart.items.length ? 'Ver carrinho' : undefined} onAction={() => setCartOpen(true)} />
     </>
   );
