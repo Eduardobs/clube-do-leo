@@ -37,6 +37,33 @@ class ImageFromBase64Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "conteúdo base64 inválido"):
             script.image_from_base64("data:image/png;base64,não-é-base64")
 
+    def test_wrapped_base64_with_missing_padding_and_mime_parameters(self):
+        payload = "\n\t".join(PNG_BASE64[i:i + 10] for i in range(0, len(PNG_BASE64), 10))
+        for prefix in ("", " DaTa:image/jpeg;charset=utf-8; BASE64 ,"):
+            with self.subTest(prefix=prefix):
+                self.assertEqual(
+                    script.image_from_base64(prefix + payload.rstrip("=")),
+                    (PNG_BYTES, ".png"),
+                )
+
+    def test_rejects_malformed_explicit_base64(self):
+        for value in ("data:image/png;base64", "data:image/png;base64,",
+                      "data:image/png;base64,=QQ=", "data:image/png;base64,AAAA===="):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                script.image_from_base64(value)
+
+    def test_leaves_other_values_alone(self):
+        for value in (None, {}, "https://example.org/image.jpg", "data:text/plain;base64,QQ==",
+                      "data:image/svg+xml,%3Csvg/%3E", "dGV4dG8=", "Qk0="):
+            with self.subTest(value=value):
+                self.assertIsNone(script.image_from_base64(value))
+
+    def test_identifies_compatible_brands_inside_the_heif_header(self):
+        for brand, expected in ((b"avif", ".avif"), (b"heic", ".heic"), (b"mif1", ".heif")):
+            with self.subTest(brand=brand):
+                data = (20).to_bytes(4, "big") + b"ftypmif1" + bytes(4) + brand + b"avif"
+                self.assertEqual(script.extension_from_image(data), expected)
+
 
 class FileNameTests(unittest.TestCase):
     def test_slugify_removes_accents_and_unsafe_characters(self):
@@ -142,6 +169,47 @@ class MainTests(unittest.TestCase):
 
         self.assertEqual(self.products_file.read_text(encoding="utf-8"), original)
         self.assertIn("Nenhuma imagem em base64 encontrada", output.getvalue())
+
+    def test_reserves_webp_thumbnail_and_names_shared_across_extensions(self):
+        thumbs = self.images_directory / "thumbs"
+        thumbs.mkdir()
+        (thumbs / "cafe-1.webp").write_bytes(b"miniatura")
+        (self.images_directory / "cafe-1-2.webp").write_bytes(b"existente")
+        gif = base64.b64encode(b"GIF89a" + bytes(20)).decode("ascii")
+        self.write_catalog({
+            "produtos": [{"nome": "Café", "imagens": [PNG_BASE64], "images": [gif]}],
+            "products": [{"name": "Cafe", "images": [PNG_BASE64]}],
+        })
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            script.main()
+
+        catalog = self.read_catalog()
+        self.assertEqual(catalog["produtos"][0]["imagens"], ["assets/products/cafe-1-3.png"])
+        self.assertEqual(catalog["produtos"][0]["images"], ["assets/products/cafe-1-4.gif"])
+        self.assertEqual(catalog["products"][0]["images"], ["assets/products/cafe-1-5.png"])
+        self.assertEqual((thumbs / "cafe-1.webp").read_bytes(), b"miniatura")
+        self.assertEqual((self.images_directory / "cafe-1-2.webp").read_bytes(), b"existente")
+
+    def test_long_product_names_and_root_array(self):
+        self.write_catalog([{"name": "Café" * 150, "images": [PNG_BASE64]}])
+        with contextlib.redirect_stdout(io.StringIO()):
+            script.main()
+        path = self.project_root / self.read_catalog()[0]["images"][0]
+        self.assertTrue(path.name.startswith("cafecafe"))
+        self.assertEqual(path.read_bytes(), PNG_BYTES)
+
+    def test_dangling_symlink_reserves_its_name(self):
+        link = self.images_directory / "produto-1.png"
+        try:
+            link.symlink_to("ausente.png")
+        except OSError as error:
+            self.skipTest(str(error))
+        self.write_catalog([{"nome": "Produto", "imagens": [PNG_BASE64]}])
+        with contextlib.redirect_stdout(io.StringIO()):
+            script.main()
+        self.assertTrue(link.is_symlink())
+        self.assertEqual(self.read_catalog()[0]["imagens"], ["assets/products/produto-1-2.png"])
 
     def test_removes_created_images_and_preserves_catalog_after_error(self):
         catalog = {

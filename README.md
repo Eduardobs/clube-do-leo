@@ -42,6 +42,18 @@ O arquivo [`data/products.json`](data/products.json) continua sendo a fonte de d
 
 O editor local funciona inteiramente no navegador e não publica alterações. Os rascunhos ficam no `localStorage`; para publicar, baixe o `products.json`, substitua `data/products.json` no repositório e faça commit. Imagens enviadas pelo editor são incorporadas como Data URL; para manter o repositório leve, prefira salvar as imagens em `assets/products/` e informar o caminho no formulário.
 
+### Processar as imagens localmente
+
+Instale o Pillow uma vez no seu ambiente Python com `python3 -m pip install Pillow`. Depois de salvar o catálogo, execute o comando na raiz do repositório.
+
+```bash
+python3 process_product_images.py
+```
+
+O comando extrai as imagens base64, converte para WebP apenas as extraídas nessa execução e verifica os originais e as miniaturas referenciados. Ele cria as miniaturas ausentes na pasta `thumbs/` ao lado de cada original, respeitando a orientação EXIF e o limite de 480 × 480 pixels, sem ampliação. Para imagens animadas, a miniatura usa o primeiro quadro.
+
+Uma nova execução preserva as imagens e miniaturas existentes. Em caso de falha de conversão, os arquivos extraídos são preservados. O comando informa os caminhos com problemas e retorna código de saída `1` quando há pendências.
+
 ## Qualidade e build
 
 ```bash

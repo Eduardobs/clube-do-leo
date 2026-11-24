@@ -9,8 +9,11 @@ import json
 import os
 import re
 import stat
+import sys
 import tempfile
 import unicodedata
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -35,8 +38,6 @@ MIME_EXTENSIONS = {
     "image/vnd.microsoft.icon": ".ico",
 }
 
-BASE64_PATTERN = re.compile(r"[A-Za-z0-9+/]*={0,2}")
-
 
 def slugify(value: str) -> str:
     """Converte um texto em um trecho seguro para nome de arquivo."""
@@ -48,11 +49,13 @@ def slugify(value: str) -> str:
 
 def decode_base64(payload: str) -> bytes:
     """Decodifica base64 padrão, tolerando espaços e padding ausente."""
-    compact = re.sub(r"\s+", "", payload)
-    if not compact or not BASE64_PATTERN.fullmatch(compact):
+    compact = "".join(payload.split())
+    padding = -len(compact) % 4
+    if not compact or compact.endswith("===") or (compact.endswith("=") and padding > 1):
         raise ValueError("conteúdo base64 inválido")
 
-    compact += "=" * (-len(compact) % 4)
+    if padding:
+        compact += "=" * padding
     try:
         return base64.b64decode(compact, validate=True)
     except (binascii.Error, ValueError) as error:
@@ -69,9 +72,9 @@ def extension_from_image(data: bytes, mime_type: str | None = None) -> str | Non
         return ".gif"
     if len(data) >= 12 and data.startswith(b"RIFF") and data[8:12] == b"WEBP":
         return ".webp"
-    if data.startswith(b"BM"):
+    if len(data) >= 14 and data.startswith(b"BM"):
         return ".bmp"
-    if data.startswith((b"II*\x00", b"MM\x00*")):
+    if data.startswith((b"II*\x00", b"MM\x00*", b"II+\x00", b"MM\x00+")):
         return ".tiff"
     if data.startswith(b"\x00\x00\x01\x00"):
         return ".ico"
@@ -82,6 +85,14 @@ def extension_from_image(data: bytes, mime_type: str | None = None) -> str | Non
         if brand in {b"heic", b"heix", b"hevc", b"hevx"}:
             return ".heic"
         if brand in {b"heif", b"mif1", b"msf1"}:
+            # A marca principal pode indicar apenas o contêiner HEIF.
+            box_size = int.from_bytes(data[:4], "big") or len(data)
+            for index in range(16, min(box_size, len(data)) - 3, 4):
+                compatible = data[index:index + 4]
+                if compatible in {b"avif", b"avis"}:
+                    return ".avif"
+                if compatible in {b"heic", b"heix", b"hevc", b"hevx"}:
+                    return ".heic"
             return ".heif"
 
     beginning = data[:1024].lstrip(b"\xef\xbb\xbf\x00\t\r\n ").lower()
@@ -99,16 +110,18 @@ def image_from_base64(value: Any) -> tuple[bytes, str] | None:
     """Retorna bytes e extensão quando o valor contém uma imagem em base64."""
     if not isinstance(value, str):
         return None
+    value = value.lstrip()
+    if value.startswith(("assets/", "./", "/assets/", "https:", "http:")):
+        return None
 
-    if value.lower().startswith("data:"):
+    if value[:5].lower() == "data:":
         header, separator, payload = value.partition(",")
-        parts = header[5:].split(";")
-        mime_type = parts[0].lower()
+        mime_type, *parameters = (part.strip().lower() for part in header[5:].split(";"))
 
-        if not separator or not mime_type.startswith("image/"):
+        if not mime_type.startswith("image/") or "base64" not in parameters:
             return None
-        if "base64" not in {part.lower() for part in parts[1:]}:
-            return None
+        if not separator:
+            raise ValueError("data URI de imagem sem conteúdo base64")
 
         data = decode_base64(payload)
         extension = extension_from_image(data, mime_type)
@@ -117,16 +130,14 @@ def image_from_base64(value: Any) -> tuple[bytes, str] | None:
         return data, extension
 
     # Para base64 sem data URI, a assinatura precisa confirmar que é uma imagem.
-    compact = re.sub(r"\s+", "", value)
-    if len(compact) < 16 or not BASE64_PATTERN.fullmatch(compact):
-        return None
-
     try:
-        data = decode_base64(compact)
+        data = decode_base64(value)
     except ValueError:
         return None
 
     extension = extension_from_image(data)
+    if len(data) < 12 and extension != ".svg":
+        return None
     return (data, extension) if extension else None
 
 
@@ -134,45 +145,91 @@ def products_from_catalog(catalog: Any) -> list[Any]:
     if isinstance(catalog, list):
         return catalog
     if isinstance(catalog, dict):
-        for key in ("produtos", "products"):
-            products = catalog.get(key)
-            if isinstance(products, list):
-                return products
+        lists = [
+            catalog[key] for key in ("produtos", "products")
+            if isinstance(catalog.get(key), list)
+        ]
+        if lists:
+            return lists[0] if len(lists) == 1 else lists[0] + lists[1]
     raise ValueError("products.json deve conter uma lista em 'produtos' ou 'products'")
 
 
-def image_list_from_product(product: dict[str, Any]) -> tuple[str, list[Any]] | None:
-    for key in ("imagens", "images"):
-        if key in product:
-            images = product[key]
-            if not isinstance(images, list):
-                raise ValueError(f"o campo '{key}' deve ser uma lista")
-            return key, images
-    return None
+def catalog_image_lists(catalog: Any) -> Iterator[tuple[int, dict[str, Any], list[Any]]]:
+    for index, product in enumerate(products_from_catalog(catalog), start=1):
+        if not isinstance(product, dict):
+            continue
+        for key in ("imagens", "images"):
+            if key in product:
+                images = product[key]
+                if not isinstance(images, list):
+                    raise ValueError(f"o campo '{key}' deve ser uma lista")
+                yield index, product, images
 
 
-def available_path(stem: str, image_number: int, extension: str) -> Path:
+def existing_image_stems() -> dict[str, int]:
+    # Uma miniatura existente também reserva o nome da imagem publicada.
+    reserved = {}
+    for directory in (PRODUCT_IMAGES_DIR, PRODUCT_IMAGES_DIR / "thumbs"):
+        if directory.is_dir():
+            reserved.update((path.stem.lower(), 2) for path in directory.iterdir())
+    return reserved
+
+
+def available_path(
+    stem: str, image_number: int, extension: str, reserved: dict[str, int] | None = None
+) -> Path:
     """Escolhe um nome ainda inexistente sem sobrescrever arquivos."""
-    base_name = f"{stem}-{image_number}"
-    candidate = PRODUCT_IMAGES_DIR / f"{base_name}{extension}"
-    suffix = 2
-    while candidate.exists():
-        candidate = PRODUCT_IMAGES_DIR / f"{base_name}-{suffix}{extension}"
-        suffix += 1
-    return candidate
+    if reserved is None:
+        reserved = existing_image_stems()
+    # O slug é ASCII. Deixe espaço no componente de 255 bytes para índice e sufixos.
+    base_name = f"{stem[:220].rstrip('-')}-{image_number}"
+    name = base_name
+    if base_name in reserved:
+        suffix = reserved[base_name]
+        while f"{base_name}-{suffix}" in reserved:
+            suffix += 1
+        name = f"{base_name}-{suffix}"
+        reserved[base_name] = suffix + 1
+    reserved[name] = 2
+    return PRODUCT_IMAGES_DIR / f"{name}{extension}"
 
 
-def write_catalog_atomically(catalog: Any) -> None:
+@contextmanager
+def locked_catalog(path: Path) -> Iterator[Any]:
+    """Serializa as duas ferramentas mesmo quando o JSON é substituído por rename."""
+    if os.name == "nt":
+        # O Windows remove o arquivo automaticamente ao encerrar o processo.
+        try:
+            flags = os.O_CREAT | os.O_EXCL | os.O_TEMPORARY | os.O_RDWR
+            fd = os.open(path.with_suffix(".lock"), flags)
+        except FileExistsError as error:
+            raise OSError("Outra operação de imagens está atualizando o catálogo") from error
+    else:
+        import fcntl
+
+        fd = os.open(path.parent, os.O_RDONLY)
+    try:
+        if os.name != "nt":
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        with path.open(encoding="utf-8-sig") as catalog_file:
+            catalog = json.load(catalog_file)
+        yield catalog
+    finally:
+        os.close(fd)
+
+
+def write_catalog_atomically(catalog: Any, path: Path | None = None) -> None:
     """Substitui o JSON somente depois de gravar por completo um temporário."""
-    current_mode = stat.S_IMODE(PRODUCTS_FILE.stat().st_mode)
+    path = PRODUCTS_FILE if path is None else path
+    current_mode = stat.S_IMODE(path.stat().st_mode)
     temporary_path: Path | None = None
 
     try:
         with tempfile.NamedTemporaryFile(
             mode="w",
             encoding="utf-8",
-            dir=PRODUCTS_FILE.parent,
-            prefix=f".{PRODUCTS_FILE.name}.",
+            dir=path.parent,
+            prefix=f".{path.name}.",
             suffix=".tmp",
             delete=False,
         ) as temporary_file:
@@ -183,31 +240,34 @@ def write_catalog_atomically(catalog: Any) -> None:
             os.fsync(temporary_file.fileno())
 
         temporary_path.chmod(current_mode)
-        os.replace(temporary_path, PRODUCTS_FILE)
+        os.replace(temporary_path, path)
     finally:
         if temporary_path and temporary_path.exists():
             temporary_path.unlink()
 
 
-def main() -> int:
-    with PRODUCTS_FILE.open(encoding="utf-8") as products_file:
-        catalog = json.load(products_file)
-
-    products = products_from_catalog(catalog)
-    PRODUCT_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+@contextmanager
+def publish_images(catalog: Any, path: Path) -> Iterator[list[Path]]:
+    """Publica as referências somente após a gravação de todos os arquivos."""
+    original = path.stat()
     created_files: list[Path] = []
-    converted_count = 0
-
     try:
-        for product_index, product in enumerate(products, start=1):
-            if not isinstance(product, dict):
-                continue
+        yield created_files
+        if created_files:
+            write_catalog_atomically(catalog, path)
+    except BaseException:
+        # Uma interrupção pode chegar logo após os.replace ter publicado o JSON.
+        if os.path.samestat(original, path.stat()):
+            for created_file in reversed(created_files):
+                created_file.unlink(missing_ok=True)
+        raise
 
-            image_field = image_list_from_product(product)
-            if image_field is None:
-                continue
 
-            _, images = image_field
+def extract_image_files(catalog: Any) -> list[Path]:
+    """Retorna somente os arquivos criados e publicados nesta extração."""
+    reserved = None
+    with publish_images(catalog, PRODUCTS_FILE) as created_files:
+        for product_index, product, images in catalog_image_lists(catalog):
             product_name = str(product.get("nome") or product.get("name") or "")
             product_code = str(
                 product.get("codigo")
@@ -215,53 +275,58 @@ def main() -> int:
                 or product.get("id")
                 or product_index
             )
-            stem = slugify(product_name or f"produto-{product_code}")
+            stem = None
 
             for image_index, image_value in enumerate(images, start=1):
                 try:
-                    decoded_image = image_from_base64(image_value)
+                    decoded = image_from_base64(image_value)
                 except ValueError as error:
-                    label = product_name or product_code
                     raise ValueError(
-                        f"imagem {image_index} do produto '{label}': {error}"
+                        f"imagem {image_index} do produto '{product_name or product_code}': {error}"
                     ) from error
-
-                if decoded_image is None:
+                if decoded is None:
                     continue
 
-                image_data, extension = decoded_image
-                destination = available_path(stem, image_index, extension)
-
-                # O modo "xb" também protege contra uma criação concorrente.
+                if reserved is None:
+                    PRODUCT_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+                    reserved = existing_image_stems()
+                if stem is None:
+                    stem = slugify(product_name or f"produto-{product_code}")
+                data, extension = decoded
                 while True:
+                    destination = available_path(stem, image_index, extension, reserved)
                     try:
-                        destination_file = destination.open("xb")
+                        output = destination.open("xb")
                         break
                     except FileExistsError:
-                        destination = available_path(stem, image_index, extension)
-
-                created_files.append(destination)
-                with destination_file:
-                    destination_file.write(image_data)
-                    destination_file.flush()
-                    os.fsync(destination_file.fileno())
+                        continue
+                with output:
+                    created_files.append(destination)
+                    output.write(data)
+                    output.flush()
+                    os.fsync(output.fileno())
 
                 images[image_index - 1] = destination.relative_to(PROJECT_ROOT).as_posix()
-                converted_count += 1
 
-        if converted_count:
-            write_catalog_atomically(catalog)
-    except BaseException:
-        for created_file in reversed(created_files):
-            created_file.unlink(missing_ok=True)
-        raise
+    return created_files
 
-    if converted_count:
-        print(f"{converted_count} imagem(ns) criada(s) e products.json atualizado.")
+
+def extract_images(catalog: Any) -> int:
+    created_files = extract_image_files(catalog)
+    if created_files:
+        print(f"{len(created_files)} imagem(ns) criada(s) e products.json atualizado.")
     else:
         print("Nenhuma imagem em base64 encontrada.")
     return 0
 
 
+def main() -> int:
+    with locked_catalog(PRODUCTS_FILE) as catalog:
+        return extract_images(catalog)
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (ValueError, OSError) as error:
+        sys.exit(str(error))
